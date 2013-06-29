@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>it.cnr.isti.hpc</groupId>
+  <artifactId>hpc-utils</artifactId>
+  <versioning>
+    <latest>0.0.5-SNAPSHOT</latest>
+    <versions>
+      <version>0.0.4-SNAPSHOT</version>
+      <version>0.0.5-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20130128141331</lastUpdated>
+  </versioning>
+</metadata>

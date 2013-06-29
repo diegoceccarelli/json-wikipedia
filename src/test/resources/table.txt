@@ -1,0 +1,37 @@
+== Tradizioni austriache ==
+=== Festività ===
+{| {{prettytable}}
+|+ Festività'''
+|- 
+!Data||Nome italiano||Nome locale||Note
+|-
+|[[1º gennaio]]||[[Capodanno]]||''Neujahr''||&amp;nbsp;
+|-
+|[[6 gennaio]]||[[Epifania]]||''Heilige Drei Könige''||&amp;nbsp;
+|-
+|''Data mobile''||[[Pasqua]]||''Ostersonntag''||[[Venerdì Santo]] festivo per i protestanti
+|-
+|''Data mobile''||Lunedì di [[Pasqua]]||''Ostermontag''||&amp;nbsp;
+|-
+|[[1º maggio]]||&amp;nbsp;||Staatsfeiertag||anche, [[Festa dei lavoratori]]
+|-
+|''Data mobile''||[[Ascensione]]||''Christi Himmelfahrt''||giovedì 40 giorni dopo [[Pasqua]]
+|-
+|''Data mobile''||[[Pentecoste]]||''Pfingstsonntag''||&amp;nbsp;
+|-
+|''Data mobile''||Lunedì di Pentecoste||''Pfingstmontag''||&amp;nbsp;
+|-
+|''Data mobile''||[[Corpus Domini]]||''Fronleichnam''||giovedì 11 giorni dopo [[Pentecoste]]
+|-
+|[[15 agosto]]||[[Assunzione di Maria]]||''Mariä Himmelfahrt''||&amp;nbsp;
+|-
+|[[26 ottobre]]||Festa Nazionale&lt;td&gt;''Nationalfeiertag''||approvazione della legge sulla neutralità del [[1955]]
+|-
+|[[1º novembre]]||[[Ognissanti]]||''Allerheiligen''||&amp;nbsp;
+|-
+|[[8 dicembre]]||[[Immacolata Concezione]]||''Mariä Empfängnis''||&amp;nbsp;
+|-
+|[[25 dicembre]]||[[Natale]]||''Christtag'', ''Weihnachten''||&amp;nbsp;
+|-
+|[[26 dicembre]]||[[Santo Stefano]]||''Stefanitag''||&amp;nbsp;
+|}

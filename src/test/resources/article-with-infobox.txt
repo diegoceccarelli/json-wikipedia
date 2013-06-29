@@ -1,0 +1,20 @@
+{{Nota disambigua|cercando l'omonimo quotidiano locale|[[l'Adige]]}}
+{{Infobox fiume
+|nome=Adige
+|immagine=Etsch verona.jpg
+|didascalia = &lt;center&gt;&lt;small&gt;L'Adige a [[Verona]]&lt;/small&gt;&lt;/center&gt;
+|lunghezza =410 
+|altitudine =1550 
+|portata = alla foce 235 
+|bacino =12200 
+|nasce =nei pressi del [[lago di Resia]]&lt;br /&gt;{{Coord|46.8345|10.5162|type:river|display=inline}} 
+|sfocia =[[Mare Adriatico]], [[Chioggia]]&lt;br /&gt;{{Coord|45.1624|12.3299|type:river|display=inline,title}} 
+|nazione= ITA
+|attraversa_p = {{IT-TAA}}&lt;br /&gt;{{IT-VEN}}
+|mappa=AdigeLocationMap360.png
+}}
+L''''Adige''' (''Etsch'' in [[lingua tedesca|tedesco]] e in [[dialetto sudtirolese]], ''Adesc'' in [[lingua ladina|ladino]], ''Ades'' in [[dialetto trentino|trentino]], ''Adexe'' in [[lingua veneta|veneto]]) è un [[fiume]] dell'[[Italia]] nordorientale. Sorge presso il [[Passo di Resia|Passo Resia]] (''Reschenpass'') nella Alta [[Val Venosta]] (''Obervinschgau'') in [[Provincia autonoma di Bolzano|Alto Adige]] e sfocia nel [[Mar Adriatico]] presso [[Cavanella d'Adige]] ([[Chioggia]]). È per lunghezza – circa 410&amp;nbsp;km&amp;nbsp;– il secondo fiume italiano dopo il [[Po]], il 3º per ampiezza di bacino dopo Po e [[Tevere]] e in assoluto il 4º per volume d'acque dopo Po, [[Ticino (fiume)|Ticino]] e Tevere con 235 m³/s di portata media annua presso la foce. 
+
+Attraversa le città di [[Trento]], [[Verona]], [[Legnago]], [[Cavarzere]], [[Chioggia]] e lambisce [[Merano]], [[Bolzano]] e [[Rovereto]].
+
+La valle in cui scorre assume vari nomi: [[Val Venosta]] tra la sorgente e Merano, [[Val d'Adige]] tra Merano e Rovereto, [[Vallagarina]] tra Rovereto e Verona, e quindi [[Val Padana]] tra Verona e la foce.
