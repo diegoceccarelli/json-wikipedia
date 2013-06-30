@@ -15,8 +15,12 @@
  */
 package it.isti.cnr.hpc.wikipedia.article;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Template.java
@@ -27,6 +31,7 @@ import java.util.List;
 public class Template {
 	
 	public final static Template EMPTY = new EmptyTemplate(); 
+	private final static char KEY_VALUE_SEPARATOR = '=';
 	
 	private String name;
 	private List<String> description;
@@ -91,6 +96,24 @@ public class Template {
 	
 	public void setDescription(List<String> description) {
 		this.description = description;
+	}
+	
+	public Set<String> getSchema(){
+		return getAsMap().keySet();
+	}
+	
+	public Map<String,String> getAsMap(){
+		Map<String,String> map = new HashMap<String,String>();
+		for (String desc : getDescription()){
+			int pos = desc.indexOf(KEY_VALUE_SEPARATOR);
+			if (pos >= 0){
+				String key = desc.substring(0,pos).trim();
+				String value = desc.substring(pos+1).trim();
+				map.put(key, value);
+			}
+		}
+		return map;
+		
 	}
 
 

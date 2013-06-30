@@ -85,6 +85,26 @@ public class Article {
 		return paragraphs;
 	}
 	
+	public List<String> getCleanParagraphs(){
+		List<String> paragraphs = getParagraphs();
+		if (paragraphs.isEmpty()) return Collections.emptyList();
+		List<String> cleanParagraphs = new ArrayList<String>(paragraphs.size());
+		for (String p : paragraphs){
+			cleanParagraphs.add(removeTemplates(p));
+		}
+		return cleanParagraphs;
+	} 
+	
+	public String getCleanText(){
+		StringBuilder sb = new StringBuilder();
+		for (String s : getCleanParagraphs()){
+			sb.append(s).append(" ");
+			
+		}
+		return sb.toString();
+	}
+	
+	
 	public String getText(){
 		StringBuilder sb = new StringBuilder();
 		for (String s : getParagraphs()){
@@ -473,6 +493,10 @@ public class Article {
 		if (infobox == null)
 			return Template.EMPTY_TEMPLATE;
 		return infobox;
+	}
+	
+	public boolean hasInfobox(){
+		return infobox != null;
 	}
 
 	public void setInfobox(Template infobox) {

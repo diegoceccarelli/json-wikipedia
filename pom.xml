@@ -122,6 +122,13 @@
 			</snapshots>
 		</repository>
 	</repositories-->
+	<repositories>
+		<repository>
+			<id>local jars</id>
+			<name>local jars</name>
+			<url>file://${basedir}/lib</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>

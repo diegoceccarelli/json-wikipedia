@@ -32,10 +32,12 @@ public class LocalizedMediaWikiParserFactory extends MediaWikiParserFactory {
 	public LocalizedMediaWikiParserFactory(Locale locale){
 		super();
 		this.locale = locale;
+	
 		init();
 	}
 	
 	private void init(){
+		
 		for (String name : locale.getImageIdentifiers())
 			getImageIdentifers().add(name);
 		

@@ -80,7 +80,7 @@ public class ArticleSummarizerTest {
 			writer.newLine();
 			writer.newLine();
 
-			writer.write("> "+summarizer.getSummary(a));
+			writer.write("summary: > "+summarizer.getSummary(a));
 			writer.newLine();
 			writer.newLine();
 			writer.write("> "+a.getCategories());

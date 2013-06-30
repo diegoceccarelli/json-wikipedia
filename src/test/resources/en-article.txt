@@ -275,7 +275,6 @@ Another albedo-related effect on the climate is from black carbon particles. The
 [[sh:Albedo]]
 [[fi:Albedo]]
 [[sv:Albedo]]
-[[ta:<E0><AE><B5><E0><AF><86><E0><AE><A3><E0><AF><8D> <E0><AE><8E><E0><AE><95><E0><AE><BF><E0><AE><B0><E0><AF><8D><E0><AE><9A><E0><AE><BF><E0><AE><A4><E0><AE><B1><E0><AE><B2><E0>
-<AF><8D>]]
+[[ta:<E0><AE><B5><E0><AF><86><E0><AE><A3><E0><AF><8D> <E0><AE><8E><E0><AE><95><E0><AE><BF><E0><AE><B0><E0><AF><8D><E0><AE><9A><E0><AE><BF><E0><AE><A4><E0><AE><B1><E0><AE><B2><E0><AF><8D>]]
 [[tr:Yans<C4><B1>tabilirlik]]
 [[uk:<D0><90><D0><BB><D1><8C><D0><B1><D0><B5><D0><B4><D0><BE>]]

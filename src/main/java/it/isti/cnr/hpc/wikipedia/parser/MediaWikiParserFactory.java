@@ -15,8 +15,6 @@
  */
 package it.isti.cnr.hpc.wikipedia.parser;
 
-import it.isti.cnr.hpc.wikipedia.article.Language;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,20 +31,9 @@ public class MediaWikiParserFactory {
 			.getLogger(MediaWikiParserFactory.class);
 
 	public MediaWikiParser getParser(String lang) {
-		if (lang.equals(Language.EN)) {
-			EnMediaWikiParserFactory parser = new EnMediaWikiParserFactory();
-			return parser.createParser();
-		}
-		
-		if (lang.equals(Language.IT)) {
-			ItMediaWikiParserFactory parser = new ItMediaWikiParserFactory();
-			return parser.createParser();
-		}
-
-		logger.error("no parser for language {} ", lang);
-		System.exit(-1);
-		return null;
-
+		Locale locale = new Locale(lang);
+		LocalizedMediaWikiParserFactory parserFactory = new LocalizedMediaWikiParserFactory(locale);
+		return parserFactory.createParser();
 	}
 
 }

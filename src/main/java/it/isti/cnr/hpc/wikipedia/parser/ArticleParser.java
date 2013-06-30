@@ -66,14 +66,14 @@ public class ArticleParser {
 		this.lang = lang;
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
-		redirects = locale.getRedirectNames();
+		redirects = locale.getRedirectIdentifiers();
 
 	}
 
 	public ArticleParser() {
 		parser = parserFactory.getParser(lang);
 		locale = new Locale(lang);
-		redirects = locale.getRedirectNames();
+		redirects = locale.getRedirectIdentifiers();
 
 	}
 
@@ -127,7 +127,7 @@ public class ArticleParser {
 	private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
 
 	private static String removeTemplates(String paragraph) {
-		paragraph = paragraph.replaceAll(templatePattern, "");
+		paragraph = paragraph.replaceAll(templatePattern, " ");
 
 		return paragraph;
 	}
@@ -144,7 +144,7 @@ public class ArticleParser {
 	 * @param article
 	 */
 	private void setIsList(Article article) {
-		for (String list : locale.getListNames()) {
+		for (String list : locale.getListIdentifiers()) {
 			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
 				article.setType(Type.LIST);
 			}
@@ -381,6 +381,9 @@ public class ArticleParser {
 		}
 		article.setParagraphs(paragraphs);
 	}
+	
+	
+	
 
 	private void setLists(Article article, ParsedPage page) {
 		List<List<String>> lists = new LinkedList<List<String>>();
@@ -403,7 +406,7 @@ public class ArticleParser {
 
 	public void setDisambiguation(Article a) {
 
-		for (String disambiguation : locale.getDisambigutionNames()) {
+		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
 			if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
 				a.setType(Type.DISAMBIGUATION);
 				return;

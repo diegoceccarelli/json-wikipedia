@@ -17,6 +17,7 @@ package it.isti.cnr.hpc.wikipedia.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
@@ -27,51 +28,67 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
  * 
- * Created on Feb 14, 2013
+ *         Created on Feb 14, 2013
  */
 public class Locale {
-	
+
 	private Properties properties;
-	
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Locale.class);
 	private static final String SEPARATOR = ",";
-	
-	public Locale(String lang){
+
+	public Locale(String lang) {
 		properties = new Properties();
 		try {
-			properties.load(Locale.class.getResourceAsStream("/lang/local_"+lang+".properties"));
+			properties.load(Locale.class.getResourceAsStream("/lang/local_"
+					+ lang + ".properties"));
 		} catch (IOException e) {
-			logger.error("readling the locale for language {} ({})",lang,e.toString());
+			logger.error("readling the locale for language {} ({})", lang,
+					e.toString());
 			System.exit(-1);
 		}
-		
+
 	}
-	
-	private List<String> getValues(String key){
-		List<String> values = new ArrayList<String>(3);
+
+	private List<String> getValues(String key) {
+
 		String val = properties.getProperty(key);
-		if (! val.contains(SEPARATOR)){
-			values.add(val);
-			return values;
+		if (val == null){
+			return Collections.emptyList();
 		}
-		Scanner scanner = new Scanner(val).useDelimiter(SEPARATOR);
-		while (scanner.hasNext()){
-			values.add(scanner.next());
+		List<String> values = new ArrayList<String>();
+		if (!val.contains(SEPARATOR)) {
+			values.add(val);
+
+		} else {
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner(val).useDelimiter(SEPARATOR);
+			while (scanner.hasNext()) {
+				values.add(scanner.next());
+			}
+			scanner.close();
 		}
 		return values;
-		
+
 	}
-	
-	public List<String> getDisambigutionNames(){
+
+	public List<String> getDisambigutionIdentifiers() {
 		return getValues("disambiguation");
 	}
 	
-	public List<String> getListNames(){
+	public List<String> getCategoryIdentifiers() {
+		return getValues("category");
+	}
+
+	public List<String> getImageIdentifiers() {
+		return getValues("image");
+	}
+
+	public List<String> getListIdentifiers() {
 		return getValues("list");
 	}
-	
-	public List<String> getRedirectNames(){
+
+	public List<String> getRedirectIdentifiers() {
 		return getValues("redirect");
 	}
 

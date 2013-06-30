@@ -15,18 +15,18 @@
  */
 package it.isti.cnr.hpc.wikipedia.reader;
 
+import static org.junit.Assert.*;
+import it.cnr.isti.hpc.io.IOUtils;
 import it.isti.cnr.hpc.wikipedia.article.Article;
+import it.isti.cnr.hpc.wikipedia.article.Language;
+import it.isti.cnr.hpc.wikipedia.article.Link;
+import it.isti.cnr.hpc.wikipedia.parser.ArticleParser;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-import org.junit.Ignore;
+import junit.framework.Assert;
+
 import org.junit.Test;
-
-import de.tudarmstadt.ukp.wikipedia.parser.ParsedPage;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParserFactory;
 
 /**
  * MediaWikiTextParsingTest.java
@@ -36,55 +36,42 @@ import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParserFactory;
  */
 public class MediaWikiTextParsingTest {
 
-	@Ignore
+	ArticleParser parser = new ArticleParser(Language.EN);
+	
+	
 	@Test
 	public void test() throws IOException {
-		MediaWikiParserFactory factory = new MediaWikiParserFactory();
-		MediaWikiParser parser = factory.createParser();
-		String text = readFileAsString("/article.txt");
-		ParsedPage article = parser.parse(text);
-		System.out.println(article.getText());
-		System.out.println(article.getFirstParagraph());
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en-article.txt");
+		parser.parse(a, mediawiki);
+		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
+		assertEquals(5, a.getCategories().size());
+		assertEquals(7,a.getSections().size());
+		assertEquals(74,a.getLinks().size());
+		
 	}
 	
-	@Ignore
+
 	@Test
 	public void testInfobox() throws IOException {
-		MediaWikiParserFactory factory = new MediaWikiParserFactory();
-		MediaWikiParser parser = factory.createParser();
-		String text = readFileAsString("/article-with-infobox.txt");
-		ParsedPage article = parser.parse(text);
-		System.out.println(article.getText());
-		System.out.println(article.getFirstParagraph());
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/article-with-infobox.txt");
+		parser.parse(a, mediawiki);
+		assertTrue(a.hasInfobox());
+		assertEquals(12,a.getInfobox().getSchema().size());
 	}
-	
+//	
 	@Test
 	public void testMercedes() throws IOException {
-		MediaWikiParserFactory factory = new MediaWikiParserFactory();
-		MediaWikiParser parser = factory.createParser();
-		String text = readFileAsString("/mercedes.txt");
-		ParsedPage article = parser.parse(text);
-		System.out.println(article.getText());
-		System.out.println(article.getFirstParagraph());
 		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/mercedes.txt");
+		parser.parse(a, mediawiki);
+		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
+		assertEquals(15, a.getCategories().size());
 		
 	}
 	
 	
 	
-    private String readFileAsString(String filePath) throws java.io.IOException {
-        StringBuffer fileData = new StringBuffer(1000);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(this
-            .getClass().getResourceAsStream(filePath),"UTF-8"));
-        char[] buf = new char[1024];
-        int numRead = 0;
-        while ((numRead = reader.read(buf)) != -1) {
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-            buf = new char[1024];
-        }
-        reader.close();
-        return fileData.toString();
-    }
-
+  
 }

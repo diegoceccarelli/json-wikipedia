@@ -102,6 +102,9 @@ public class ArticleSummarizer {
 		return text.replaceAll(PAR2_PATTERN, "");
 	}
 	
+	
+	
+	
 	//private static String TEMPLATE_PATTERN = "TEMPLATE\\[[^]]*\\]";
 	private String removeTemplates(String text) {
 		//return text.replaceAll(TEMPLATE_PATTERN, "");
