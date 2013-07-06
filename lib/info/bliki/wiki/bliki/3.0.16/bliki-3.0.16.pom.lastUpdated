@@ -1,0 +1,23 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Thu Aug 23 09:37:42 CEST 2012
+http\://bruciato.isti.cnr.it\:8081/artifactory/ext-release-local/.error=
+http\://conjars.org/repo/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/ext-release-local/.lastUpdated=1345707461385
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-snapshots/.error=
+http\://gwtwiki.googlecode.com/svn/maven-repository/.lastUpdated=1345707462855
+http\://morphia.googlecode.com/svn/mavenrepo/.lastUpdated=1345707461122
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-snapshots/.lastUpdated=1345707461373
+http\://opennlp.sourceforge.net/maven2/.lastUpdated=1345707456249
+http\://conjars.org/repo/.lastUpdated=1345707461349
+http\://repo.maven.apache.org/maven2/.lastUpdated=1345707461657
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-releases/.lastUpdated=1345707461362
+http\://download.java.net/maven/2/.lastUpdated=1345707461993
+http\://opennlp.sourceforge.net/maven2/.error=
+http\://repo.maven.apache.org/maven2/.error=
+http\://www.lilyproject.org/maven/maven2/deploy/.lastUpdated=1345707462073
+http\://download.java.net/maven/2/.error=
+http\://repo.open.med.harvard.edu/nexus/content/repositories/public/.lastUpdated=1345707460897
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-releases/.error=
+http\://repo.open.med.harvard.edu/nexus/content/repositories/public/.error=
+http\://morphia.googlecode.com/svn/mavenrepo/.error=
+http\://www.lilyproject.org/maven/maven2/deploy/.error=

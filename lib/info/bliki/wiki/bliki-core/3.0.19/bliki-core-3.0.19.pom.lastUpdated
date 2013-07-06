@@ -1,0 +1,10 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Sat Jul 06 19:00:06 CEST 2013
+default-http\://bruciato.isti.cnr.it\:8081/artifactory/libs-release/.lastUpdated=1373129930973
+http\://repo1.maven.org/maven2/.error=
+default-http\://bruciato.isti.cnr.it\:8081/artifactory/libs-snapshot/.lastUpdated=1373129931082
+http\://repo1.maven.org/maven2/.lastUpdated=1373130006865
+file\:///Users/diego/workspace/json-wikipedia/lib/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-snapshot/.error=Could not transfer artifact info.bliki.wiki\:bliki-core\:pom\:3.0.19 from/to snapshots (http\://bruciato.isti.cnr.it\:8081/artifactory/libs-snapshot)\: Error transferring file\: Connection refused
+file\:///Users/diego/workspace/json-wikipedia/lib/.lastUpdated=1373129931131
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-release/.error=Could not transfer artifact info.bliki.wiki\:bliki-core\:pom\:3.0.19 from/to central (http\://bruciato.isti.cnr.it\:8081/artifactory/libs-release)\: Error transferring file\: Connection refused

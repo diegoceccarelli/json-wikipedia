@@ -1,0 +1,33 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Tue May 28 15:16:29 CEST 2013
+http\://bruciato.isti.cnr.it\:8081/artifactory/ext-release-local/.error=
+http\://repo1.maven.org/maven2/.lastUpdated=1365676517258
+http\://conjars.org/repo/.error=
+https\://oss.sonatype.org/content/repositories/snapshots/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/ext-release-local/.lastUpdated=1369746989421
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-release/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-snapshots/.error=
+http\://morphia.googlecode.com/svn/mavenrepo/.lastUpdated=1345707454271
+http\://gwtwiki.googlecode.com/svn/maven-repository/.lastUpdated=1345707455934
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-snapshots/.lastUpdated=1369746989267
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-snapshot/.error=
+https\://repository.cloudera.com/artifactory/cloudera-repos/.error=
+http\://opennlp.sourceforge.net/maven2/.lastUpdated=1345707449543
+http\://conjars.org/repo/.lastUpdated=1369746988986
+http\://repo.maven.apache.org/maven2/.lastUpdated=1345707454910
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-releases/.lastUpdated=1369746989174
+http\://download.java.net/maven/2/.lastUpdated=1345707455203
+http\://www.lilyproject.org/maven/maven2/deploy/.lastUpdated=1345707455285
+http\://opennlp.sourceforge.net/maven2/.error=
+http\://repo.maven.apache.org/maven2/.error=
+https\://oss.sonatype.org/content/repositories/snapshots/.lastUpdated=1365676516868
+http\://download.java.net/maven/2/.error=
+http\://repo.open.med.harvard.edu/nexus/content/repositories/public/.lastUpdated=1345707454049
+http\://bruciato.isti.cnr.it\:8081/artifactory/hpc-releases/.error=
+http\://repo.open.med.harvard.edu/nexus/content/repositories/public/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-release/.lastUpdated=1369746988559
+http\://morphia.googlecode.com/svn/mavenrepo/.error=
+https\://repository.cloudera.com/artifactory/cloudera-repos/.lastUpdated=1360750802621
+http\://www.lilyproject.org/maven/maven2/deploy/.error=
+http\://repo1.maven.org/maven2/.error=
+http\://bruciato.isti.cnr.it\:8081/artifactory/libs-snapshot/.lastUpdated=1369746988655
