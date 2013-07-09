@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>info.bliki.wiki</groupId>
 			<artifactId>bliki-core</artifactId>
-			<version>3.0.19</version>
+			<version>3.0.16</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>

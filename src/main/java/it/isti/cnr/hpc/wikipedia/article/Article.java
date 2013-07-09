@@ -19,13 +19,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 
 /**
- * Article.java
+ * Article represents an article in the Wikipedia dump
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
  */
@@ -33,7 +30,7 @@ public class Article {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(Article.class);
+	//private static final Logger logger = LoggerFactory.getLogger(Article.class);
 	
 	private final static String NOTITLE = "";
 

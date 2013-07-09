@@ -15,7 +15,6 @@
  */
 package it.isti.cnr.hpc.wikipedia.article;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Template.java
+ * Template represents a particular template in a article.
  *
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 19/nov/2011
