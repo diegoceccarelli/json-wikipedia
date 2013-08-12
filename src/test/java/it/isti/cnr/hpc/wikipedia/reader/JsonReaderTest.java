@@ -20,7 +20,6 @@ import it.cnr.isti.hpc.io.reader.JsonRecordParser;
 import it.cnr.isti.hpc.io.reader.RecordReader;
 import it.isti.cnr.hpc.wikipedia.article.Article;
 import it.isti.cnr.hpc.wikipedia.article.Article.Type;
-import it.isti.cnr.hpc.wikipedia.reader.filter.ChakrabartiFilter;
 import it.isti.cnr.hpc.wikipedia.reader.filter.RedirectFilter;
 import it.isti.cnr.hpc.wikipedia.reader.filter.TypeFilter;
 
@@ -98,18 +97,5 @@ public class JsonReaderTest {
 		}
 	}
 
-	@Ignore
-	@Test
-	public void testChakrabarti() {
-		int i = 0;
-		RecordReader<Article> reader = new RecordReader<Article>(
-				"./src/test/resources/enwiki-top500-pages-articles.json.gz",
-				new JsonRecordParser<Article>(Article.class)).filter(
-				ChakrabartiFilter.INSTANCE, TypeFilter.MAIN_CATEGORY_TEMPLATE);
-		for (Article a : reader) {
-			System.out.println(i + "\t " + a.getTitle());
-			i++;
-		}
-	}
 
 }

@@ -16,16 +16,83 @@
 package it.isti.cnr.hpc.wikipedia.article;
 
 /**
- * Link.java
+ * Link class models a link an internal link on Wikipedia. 
+ * The class contains two attributes: the target <b> id </b>: a string representing the 
+ * name of the page pointed by the link (e.g., <tt>FIFA_World_Cup_awards</tt>), and the 
+ * <b> description </b>, i.e., the anchor text used in a article for linking
+ * to the target id (e.g., <tt>golden shoe</tt>).
  *
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 19/nov/2011
  */
 public class Link {
 	
+	/** a string representing the name of the page pointed by the link **/
 	private String id;
+	/** the anchor text used in a article for linking to the target id **/
 	private String description;
 
+	
+	
+	public Link(String id, String description) {
+		super();
+		this.id = id;
+		this.description = description;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
+	public String getDescription() {
+		// When description is empty, it means is the same of id
+		if (description != null && !description.isEmpty())
+			return description;
+		else
+			return id;
+	}
+	
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**  
+	 * @return the wikiname of the link without anchors (e.g. leonardo_da_vinci#life -> leonardo_da_vinci)
+	 */
+	public String getCleanId(){
+		String cleanId = id;
+		// capitalize first char
+		if ( ! cleanId.isEmpty()){
+			cleanId = Character.toUpperCase(cleanId.charAt(0))+cleanId.substring(1);
+		}
+		int pos = cleanId.indexOf('#');
+		if (pos >= 0){
+			cleanId = cleanId.substring(0,pos);
+		}
+		//cleanId = cleanId.replace("\"", "");
+		
+		return cleanId; // .toLowerCase();
+	}
+	
+	/**
+	 * @return true, if the target id is empty, false otherwise.
+	 */
+	public boolean isEmpty(){
+		return getCleanId().isEmpty();
+	}
+
+	@Override
+	public String toString() {
+		return "Link [id=" + id + ", description=" + getDescription() + "]";
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -55,53 +122,5 @@ public class Link {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	public Link(String id, String description) {
-		super();
-		this.id = id;
-		this.description = description;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getDescription() {
-		// When description is empty, it means is the same of id
-		if (description != null && !description.isEmpty())
-			return description;
-		else
-			return id;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**  
-	 * @return the wikiname of the link without anchors (e.g. leonardo_da_vinci#life -> leonardo_da_vinci)
-	 */
-	public String getCleanId(){
-		String cleanId = id;
-		// capitalize first char
-		if ( ! cleanId.isEmpty()){
-			cleanId = Character.toUpperCase(cleanId.charAt(0))+cleanId.substring(1);
-		}
-		int pos = cleanId.indexOf('#');
-		if (pos >= 0){
-			cleanId = cleanId.substring(0,pos);
-		}
-		//cleanId = cleanId.replace("\"", "");
-		
-		return cleanId; // .toLowerCase();
-	}
-	
-	public boolean isEmpty(){
-		return getCleanId().isEmpty();
-	}
-
-	@Override
-	public String toString() {
-		return "Link [id=" + id + ", description=" + getDescription() + "]";
 	}
 }

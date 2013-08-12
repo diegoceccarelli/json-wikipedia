@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 
 /**
+ * Generates the MediaWikiParser given a language.
+ * 
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
  * 
  *         Created on Feb 14, 2013

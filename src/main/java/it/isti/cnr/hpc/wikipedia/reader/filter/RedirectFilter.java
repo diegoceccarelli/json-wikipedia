@@ -19,15 +19,16 @@ import it.cnr.isti.hpc.io.reader.Filter;
 import it.isti.cnr.hpc.wikipedia.article.Article;
 
 /**
- * Filters only Redirects
+ * Filters in/out Redirects
  * 
  * @see Article.isRedirect();
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */
 public class RedirectFilter implements Filter<Article> {
-
+	/** Keeps only the redirects **/
 	public final static RedirectFilter KEEP_REDIRECTS = new RedirectFilter(true);
+	/** Keeps only the non-redirects **/
 	public final static RedirectFilter FILTER_OUT_REDIRECTS = new RedirectFilter(false);
 	
 	boolean keepRedirects = true;

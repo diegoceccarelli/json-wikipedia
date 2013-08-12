@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * article is filtered if its length is fewer then a certain length (default is
+ * Article is filtered if its length is fewer then a certain length (default is
  * 3)
  */
 public class ShortTitleFilter implements Filter<Article> {

@@ -37,6 +37,7 @@ import java.util.List;
  * @see Article.getType()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 05/lug/2012
  */
+@Deprecated
 public class TitleFilter implements Filter<Article> {
 	
 	

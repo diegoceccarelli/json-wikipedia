@@ -16,6 +16,8 @@
 package it.isti.cnr.hpc.wikipedia.article;
 
 /**
+ * Contains definitions of different languages.
+ * 
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
  * 
  * Created on Feb 14, 2013

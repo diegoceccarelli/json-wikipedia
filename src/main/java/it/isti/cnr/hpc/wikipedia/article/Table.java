@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Table.java
+ * Table models a table structure encoded in an article.
  *
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 20/nov/2011

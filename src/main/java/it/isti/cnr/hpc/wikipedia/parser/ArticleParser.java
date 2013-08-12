@@ -42,6 +42,11 @@ import de.tudarmstadt.ukp.wikipedia.parser.Span;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 
 /**
+ * Generates a Mediawiki parser given a language, (it will expect to 
+ * find a locale file in <tt>src/main/resources/</tt>).
+ * 
+ * @see Locale
+ * 
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
  * 
  *         Created on Feb 14, 2013
@@ -53,13 +58,13 @@ public class ArticleParser {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ArticleParser.class);
 
-	// the language (used for the locale) default is English
-	String lang = Language.EN;
+	/** the language (used for the locale) default is English **/
+	private String lang = Language.EN;
 
 	static int shortDescriptionLength = 500;
-	List<String> redirects;
+	private List<String> redirects;
 
-	MediaWikiParser parser;
+	private MediaWikiParser parser;
 	private Locale locale;
 
 	public ArticleParser(String lang) {
@@ -152,7 +157,7 @@ public class ArticleParser {
 
 	}
 
-	public void setRedirect(Article article) {
+	private void setRedirect(Article article) {
 		if (! article.getRedirect().isEmpty()) return;
 		for (List<String> lists : article.getLists()) {
 			for (String line : lists) {
@@ -193,7 +198,7 @@ public class ArticleParser {
 	/**
 	 * @param page
 	 */
-	protected void setTables(Article article, ParsedPage page) {
+	private void setTables(Article article, ParsedPage page) {
 		List<Table> tables = new ArrayList<Table>();
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
@@ -404,7 +409,7 @@ public class ArticleParser {
 
 	}
 
-	public void setDisambiguation(Article a) {
+	private void setDisambiguation(Article a) {
 
 		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
 			if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {

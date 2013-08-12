@@ -9,17 +9,17 @@
 	<description>Json Wikipedia contains code to parse a Wikipedia dump, 
 		and to create for creating inverted index with the articles</description>
 	<licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-	 <developers>
-        <developer>
-            <id>diego</id>
-            <name>Diego Ceccarelli</name>
-        </developer>
-    </developers>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>diego</id>
+			<name>Diego Ceccarelli</name>
+		</developer>
+	</developers>
 	<dependencies>
 		<dependency>
 			<artifactId>hpc-utils</artifactId>
@@ -42,7 +42,14 @@
 			<artifactId>lucene-core</artifactId>
 			<version>4.3.0</version>
 		</dependency>
-            
+
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.api</artifactId>
@@ -90,38 +97,13 @@
 			<version>3.1</version>
 		</dependency>
 	</dependencies>
-	<!-- repositories>
-		<repository>
-			<id>lilyproject</id>
-			<url>http://www.lilyproject.org/maven/maven2/deploy/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>info-bliki-repository</id>
-			<url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>ontotext</id>
-			<url>http://maven.ontotext.com/content/repositories/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories-->
+	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> </repository> <repository> <id>info-bliki-repository</id> <url>http://gwtwiki.googlecode.com/svn/maven-repository/</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> </repository> <repository> <id>ontotext</id> <url>http://maven.ontotext.com/content/repositories/public/</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> </repository> </repositories -->
 	<repositories>
 		<repository>
 			<id>local jars</id>
@@ -140,13 +122,13 @@
 				</configuration>
 			</plugin>
 			<plugin>
- 				<artifactId>maven-assembly-plugin</artifactId>
-        		<version>2.4</version>
-       			<configuration>
-          			<descriptorRefs>
-            		<descriptorRef>jar-with-dependencies</descriptorRef>
-          		</descriptorRefs>
-        		</configuration>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

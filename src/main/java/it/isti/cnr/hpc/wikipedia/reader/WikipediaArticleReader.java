@@ -1,25 +1,3 @@
-package it.isti.cnr.hpc.wikipedia.reader;
-
-import info.bliki.wiki.dump.IArticleFilter;
-import info.bliki.wiki.dump.Siteinfo;
-import info.bliki.wiki.dump.WikiArticle;
-import info.bliki.wiki.dump.WikiXMLParser;
-import it.cnr.isti.hpc.benchmark.Stopwatch;
-import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.io.reader.JsonRecordParser;
-import it.cnr.isti.hpc.log.ProgressLogger;
-import it.isti.cnr.hpc.wikipedia.article.Article;
-import it.isti.cnr.hpc.wikipedia.article.Article.Type;
-import it.isti.cnr.hpc.wikipedia.parser.ArticleParser;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
-
 /**
  *  Copyright 2011 Diego Ceccarelli
  *
@@ -36,8 +14,33 @@ import org.xml.sax.SAXException;
  *  limitations under the License.
  */
 
+package it.isti.cnr.hpc.wikipedia.reader;
+
+import info.bliki.wiki.dump.IArticleFilter;
+import info.bliki.wiki.dump.Siteinfo;
+import info.bliki.wiki.dump.WikiArticle;
+import info.bliki.wiki.dump.WikiXMLParser;
+import it.cnr.isti.hpc.benchmark.Stopwatch;
+import it.cnr.isti.hpc.io.IOUtils;
+import it.cnr.isti.hpc.log.ProgressLogger;
+import it.isti.cnr.hpc.wikipedia.article.Article;
+import it.isti.cnr.hpc.wikipedia.article.Article.Type;
+import it.isti.cnr.hpc.wikipedia.parser.ArticleParser;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+
 /**
- * WikipediaArticleReader.java
+ * A reader that converts a Wikipedia dump in its json dump. The json dump will
+ * contain all the article in the XML dump, one article per line. Each line will
+ * be compose by the json serialization of the object Article.
+ * 
+ * @see Article
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 18/nov/2011
  */
@@ -52,20 +55,50 @@ public class WikipediaArticleReader {
 	private BufferedWriter out;
 
 	private ArticleParser parser;
-	private JsonRecordParser<Article> encoder;
+	// private JsonRecordParser<Article> encoder;
 
 	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
 			1000);
 	private static Stopwatch sw = new Stopwatch();
 
+	/**
+	 * Generates a converter from the xml to json dump.
+	 * 
+	 * @param inputFile
+	 *            - the xml file (compressed)
+	 * @param outputFile
+	 *            - the json output file, containing one article per line (if
+	 *            the filename ends with <tt>.gz </tt> the output will be
+	 *            compressed).
+	 * 
+	 * @param lang
+	 *            - the language of the dump
+	 * 
+	 * 
+	 */
 	public WikipediaArticleReader(String inputFile, String outputFile,
 			String lang) {
 		this(new File(inputFile), new File(outputFile), lang);
 	}
 
+	/**
+	 * Generates a converter from the xml to json dump.
+	 * 
+	 * @param inputFile
+	 *            - the xml file (compressed)
+	 * @param outputFile
+	 *            - the json output file, containing one article per line (if
+	 *            the filename ends with <tt>.gz </tt> the output will be
+	 *            compressed).
+	 * 
+	 * @param lang
+	 *            - the language of the dump
+	 * 
+	 * 
+	 */
 	public WikipediaArticleReader(File inputFile, File outputFile, String lang) {
 		JsonConverter handler = new JsonConverter();
-		encoder = new JsonRecordParser<Article>(Article.class);
+		// encoder = new JsonRecordParser<Article>(Article.class);
 		parser = new ArticleParser(lang);
 		try {
 			wxp = new WikiXMLParser(inputFile.getAbsolutePath(), handler);
@@ -79,6 +112,9 @@ public class WikipediaArticleReader {
 
 	}
 
+	/**
+	 * Starts the parsing
+	 */
 	public void start() throws IOException, SAXException {
 
 		wxp.parse();
@@ -86,7 +122,7 @@ public class WikipediaArticleReader {
 		logger.info(sw.stat("articles"));
 	}
 
-	public class JsonConverter implements IArticleFilter {
+	private class JsonConverter implements IArticleFilter {
 		public void process(WikiArticle page, Siteinfo si) {
 			pl.up();
 			sw.start("articles");
@@ -99,22 +135,22 @@ public class WikipediaArticleReader {
 			Type type = Type.UNKNOWN;
 			if (page.isCategory())
 				type = Type.CATEGORY;
-			if (page.isTemplate()){
+			if (page.isTemplate()) {
 				type = Type.TEMPLATE;
-				//FIXME just to go fast;
+				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
-				
-			if (page.isProject()){
+
+			if (page.isProject()) {
 				type = Type.PROJECT;
-				//FIXME just to go fast;
+				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
-			if (page.isFile()){
+			if (page.isFile()) {
 				type = Type.FILE;
-				//FIXME just to go fast;
+				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
@@ -130,7 +166,6 @@ public class WikipediaArticleReader {
 			article.setType(type);
 			parser.parse(article, page.getText());
 
-			
 			try {
 				out.write(article.toJson());
 				out.write("\n");

@@ -23,19 +23,9 @@ import it.isti.cnr.hpc.wikipedia.article.Article;
 import it.isti.cnr.hpc.wikipedia.article.Article.Type;
 
 /**
- * TypeFilter filters the articles base on their type. Types are:
- * <ul>
- * <li>"C" - Category</li>
- * <li>"T" - Template</li>
- * <li>"P" - Project</li>
- * <li>"F" - File</li>
- * <li>"M" - Main (normal article)</li>
- * </ul>
- * 
- * the constructor accepts a string with the type to keep, 
- * types that are not in the string will be filter out.
- * 
- * @see Article.getType()
+ * TypeFilter filters the articles base on their type.
+ *  
+ * @see Article.Type
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */

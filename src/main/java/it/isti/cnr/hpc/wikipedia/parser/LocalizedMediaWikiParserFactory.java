@@ -15,13 +15,13 @@
  */
 package it.isti.cnr.hpc.wikipedia.parser;
 
-import javax.swing.plaf.metal.MetalBorders.Flush3DBorder;
-
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.FlushTemplates;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParserFactory;
-import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.ShowTemplateNamesAndParameters;
 
 /**
+ * Generates a parser from the proper Locale.
+ * 
+ * @see Locale
+ * 
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
  *
  */

@@ -20,7 +20,8 @@ import it.isti.cnr.hpc.wikipedia.article.Article;
 import it.isti.cnr.hpc.wikipedia.article.Article.Type;
 
 /**
- * filters articles that do not have a type
+ * Filters out articles that do not have a type
+ *
  * @see Article.getType()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
