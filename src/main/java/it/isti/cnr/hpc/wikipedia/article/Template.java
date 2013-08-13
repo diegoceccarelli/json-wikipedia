@@ -35,6 +35,7 @@ public class Template {
 	private String name;
 	private List<String> description;
 	public static final Template EMPTY_TEMPLATE = new EmptyTemplate();
+	private transient Map<String,String> map;
 	
 	public boolean isDisambiguation(){
 
@@ -88,6 +89,11 @@ public class Template {
 		this.name = name;
 	}
 	
+	public String get(String field){
+		if (map == null) map = getAsMap();
+		return map.get(field);
+	}
+	
 	public List<String> getDescription() {
 		if (description == null) return Collections.emptyList();
 		return description;
@@ -102,7 +108,8 @@ public class Template {
 	}
 	
 	public Map<String,String> getAsMap(){
-		Map<String,String> map = new HashMap<String,String>();
+		if (map != null) return map;
+		map = new HashMap<String,String>();
 		for (String desc : getDescription()){
 			int pos = desc.indexOf(KEY_VALUE_SEPARATOR);
 			if (pos >= 0){

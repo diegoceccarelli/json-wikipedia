@@ -60,35 +60,6 @@ public class ArticleSummarizerTest {
 	}
 	
 
-	@Test
-	public void test() throws IOException {
-		RecordReader<Article> reader = new RecordReader<Article>("./src/test/resources/en-wikipedia-articles-1000-2.json.gz", new JsonRecordParser<Article>(Article.class));
-		reader.filter(new TypeFilter(Type.ARTICLE));
-		ArticleSummarizer summarizer = new ArticleSummarizer();
-		BufferedWriter writer = IOUtils.getPlainOrCompressedUTF8Writer("/tmp/test");
-		for (Article a : reader ){
-			String text = a.getText();
-			if (text.length() > 1000) {
-				text = text.substring(0, 1000);
-			}
-			writer.write(a.getTypeName());
-			writer.newLine();
-			writer.write(a.getTitle());
-			writer.newLine();
-			writer.newLine();
-			writer.write("** "+text);
-			writer.newLine();
-			writer.newLine();
 
-			writer.write("summary: > "+summarizer.getSummary(a));
-			writer.newLine();
-			writer.newLine();
-			writer.write("> "+a.getCategories());
-		}
-		
-		writer.close();
-		
-		
-	}
 
 }
