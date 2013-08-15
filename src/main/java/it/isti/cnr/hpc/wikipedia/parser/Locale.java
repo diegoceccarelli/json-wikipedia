@@ -41,6 +41,7 @@ public class Locale {
 
 	public Locale(String lang) {
 		properties = new Properties();
+		
 		try {
 			properties.load(Locale.class.getResourceAsStream("/lang/locale-"
 					+ lang + ".properties"));
@@ -49,6 +50,8 @@ public class Locale {
 					e.toString());
 			System.exit(-1);
 		}
+		
+		logger.info("using {} language ",properties.get("language"));
 
 	}
 

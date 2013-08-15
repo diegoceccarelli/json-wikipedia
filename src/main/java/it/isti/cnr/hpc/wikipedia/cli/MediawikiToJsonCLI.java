@@ -24,34 +24,39 @@ import org.slf4j.LoggerFactory;
 
 /**
  * MediawikiToJsonCLI.java
- *
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
- * created on 21/nov/2011
+ * 
+ * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(MediawikiToJsonCLI.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(MediawikiToJsonCLI.class);
+
+	private static String[] params = new String[] { INPUT, OUTPUT, "lang" };
+
+	private static final String USAGE = "java -cp $jar "
+			+ MediawikiToJsonCLI.class
+			+ " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
 
 	public MediawikiToJsonCLI(String[] args) {
-		super(args);
+		super(args, params, USAGE);
 	}
-	
-	
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		MediawikiToJsonCLI cli = new MediawikiToJsonCLI(args);
 		String input = cli.getInput();
 		String output = cli.getOutput();
-		WikipediaArticleReader wap = new WikipediaArticleReader(input,output,Language.EN);
+		String lang = cli.getParam("lang");
+		WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
+				lang);
 		try {
 			wap.start();
 		} catch (Exception e) {
-			logger.error("parsing the mediawiki {}",e.toString());
+			logger.error("parsing the mediawiki {}", e.toString());
 			System.exit(-1);
 		}
 	}
-	
-	
+
 }
