@@ -18,4 +18,4 @@ WIKI_SUMMARY=$2
 
 echo " producing titles and types  $WIKI_JSON_DUMP -> $WIKI_SUMMARY"
 
-$JAVA  it.isti.cnr.hpc.wikipedia.cli.JsonToLineCLI -input $WIKI_JSON_DUMP -output $WIKI_SUMMARY -format "w\tC"
+$JAVA  it.cnr.isti.hpc.wikipedia.cli.JsonToLineCLI -input $WIKI_JSON_DUMP -output $WIKI_SUMMARY -format "w\tC"

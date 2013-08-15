@@ -18,4 +18,4 @@ WIKI_SUMMARY=$2
 
 echo " producing summary  $WIKI_JSON_DUMP -> $WIKI_SUMMARY"
 
-$JAVA  it.isti.cnr.hpc.wikipedia.cli.GetDumpSummaryCLI -input $WIKI_JSON_DUMP -output $WIKI_SUMMARY
+$JAVA  it.cnr.isti.hpc.wikipedia.cli.GetDumpSummaryCLI -input $WIKI_JSON_DUMP -output $WIKI_SUMMARY
