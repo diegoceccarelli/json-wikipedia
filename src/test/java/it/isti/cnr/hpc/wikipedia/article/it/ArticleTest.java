@@ -73,17 +73,21 @@ public class ArticleTest {
 
 	}
 
-	//
+	
 	@Test
-	public void testSandbox() throws IOException {
+	public void testInfobox() throws IOException {
 		Article articleWithInfobox = new Article();
 
 		String text = readFileAsString("/it/xml-dump/article-with-infobox.txt");
 		articleParser.parse(articleWithInfobox, text);
+		
+		assertTrue(articleWithInfobox.hasInfobox());
 		Template infobox = articleWithInfobox.getInfobox();
+		assertEquals(12,infobox.getSchema().size());
 		assertEquals("Infobox_fiume", infobox.getName());
 		assertEquals("Adige", infobox.get("nome"));
 		assertEquals("12200", infobox.get("bacino"));
+		
 
 	}
 

@@ -15,6 +15,10 @@
  */
 package it.isti.cnr.hpc.wikipedia.reader;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import it.cnr.isti.hpc.io.IOUtils;
+import it.isti.cnr.hpc.wikipedia.article.Article;
 import it.isti.cnr.hpc.wikipedia.article.Language;
 
 import java.io.FileNotFoundException;
@@ -34,10 +38,15 @@ import org.xml.sax.SAXException;
 public class WikipediaArticleReaderTest {
 
 	@Test
-	public void test() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
-		URL u = this.getClass().getResource("/mercedes.xml");
+	public void testParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
+		URL u = this.getClass().getResource("/en/mercedes.xml");
 		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),"/tmp/mercedes.json.gz", Language.EN);
 		wap.start();
+		String json = IOUtils.getFileAsUTF8String("/tmp/mercedes.json.gz");
+		Article a = Article.fromJson(json);
+		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
+		assertEquals(15, a.getCategories().size());
+		
 		
 	}
 

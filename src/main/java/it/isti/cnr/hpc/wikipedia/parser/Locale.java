@@ -42,7 +42,7 @@ public class Locale {
 	public Locale(String lang) {
 		properties = new Properties();
 		try {
-			properties.load(Locale.class.getResourceAsStream("/lang/local_"
+			properties.load(Locale.class.getResourceAsStream("/lang/locale-"
 					+ lang + ".properties"));
 		} catch (IOException e) {
 			logger.error("readling the locale for language {} ({})", lang,

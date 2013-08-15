@@ -13,18 +13,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package it.isti.cnr.hpc.wikipedia.reader;
+package it.isti.cnr.hpc.wikipedia.article.en;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.isti.cnr.hpc.wikipedia.article.Article;
 import it.isti.cnr.hpc.wikipedia.article.Language;
-import it.isti.cnr.hpc.wikipedia.article.Link;
 import it.isti.cnr.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -34,15 +32,15 @@ import org.junit.Test;
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 19/nov/2011
  */
-public class MediaWikiTextParsingTest {
+public class ArticleTest {
 
 	ArticleParser parser = new ArticleParser(Language.EN);
 	
 	
 	@Test
-	public void test() throws IOException {
+	public void testParsing() throws IOException {
 		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en-article.txt");
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
 		parser.parse(a, mediawiki);
 		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
 		assertEquals(5, a.getCategories().size());
@@ -52,19 +50,11 @@ public class MediaWikiTextParsingTest {
 	}
 	
 
-	@Test
-	public void testInfobox() throws IOException {
-		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/article-with-infobox.txt");
-		parser.parse(a, mediawiki);
-		assertTrue(a.hasInfobox());
-		assertEquals(12,a.getInfobox().getSchema().size());
-	}
-//	
+	
 	@Test
 	public void testMercedes() throws IOException {
 		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/mercedes.txt");
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/mercedes.txt");
 		parser.parse(a, mediawiki);
 		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
