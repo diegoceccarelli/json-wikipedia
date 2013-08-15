@@ -22,20 +22,12 @@ import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Output wikipedia dump in a particular format given as input string
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class JsonToLineCLI extends AbstractCommandLineInterface {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(JsonToLineCLI.class);
 
 	private static String[] params = new String[] { INPUT, OUTPUT, "format" };
 
@@ -50,34 +42,33 @@ public class JsonToLineCLI extends AbstractCommandLineInterface {
 	public static void main(String[] args) {
 		JsonToLineCLI cli = new JsonToLineCLI(args);
 		String format = cli.getParam("format");
-		ProgressLogger pl = new ProgressLogger("dumped {} articles ",100000);
+		ProgressLogger pl = new ProgressLogger("dumped {} articles ", 100000);
 		RecordReader<Article> reader = new RecordReader<Article>(
 				cli.getInput(), new JsonRecordParser<Article>(Article.class));
 		cli.openOutput();
-		
 
 		for (Article a : reader) {
 			pl.up();
 			for (int i = 0; i < format.length(); i++) {
 				char c = format.charAt(i);
-				if (c == 'w'){
+				if (c == 'w') {
 					cli.writeInOutput(a.getWikiTitle());
 					continue;
 				}
-				if (c == 'T'){
+				if (c == 'T') {
 					cli.writeInOutput(a.getTitle());
 					continue;
 				}
-				if (c == 't'){
+				if (c == 't') {
 					cli.writeInOutput(a.getText());
 					continue;
 				}
-				if (c == 'C'){
+				if (c == 'C') {
 					cli.writeInOutput(a.getTypeName());
 					continue;
 				}
-				
-				if (c == 'c'){
+
+				if (c == 'c') {
 					StringBuilder sb = new StringBuilder();
 					for (Link l : a.getCategories()) {
 						sb.append(l.getCleanId()).append(" ");
@@ -88,10 +79,10 @@ public class JsonToLineCLI extends AbstractCommandLineInterface {
 					continue;
 
 				}
-				
+
 				cli.writeInOutput(String.valueOf(c));
 			}
-				
+
 			cli.writeInOutput("\n");
 
 		}

@@ -21,30 +21,23 @@ import it.cnr.isti.hpc.io.reader.RecordReader;
 import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.ArticleSummarizer;
-import it.cnr.isti.hpc.wikipedia.reader.filter.RedirectFilter;
-import it.cnr.isti.hpc.wikipedia.reader.filter.ShortTitleFilter;
-import it.cnr.isti.hpc.wikipedia.reader.filter.TypeFilter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * takes the json dump and produce a summary file containing:
- * 
+ * Takes the JSON dump and produce a summary file containing, a file where each
+ * line contains: <br/>
+ * <br/>
+ * <code>
  * type <tab> wid <tab> wikititle <tab> redirect/short summary
+ * </code> <br/>
+ * <br/>
  * 
- * the last field contains the redirection is type is redirect, otherwise the
+ * The last field contains the redirection is type is redirect, otherwise the
  * short summary
  * 
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class GetDumpSummaryCLI extends AbstractCommandLineInterface {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(GetDumpSummaryCLI.class);
 
 	private static String[] params = new String[] { INPUT, OUTPUT };
 
@@ -55,7 +48,7 @@ public class GetDumpSummaryCLI extends AbstractCommandLineInterface {
 	private final static String TAB = "\t";
 
 	public GetDumpSummaryCLI(String[] args) {
-		super(args);
+		super(args, params, USAGE);
 	}
 
 	public static void main(String[] args) {

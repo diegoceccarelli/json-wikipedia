@@ -26,9 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Retrieves all the title from the wikipedia articles, considers only pages,
- * templates and categories. Redirect are ignored, titles with length < 3 are
- * ignored
+ * Retrieves all the titles from the wikipedia articles.
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
@@ -58,21 +56,11 @@ public class GetTitleAndTypeCLI extends AbstractCommandLineInterface {
 
 		ProgressLogger pl = new ProgressLogger("processed {} articles",100000);
 
-		for (Object r : reader) {
-			Article a = (Article)r;
+		for (Article a : reader) {
 			pl.up();
 			if (a.getTitleInWikistyle() == null) {
 				logger.warn("current title is null, ignoring ",
 						a.getTitleInWikistyle());
-				continue;
-			}
-			if (a.isRedirect()) {
-				cli.writeLineInOutput("R\t" + a.getTitle() + "\t"
-						+ a.getRedirectNoAnchor());
-				continue;
-			}
-			if (a.isList()) {
-				cli.writeLineInOutput("L\t" + a.getTitle());
 				continue;
 			}
 

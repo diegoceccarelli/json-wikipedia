@@ -24,9 +24,6 @@ import it.cnr.isti.hpc.wikipedia.reader.filter.RedirectFilter;
 import it.cnr.isti.hpc.wikipedia.reader.filter.ShortTitleFilter;
 import it.cnr.isti.hpc.wikipedia.reader.filter.TypeFilter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Retrieves all the titles from the Wikipedia articles, considers only pages,
  * templates and categories. Redirect are ignored, titles with length < 3 are
@@ -35,11 +32,6 @@ import org.slf4j.LoggerFactory;
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class GetTitlesCLI extends AbstractCommandLineInterface {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(GetTitlesCLI.class);
 
 	private static String[] params = new String[] { INPUT, OUTPUT };
 
@@ -47,9 +39,10 @@ public class GetTitlesCLI extends AbstractCommandLineInterface {
 			+ " -input wikipedia-json-dump -output titles";
 
 	public GetTitlesCLI(String[] args) {
-		super(args);
+		super(args, params, USAGE);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 
 		GetTitlesCLI cli = new GetTitlesCLI(args);

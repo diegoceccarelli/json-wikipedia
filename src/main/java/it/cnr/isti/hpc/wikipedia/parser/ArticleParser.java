@@ -16,11 +16,11 @@
 package it.cnr.isti.hpc.wikipedia.parser;
 
 import it.cnr.isti.hpc.wikipedia.article.Article;
+import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
-import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -129,13 +129,13 @@ public class ArticleParser {
 	//
 	// }
 
-	private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
-
-	private static String removeTemplates(String paragraph) {
-		paragraph = paragraph.replaceAll(templatePattern, " ");
-
-		return paragraph;
-	}
+//	private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
+//
+//	private static String removeTemplates(String paragraph) {
+//		paragraph = paragraph.replaceAll(templatePattern, " ");
+//
+//		return paragraph;
+//	}
 
 	/**
 	 * @param article
@@ -214,7 +214,7 @@ public class ArticleParser {
 			Table table = new Table(title);
 			List<String> currentRow = new ArrayList<String>();
 			List<Content> contentList = t.getContentList();
-			for (Content c : contentList) {
+			for (@SuppressWarnings("unused") Content c : contentList) {
 
 				int row, col;
 				String elem = "";

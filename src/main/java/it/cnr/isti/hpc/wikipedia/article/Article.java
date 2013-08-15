@@ -22,7 +22,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 /**
- * Article represents an article in the Wikipedia dump
+ * Article represents an article in the Wikipedia dump. 
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
  */

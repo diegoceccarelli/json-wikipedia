@@ -15,17 +15,7 @@
  */
 package it.cnr.isti.hpc.wikipedia.article;
 
-import static org.junit.Assert.*;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-
-import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.io.reader.JsonRecordParser;
-import it.cnr.isti.hpc.io.reader.RecordReader;
-import it.cnr.isti.hpc.wikipedia.article.ArticleSummarizer;
-import it.cnr.isti.hpc.wikipedia.article.Article.Type;
-import it.cnr.isti.hpc.wikipedia.reader.filter.TypeFilter;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
