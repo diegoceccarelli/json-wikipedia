@@ -15,15 +15,49 @@
  */
 package it.cnr.isti.hpc.wikipedia.cli;
 
+import java.util.List;
+
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
+import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.article.Table;
+import it.cnr.isti.hpc.wikipedia.article.Template;
+import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * MediawikiToJsonCLI.java
+ * MediawikiToJsonCLI converts a Wikipedia Dump in Json.
+ * <br/>
+ * <br/>
+ * <code>MediawikiToJsonCLI  wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] </code>
+ * <br/>
+ * <br/>
+ * produces in wikipedia-dump.json the JSON version of the dump. Each line of the file contains an article 
+ * of dump encoded in JSON. Each JSON line can be deserialized in an Article object, which represents an 
+ * <b> enriched </b> version of the wikitext page. The Article object contains: 
  * 
+ * <ul>
+ * <li> the title (e.g., Leonardo Da Vinci);</li>
+ * <li> the wikititle (used in Wikipedia as key, e.g., Leonardo_Da_Vinci);</li>
+ * <li> the namespace and the integer namespace in the dump;</li>
+ * <li> the timestamp of the article;</li>
+ * <li> the type, if it is a standard article, a redirection, a category and so on;</li>
+ * <li> if it is not in English the title of the corrispondent English Article;</li>
+ * <li> a list of  tables that appear in the article ;</li>
+ * <li> a list of lists that  that appear in the article ;</li>
+ * <li> a list  of internal links that appear in the article;</li>
+ * <li> if the article  is a redirect, the pointed article;</li>
+ * <li> a list of section titles in the article;</li>
+ * <li> the text of the article, divided in paragraphs;</li>
+ * <li> the categories and the templates of the articles;</li>
+ * <li> the list of attributes found in the templates;</li>
+ * <li> a list of terms highlighted in the article;</li>
+ * <li> if present the infobox.</li>
+ * </ul>
+ * 
+ * @see Article
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
 public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
