@@ -192,6 +192,10 @@ public class ArticleParser {
 			if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
 				int start = mediawiki.indexOf("[[") + 2;
 				int end = mediawiki.indexOf("]]");
+				if (start < 0 || end < 0){
+					logger.warn("cannot find the redirect {}\n mediawiki: {}",article.getTitle(), mediawiki);
+					continue;
+				}
 				String r = Article.getTitleInWikistyle(mediawiki.substring(
 						start, end));
 				article.setRedirect(r);
