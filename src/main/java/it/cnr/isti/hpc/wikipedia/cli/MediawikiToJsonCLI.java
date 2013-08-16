@@ -15,13 +15,8 @@
  */
 package it.cnr.isti.hpc.wikipedia.cli;
 
-import java.util.List;
-
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
-import it.cnr.isti.hpc.wikipedia.article.Link;
-import it.cnr.isti.hpc.wikipedia.article.Table;
-import it.cnr.isti.hpc.wikipedia.article.Template;
-import it.cnr.isti.hpc.wikipedia.article.Article.Type;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import org.slf4j.Logger;
@@ -56,6 +51,29 @@ import org.slf4j.LoggerFactory;
  * <li> a list of terms highlighted in the article;</li>
  * <li> if present the infobox.</li>
  * </ul>
+ * 
+ * Once you have created (or downloaded) the JSON dump (say <code>wikipedia.json</code>), you can iterate over the articles of the collection 
+ * easily using this snippet: 
+ * <br/>
+ * <br/>
+ * <br/>
+ * <pre>
+ * {@code
+ * RecordReader<Article> reader = new RecordReader<Article>(
+ * 			"wikipedia.json",new JsonRecordParser<Article>(Article.class)
+ * ).filter(TypeFilter.STD_FILTER);
+ * 
+ * for (Article a : reader) {
+ * 	 // do what you want with your articles	
+ * }
+ * 
+ * }
+ * </pre>
+ * <br/>
+ * <br/>
+ * 
+ * You can also add some filters in order to iterate on only certain articles (in the example 
+ * we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages. 
  * 
  * @see Article
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
