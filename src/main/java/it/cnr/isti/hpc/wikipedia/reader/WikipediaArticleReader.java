@@ -58,7 +58,7 @@ public class WikipediaArticleReader {
 	// private JsonRecordParser<Article> encoder;
 
 	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
-			1000);
+			10000);
 	private static Stopwatch sw = new Stopwatch();
 
 	/**
@@ -131,7 +131,6 @@ public class WikipediaArticleReader {
 			String namespace = page.getNamespace();
 			Integer integerNamespace = page.getIntegerNamespace();
 			String timestamp = page.getTimeStamp();
-			logger.info("TITLE: {}",title);
 
 			Type type = Type.UNKNOWN;
 			if (page.isCategory())

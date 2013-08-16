@@ -42,8 +42,8 @@ import de.tudarmstadt.ukp.wikipedia.parser.Span;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 
 /**
- * Generates a Mediawiki parser given a language, (it will expect to 
- * find a locale file in <tt>src/main/resources/</tt>).
+ * Generates a Mediawiki parser given a language, (it will expect to find a
+ * locale file in <tt>src/main/resources/</tt>).
  * 
  * @see Locale
  * 
@@ -93,16 +93,20 @@ public class ArticleParser {
 	private void parse(Article article, ParsedPage page) {
 		article.setLang(lang);
 		setWikiTitle(article);
-		setParagraphs(article, page);
-		// setShortDescription(article);
-		setTemplates(article, page);
-		setLinks(article, page);
-		setCategories(article, page);
-		setHighlights(article, page);
-		setSections(article, page);
-		setTables(article, page);
-		setEnWikiTitle(article, page);
-		setLists(article, page);
+		if (page == null) {
+			logger.warn("page is null for article {}", article.getTitle());
+		} else {
+			setParagraphs(article, page);
+			// setShortDescription(article);
+			setTemplates(article, page);
+			setLinks(article, page);
+			setCategories(article, page);
+			setHighlights(article, page);
+			setSections(article, page);
+			setTables(article, page);
+			setEnWikiTitle(article, page);
+			setLists(article, page);
+		}
 		setRedirect(article);
 		setDisambiguation(article);
 		setIsList(article);
@@ -129,13 +133,13 @@ public class ArticleParser {
 	//
 	// }
 
-//	private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
-//
-//	private static String removeTemplates(String paragraph) {
-//		paragraph = paragraph.replaceAll(templatePattern, " ");
-//
-//		return paragraph;
-//	}
+	// private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
+	//
+	// private static String removeTemplates(String paragraph) {
+	// paragraph = paragraph.replaceAll(templatePattern, " ");
+	//
+	// return paragraph;
+	// }
 
 	/**
 	 * @param article
@@ -158,7 +162,8 @@ public class ArticleParser {
 	}
 
 	private void setRedirect(Article article) {
-		if (! article.getRedirect().isEmpty()) return;
+		if (!article.getRedirect().isEmpty())
+			return;
 		for (List<String> lists : article.getLists()) {
 			for (String line : lists) {
 				for (String redirect : redirects) {
@@ -214,7 +219,8 @@ public class ArticleParser {
 			Table table = new Table(title);
 			List<String> currentRow = new ArrayList<String>();
 			List<Content> contentList = t.getContentList();
-			for (@SuppressWarnings("unused") Content c : contentList) {
+			for (@SuppressWarnings("unused")
+			Content c : contentList) {
 
 				int row, col;
 				String elem = "";
@@ -290,8 +296,6 @@ public class ArticleParser {
 		article.setSections(sections);
 
 	}
-	
-	
 
 	private void setLinks(Article article, ParsedPage page) {
 
@@ -376,10 +380,6 @@ public class ArticleParser {
 	}
 
 	private void setParagraphs(Article article, ParsedPage page) {
-		if (page == null) {
-			logger.warn("page is null for article {}",article.getTitle());
-			return;
-		}
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
@@ -390,9 +390,6 @@ public class ArticleParser {
 		}
 		article.setParagraphs(paragraphs);
 	}
-	
-	
-	
 
 	private void setLists(Article article, ParsedPage page) {
 		List<List<String>> lists = new LinkedList<List<String>>();
@@ -421,8 +418,7 @@ public class ArticleParser {
 				return;
 			}
 			for (Template t : a.getTemplates()) {
-				if (StringUtils.equalsIgnoreCase(t.getName(),
-						disambiguation)) {
+				if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
 					a.setType(Type.DISAMBIGUATION);
 					return;
 
