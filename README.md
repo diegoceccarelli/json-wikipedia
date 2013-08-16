@@ -20,7 +20,7 @@ or
 	./scripts/convert-xml-dump-to-json.sh [en|it] wikipedia-dump.xml.bz wikipedia-dump.json[.gz]
 
 produces in `wikipedia-dump.json` the JSON version of the dump. Each line of the file contains an article 
-of dump encoded in JSON. Each JSON line can be deserialized in an [http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html](Article) object, 
+of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html) object, 
 which represents an 
 _enriched_ version of the wikitext page. The Article object contains: 
 
@@ -58,9 +58,9 @@ easily using this snippet:
 You can also add some filters in order to iterate only on certain articles (in the example 
 we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages.).
 
-The [http://sassicaia.isti.cnr.it/javadocs/hpc-utils/it/cnr/isti/hpc/io/reader/RecordReader.html](RecordReader) and 
-[http://sassicaia.isti.cnr.it/javadocs/hpc-utils/it/cnr/isti/hpc/io/reader/JsonRecordParser.html](JsonRecordParser) are part
-of the [http://sassicaia.isti.cnr.it/javadocs/hpc-utils](hpc-utils) package.
+The [RecordReader](http://sassicaia.isti.cnr.it/javadocs/hpc-utils/it/cnr/isti/hpc/io/reader/RecordReader.html) and 
+[JsonRecordParser](http://sassicaia.isti.cnr.it/javadocs/hpc-utils/it/cnr/isti/hpc/io/reader/JsonRecordParser.html) are part
+of the [hpc-utils](http://sassicaia.isti.cnr.it/javadocs/hpc-utils) package.
 
 In order to use these classes, you will have to install `json-wikipedia` in your maven repository:
 
