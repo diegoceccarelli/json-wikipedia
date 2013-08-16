@@ -76,7 +76,7 @@ and import the project in your new maven project adding the dependency:
 
 #### Useful Links ####
 
-  * [**Dexter**](dexter.isti.cnr.it) Dexter is an entity annotator, json-wikipedia is used in order to generate the model for performing the annotations. 
+  * [**Dexter**](http://dexter.isti.cnr.it) Dexter is an entity annotator, json-wikipedia is used in order to generate the model for performing the annotations. 
   * [**json-wikipedia Javadoc**](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia) The json-wikipedia javadoc.
   * [**hpc-utils Javadoc**](http://sassicaia.isti.cnr.it/javadocs/hpc-utils) The hpc-utils Javadoc.
 
