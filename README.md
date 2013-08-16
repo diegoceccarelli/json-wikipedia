@@ -66,7 +66,7 @@ In order to use these classes, you will have to install `json-wikipedia` in your
 
     mvn install
 
-and import the project in your new maven project added the the dependency: 
+and import the project in your new maven project adding the dependency: 
 
     <dependency>
 	    <groupId>it.cnr.isti.hpc</groupId>
