@@ -1,7 +1,7 @@
-json-wikipedia
+![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia.png) json-wikipedia
 ==============
 
-![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia.png) Json Wikipedia contains code to convert the Wikipedia XML dump in a [JSON][json] dump.
+ Json Wikipedia contains code to convert the Wikipedia XML dump in a [JSON][json] dump.
 
 #### Setup ####
 
