@@ -36,6 +36,8 @@ public class Article {
 
 	private static transient Gson gson = new Gson();
 
+	
+	/** The possible types of an article (e.g., template, article, category) **/
 	public enum Type {
 		TEMPLATE, ARTICLE, CATEGORY, DISCUSSION, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE
 	};
@@ -282,9 +284,7 @@ public class Article {
 		// return false;
 	}
 
-	/**
-	 * @param page
-	 */
+
 	// MOVE IN THE FACTORY
 	// private void setLists(ParsedPage page) {
 	// lists = new LinkedList<List<String>>();

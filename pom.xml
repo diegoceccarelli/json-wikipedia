@@ -6,14 +6,20 @@
 	<artifactId>json-wikipedia</artifactId>
 	<version>1.0.0</version>
 	<name>Json Wikipedia</name>
-	<description>Json Wikipedia contains code to parse a Wikipedia dump, 
-		and to create for creating inverted index with the articles</description>
+	<description>Json Wikipedia contains code to parse a Wikipedia dump</description>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
+	<properties>
+		<project.source.charset>UTF-8</project.source.charset>
+		<project.source.encoding>UTF-8</project.source.encoding>
+		<java.version.source>1.7</java.version.source>
+		<java.version.target>1.7</java.version.target>
+	</properties>
 	<developers>
 		<developer>
 			<id>diego</id>
@@ -112,15 +118,26 @@
 		</repository>
 	</repositories>
 	<build>
+		<extensions>
+		                    <extension>
+		                       <groupId>org.apache.maven.wagon</groupId>
+		                       <artifactId>wagon-ssh</artifactId>
+		                       <version>2.4</version>
+		                     </extension>
+		                   </extensions>
+						
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-					<encoding>UTF-8</encoding>
+					<charset>${project.source.charset}</charset>
+					<encoding>${project.source.encoding}</encoding>
+					<source>${java.version.source}</source>
+					<target>${java.version.target}</target>
 				</configuration>
 			</plugin>
+
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
@@ -130,6 +147,38 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
+			
+		    <plugin>
+		           <groupId>org.apache.maven.plugins</groupId>
+		           <artifactId>maven-javadoc-plugin</artifactId>
+		           <version>2.9</version>
+		           <configuration>
+		             <reportOutputDirectory>javadoc</reportOutputDirectory>
+		             <destDir>javadoc</destDir>
+
+		           </configuration>
+		    </plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<configuration>
+					<fromDir>javadoc</fromDir>
+					<toDir>${artifactId}</toDir>
+					<url>scp://sassicaia.isti.cnr.it:/var/www/javadocs</url>
+				</configuration>
+				<executions>
+					<execution>
+						<id>javadoc</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

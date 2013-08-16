@@ -34,7 +34,7 @@ import java.util.List;
  * the constructor accepts a string with the type to keep, types that are not in
  * the string will be filter out.
  * 
- * @see Article.getType()
+ * @see Article#getType()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 05/lug/2012
  */
 @Deprecated

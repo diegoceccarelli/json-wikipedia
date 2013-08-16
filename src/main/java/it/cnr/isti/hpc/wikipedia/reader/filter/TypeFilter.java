@@ -25,7 +25,7 @@ import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 /**
  * TypeFilter filters the articles base on their type.
  *  
- * @see Article.Type
+ * @see Article#getType()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */

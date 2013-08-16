@@ -131,6 +131,7 @@ public class WikipediaArticleReader {
 			String namespace = page.getNamespace();
 			Integer integerNamespace = page.getIntegerNamespace();
 			String timestamp = page.getTimeStamp();
+			logger.info("TITLE: {}",title);
 
 			Type type = Type.UNKNOWN;
 			if (page.isCategory())

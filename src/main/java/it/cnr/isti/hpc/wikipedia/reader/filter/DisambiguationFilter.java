@@ -21,7 +21,7 @@ import it.cnr.isti.hpc.wikipedia.article.Article;
 /**
  * Filters out/only Disambiguations
  * 
- * @see Article.isDisambiguation();
+ * @see Article#isDisambiguation()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */

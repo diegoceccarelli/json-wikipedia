@@ -21,7 +21,7 @@ import it.cnr.isti.hpc.wikipedia.article.Article;
 /**
  * Filters in/out Redirects
  * 
- * @see Article.isRedirect();
+ * @see Article#isRedirect()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */

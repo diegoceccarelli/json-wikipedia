@@ -22,7 +22,7 @@ import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 /**
  * Filters out articles that do not have a type
  *
- * @see Article.getType()
+ * @see Article#getType()
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
  * created on 05/lug/2012
  */
