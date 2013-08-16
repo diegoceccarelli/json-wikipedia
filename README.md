@@ -1,7 +1,7 @@
 json-wikipedia
 ==============
 
-Json Wikipedia contains code to convert the Wikipedia XML dump in a [JSON][json] dump.
+![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia.png) Json Wikipedia contains code to convert the Wikipedia XML dump in a [JSON][json] dump.
 
 #### Setup ####
 
@@ -13,7 +13,7 @@ the command will produce a JAR file containing all the dependencies the target f
 
 #### Convert the Wikipedia XML to JSON ####
 
-    java target/json-wikipedia-1.0.0-jar-with-dependencies.jar  MediawikiToJsonCLI  wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] 		
+    java target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] 		
 
 or 
 
