@@ -376,6 +376,10 @@ public class ArticleParser {
 	}
 
 	private void setParagraphs(Article article, ParsedPage page) {
+		if (page == null) {
+			logger.warn("page is null for article {}",article.getTitle());
+			return;
+		}
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
