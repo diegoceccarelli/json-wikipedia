@@ -64,6 +64,7 @@ public class Article {
 	private List<Template> templates;
 	private List<String> templatesSchema;
 	private List<String> highlights;
+	private transient String summary;
 	private Template infobox;
 
 	public List<String> getTemplatesSchema() {
@@ -129,6 +130,8 @@ public class Article {
 		return getTitleInWikistyle(redirect);
 		// return redirect; // .toLowerCase();
 	}
+	
+	
 
 	/**
 	 * the redirect without the anchor, e.g., da_vinci#life -> da_vinci
@@ -601,6 +604,8 @@ public class Article {
 	public void setWid(int wid) {
 		this.wid = wid;
 	}
+	
+	
 
 //	/**
 //	 * @return the shortDescription
@@ -615,6 +620,19 @@ public class Article {
 //	public void setShortDescription(String shortDescription) {
 //		this.shortDescription = shortDescription;
 //	}
+
+	public String getSummary() {
+		if (summary == null) return "";
+		return summary;
+	}
+
+
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+
 
 	/**
 	 * @param lang the lang to set
