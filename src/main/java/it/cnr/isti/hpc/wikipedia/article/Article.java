@@ -605,7 +605,7 @@ public class Article {
 				sb.append(text.substring(0, 1000) + "...");
 
 			} else{
-				sb.append(text.substring(0, 1000) + "...");
+				sb.append(text);
 			}
 		}else {
 			sb.append(getSummary());
