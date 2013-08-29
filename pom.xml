@@ -30,7 +30,7 @@
 		<dependency>
 			<artifactId>hpc-utils</artifactId>
 			<groupId>it.cnr.isti.hpc</groupId>
-			<version>0.0.4</version>
+			<version>0.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
