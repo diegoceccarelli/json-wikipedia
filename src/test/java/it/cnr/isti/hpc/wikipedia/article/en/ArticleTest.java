@@ -62,6 +62,16 @@ public class ArticleTest {
 	}
 	
 	
+	@Test
+	public void testDisambiguation() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/hdis.txt");
+		parser.parse(a, mediawiki);
+		assertTrue(a.isDisambiguation());
+		
+	}
+	
+	
 	
   
 }
