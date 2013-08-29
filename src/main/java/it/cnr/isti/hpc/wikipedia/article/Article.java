@@ -22,7 +22,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 /**
- * Article represents an article in the Wikipedia dump. 
+ * Article represents an article in the Wikipedia dump.
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
  */
@@ -30,13 +30,13 @@ public class Article {
 	/**
 	 * Logger for this class
 	 */
-	//private static final Logger logger = LoggerFactory.getLogger(Article.class);
-	
+	// private static final Logger logger =
+	// LoggerFactory.getLogger(Article.class);
+
 	private final static String NOTITLE = "";
 
 	private static transient Gson gson = new Gson();
 
-	
 	/** The possible types of an article (e.g., template, article, category) **/
 	public enum Type {
 		TEMPLATE, ARTICLE, CATEGORY, DISCUSSION, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE
@@ -46,7 +46,7 @@ public class Article {
 	protected String wikiTitle = NOTITLE;
 
 	private int wid;
-	
+
 	private String lang;
 	private String namespace;
 	private Integer integerNamespace;
@@ -64,6 +64,7 @@ public class Article {
 	private List<Template> templates;
 	private List<String> templatesSchema;
 	private List<String> highlights;
+	private transient String summary;
 	private Template infobox;
 
 	public List<String> getTemplatesSchema() {
@@ -71,8 +72,6 @@ public class Article {
 			return Collections.emptyList();
 		return templatesSchema;
 	}
-	
-	
 
 	public void setTemplatesSchema(List<String> templatesSchema) {
 		this.templatesSchema = templatesSchema;
@@ -83,32 +82,32 @@ public class Article {
 			return Collections.emptyList();
 		return paragraphs;
 	}
-	
-	public List<String> getCleanParagraphs(){
+
+	public List<String> getCleanParagraphs() {
 		List<String> paragraphs = getParagraphs();
-		if (paragraphs.isEmpty()) return Collections.emptyList();
+		if (paragraphs.isEmpty())
+			return Collections.emptyList();
 		List<String> cleanParagraphs = new ArrayList<String>(paragraphs.size());
-		for (String p : paragraphs){
+		for (String p : paragraphs) {
 			cleanParagraphs.add(removeTemplates(p));
 		}
 		return cleanParagraphs;
-	} 
-	
-	public String getCleanText(){
+	}
+
+	public String getCleanText() {
 		StringBuilder sb = new StringBuilder();
-		for (String s : getCleanParagraphs()){
+		for (String s : getCleanParagraphs()) {
 			sb.append(s).append(" ");
-			
+
 		}
 		return sb.toString();
 	}
-	
-	
-	public String getText(){
+
+	public String getText() {
 		StringBuilder sb = new StringBuilder();
-		for (String s : getParagraphs()){
+		for (String s : getParagraphs()) {
 			sb.append(s).append(" ");
-			
+
 		}
 		return sb.toString();
 	}
@@ -120,11 +119,11 @@ public class Article {
 	public String getRedirect() {
 		if (redirect == null)
 			return "";
-		// 12/03/2013, in the new version of wikipedia 
+		// 12/03/2013, in the new version of wikipedia
 		// redirects sometime contain the reason of the redirect,
 		// e.g.,
 		// Abbey_TEMPLATE[R_from_CamelCase]
-		
+
 		redirect = redirect.replaceAll("_*TEMPLATE.*$", "");
 		return getTitleInWikistyle(redirect);
 		// return redirect; // .toLowerCase();
@@ -189,8 +188,6 @@ public class Article {
 	public void setHighlights(List<String> highlights) {
 		this.highlights = highlights;
 	}
-	
-	
 
 	// public static Article fromMediaWiki(String mediawiki) {
 	// if (parser == null) {
@@ -242,16 +239,13 @@ public class Article {
 		return images;
 	}
 
-
-
 	/**
-	 * @param images the images to set
+	 * @param images
+	 *            the images to set
 	 */
 	public void setImages(List<Link> images) {
 		this.images = images;
 	}
-
-
 
 	public boolean isRedirect() {
 
@@ -283,7 +277,6 @@ public class Article {
 		// }
 		// return false;
 	}
-
 
 	// MOVE IN THE FACTORY
 	// private void setLists(ParsedPage page) {
@@ -388,7 +381,6 @@ public class Article {
 		for (List<String> l : getLists())
 			sb.append("\t").append(l).append("\n");
 		sb.append("INFOBOX:").append(getInfobox()).append("\n");
-		
 
 		sb.append("LINKS:\n");
 		for (Link l : getLinks())
@@ -491,8 +483,8 @@ public class Article {
 			return Template.EMPTY_TEMPLATE;
 		return infobox;
 	}
-	
-	public boolean hasInfobox(){
+
+	public boolean hasInfobox() {
 		return infobox != null;
 	}
 
@@ -571,8 +563,6 @@ public class Article {
 			return false;
 		return true;
 	}
-	
-	
 
 	/**
 	 * @return the wikiTitle
@@ -582,7 +572,8 @@ public class Article {
 	}
 
 	/**
-	 * @param wikiTitle the wikiTitle to set
+	 * @param wikiTitle
+	 *            the wikiTitle to set
 	 */
 	public void setWikiTitle(String wikiTitle) {
 		this.wikiTitle = wikiTitle;
@@ -596,28 +587,60 @@ public class Article {
 	}
 
 	/**
-	 * @param wid the wid to set
+	 * @param wid
+	 *            the wid to set
 	 */
 	public void setWid(int wid) {
 		this.wid = wid;
 	}
 
-//	/**
-//	 * @return the shortDescription
-//	 */
-//	public String getShortDescription() {
-//		return shortDescription;
-//	}
-//
-//	/**
-//	 * @param shortDescription the shortDescription to set
-//	 */
-//	public void setShortDescription(String shortDescription) {
-//		this.shortDescription = shortDescription;
-//	}
+	public String getSnippet() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("title:").append(getTitle()).append("\n");
+		sb.append("wiki-id:").append(getWikiId()).append("\n");
+		sb.append("description:\n");
+		if (getSummary().isEmpty()) {
+			String text = getCleanText();
+			if (text.length() > 1000) {
+				sb.append(text.substring(0, 1000) + "...");
+
+			} else{
+				sb.append(text.substring(0, 1000) + "...");
+			}
+		}else {
+			sb.append(getSummary());
+		}
+		sb.append("\n");
+		return sb.toString();
+	}
+
+	// /**
+	// * @return the shortDescription
+	// */
+	// public String getShortDescription() {
+	// return shortDescription;
+	// }
+	//
+	// /**
+	// * @param shortDescription the shortDescription to set
+	// */
+	// public void setShortDescription(String shortDescription) {
+	// this.shortDescription = shortDescription;
+	// }
+
+	public String getSummary() {
+		if (summary == null)
+			return "";
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
 	/**
-	 * @param lang the lang to set
+	 * @param lang
+	 *            the lang to set
 	 */
 	public void setLang(String lang) {
 		this.lang = lang;
