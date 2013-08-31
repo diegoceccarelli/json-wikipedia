@@ -164,24 +164,44 @@ public class ArticleParser {
 	private void setRedirect(Article article) {
 		if (!article.getRedirect().isEmpty())
 			return;
-		for (List<String> lists : article.getLists()) {
-			for (String line : lists) {
-				for (String redirect : redirects) {
-					if (StringUtils.startsWithIgnoreCase(line, redirect)) {
-						int pos = line.indexOf(' ');
-						if (pos < 0)
-							return;
-						String red = line.substring(pos).trim();
-						red = Article.getTitleInWikistyle(red);
-						article.setRedirect(red);
-						article.setType(Type.REDIRECT);
-						return;
+		List<List<String>> lists = article.getLists();
+		if ((!lists.isEmpty()) && (lists.get(0).isEmpty())) {
+			// checking only first item in first list
+			String line = lists.get(0).get(0);
 
-					}
+			for (String redirect : redirects) {
+				if (StringUtils.startsWithIgnoreCase(line, redirect)) {
+					int pos = line.indexOf(' ');
+					if (pos < 0)
+						return;
+					String red = line.substring(pos).trim();
+					red = Article.getTitleInWikistyle(red);
+					article.setRedirect(red);
+					article.setType(Type.REDIRECT);
+					return;
+
 				}
 			}
 		}
 	}
+
+	// for (List<String> lists : article.getLists()) {
+	// for (String line : lists) {
+	// for (String redirect : redirects) {
+	// if (StringUtils.startsWithIgnoreCase(line, redirect)) {
+	// int pos = line.indexOf(' ');
+	// if (pos < 0)
+	// return;
+	// String red = line.substring(pos).trim();
+	// red = Article.getTitleInWikistyle(red);
+	// article.setRedirect(red);
+	// article.setType(Type.REDIRECT);
+	// return;
+	//
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * @param article
@@ -192,8 +212,9 @@ public class ArticleParser {
 			if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
 				int start = mediawiki.indexOf("[[") + 2;
 				int end = mediawiki.indexOf("]]");
-				if (start < 0 || end < 0){
-					logger.warn("cannot find the redirect {}\n mediawiki: {}",article.getTitle(), mediawiki);
+				if (start < 0 || end < 0) {
+					logger.warn("cannot find the redirect {}\n mediawiki: {}",
+							article.getTitle(), mediawiki);
 					continue;
 				}
 				String r = Article.getTitleInWikistyle(mediawiki.substring(

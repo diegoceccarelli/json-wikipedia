@@ -72,6 +72,18 @@ public class ArticleTest {
 	}
 	
 	
+	@Test
+	public void testNotRedirect() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/liberalism.txt");
+		parser.parse(a, mediawiki);
+		System.out.println(a.getRedirect());
+		assertTrue(! a.isRedirect());
+		
+		
+	}
+	
+	
 	
   
 }
