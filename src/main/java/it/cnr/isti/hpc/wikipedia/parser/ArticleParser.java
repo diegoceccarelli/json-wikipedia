@@ -165,7 +165,7 @@ public class ArticleParser {
 		if (!article.getRedirect().isEmpty())
 			return;
 		List<List<String>> lists = article.getLists();
-		if ((!lists.isEmpty()) && (lists.get(0).isEmpty())) {
+		if ((!lists.isEmpty()) && (! lists.get(0).isEmpty())) {
 			// checking only first item in first list
 			String line = lists.get(0).get(0);
 
