@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.cnr.isti.hpc</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.7-SNAPSHOT</version>
+	<name>Hpc lab master pom</name>
+	<description />
+	<packaging>pom</packaging>
+	
+	<scm>
+	    <connection>scm:svn:svn://sassicaia.isti.cnr.it/dev/hpc/java/parent/trunk/</connection>
+	    <developerConnection>scm:svn:svn://sassicaia.isti.cnr.it/dev/hpc/java/parent/trunk/</developerConnection>
+	    <url>scm:svn:svn://sassicaia.isti.cnr.it/dev/hpc/java/parent/trunk/</url>
+	  </scm>
+
+	<!-- set here current versions of the packages -->
+	<properties>
+		<junit.version>4.10</junit.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<google.gson.version>2.1</google.gson.version>
+		<hadoop>0.20.2</hadoop>
+		
+		<hpc.utils>0.0.4-SNAPSHOT</hpc.utils>
+		<hpc.scrapers>0.0.1-SNAPSHOT</hpc.scrapers>
+		<hpc.text>0.0.2-SNAPSHOT</hpc.text>
+		<hpc.minhash>0.0.1</hpc.minhash>
+		<hpc.wikipedia>0.0.2-SNAPSHOT</hpc.wikipedia>
+		<hpc.dexter>0.0.3</hpc.dexter>
+		<hpc.csv>0.0.2-SNAPSHOT</hpc.csv>
+		<hpc.eval>0.0.2-SNAPSHOT</hpc.eval>
+		<hpc.html.parser>0.0.2-SNAPSHOT</hpc.html.parser>
+		
+		<project.source.charset>UTF-8</project.source.charset>
+		<project.source.encoding>UTF-8</project.source.encoding>
+		<java.version.source>1.6</java.version.source>
+		<java.version.target>1.6</java.version.target>
+
+		
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${google.gson.version}</version>
+			</dependency>
+				
+				
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			
+				<dependency>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-core</artifactId>
+					<version>${hadoop}</version>
+				</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-nop</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			
+			<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>${junit.version}</version>
+			</dependency>
+			
+			<dependency>
+					<groupId>it.cnr.isti.hpc</groupId>
+					<artifactId>hpc-utils</artifactId>
+					<version>${hpc.utils}</version>
+			</dependency>
+			
+			<dependency>
+					<groupId>it.cnr.isti.hpc</groupId>
+					<artifactId>text-helper</artifactId>
+					<version>${hpc.text}</version>
+			</dependency>
+			
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId>eval-helper</artifactId>
+						<version>${hpc.eval}</version>
+				</dependency>
+			
+			<dependency>
+					<groupId>it.cnr.isti.hpc</groupId>
+					<artifactId>easy-csv</artifactId>
+					<version>${hpc.csv}</version>
+			</dependency>
+			
+			
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId> html-parser </artifactId>
+						<version>${hpc.html.parser}</version>
+				</dependency>
+			
+			
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId> scrapers </artifactId>
+						<version>${hpc.scrapers}</version>
+				</dependency>
+				
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId> dexter </artifactId>
+						<version>${hpc.dexter}</version>
+				</dependency>
+				
+				
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId> term-minhash-similarity </artifactId>
+						<version>${hpc.minhash}</version>
+				</dependency>
+				
+				<dependency>
+						<groupId>it.cnr.isti.hpc</groupId>
+						<artifactId> wikipedia-index </artifactId>
+						<version>${hpc.wikipedia}</version>
+				</dependency>
+		
+
+
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		 <extensions>
+		    <extension>
+		       <groupId>org.apache.maven.wagon</groupId>
+		       <artifactId>wagon-ssh</artifactId>
+		       <version>2.4</version>
+		     </extension>
+		   </extensions>
+		<plugins>
+		<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.6</version>
+      </plugin>
+
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+	        <version>2.3.2</version>
+			<configuration>
+				<charset>${project.source.charset}</charset>
+				<encoding>${project.source.encoding}</encoding>
+				<source>${java.version.source}</source>
+				<target>${java.version.target}</target>
+			</configuration>
+		</plugin>
+		 <plugin>
+	       <groupId>org.codehaus.mojo</groupId>
+	       <artifactId>wagon-maven-plugin</artifactId>
+	       <version>1.0-beta-3</version>
+	       <configuration>
+	        <fromDir>target/site/apidocs</fromDir>
+			<toDir>${artifactId}</toDir>
+	         <url>scp://sassicaia.isti.cnr.it:/var/www/javadocs</url>
+	       </configuration>
+	       <executions>
+	         <execution>
+	           <id>javadoc</id>
+	           <phase>deploy</phase>
+	           <goals>
+	             <goal>upload</goal>
+	           </goals>
+	         </execution>
+	       </executions>
+	     </plugin>
+		
+	  	<plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-release-plugin</artifactId>
+	        <version>2.2.2</version>
+	        <configuration>
+	          <tagNameFormat>${project.version}</tagNameFormat>
+	        </configuration>
+	      </plugin>
+	
+		<plugin>
+
+
+					<artifactId>maven-assembly-plugin</artifactId>
+							<version>2.3</version>
+						<configuration>
+
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+						
+
+
+					</plugin>
+	</plugins>
+	</build>
+
+	 <reporting>
+		
+		
+		
+		
+    <plugins>
+	
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <reportOutputDirectory>javadoc</reportOutputDirectory>
+          <destDir>javadoc</destDir>
+
+        </configuration>
+      </plugin>
+
+
+
+	    
+    </plugins>
+  </reporting>
+	<repositories>
+			<repository>
+
+				<id>hpc releases</id>
+				<url>http://bruciato.isti.cnr.it:8081/artifactory/hpc-releases</url>
+			</repository>
+
+			<repository>
+				<id>hpc snapshots</id>
+				<url>http://bruciato.isti.cnr.it:8081/artifactory/hpc-snapshots</url>
+			</repository>
+			<repository>
+		<id>bruciato-releases</id>
+        <url>http://bruciato.isti.cnr.it:8081/artifactory/ext-release-local</url>
+</repository>
+		
+	</repositories>
+	
+
+	<distributionManagement>
+		<!-- repository>
+			<id>Central</id> <url>http://repo1.maven.org/maven2</url>
+		</repository -->
+		<repository>
+			
+			<id>hpc releases</id>
+			<url>http://bruciato.isti.cnr.it:8081/artifactory/hpc-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>hpc snapshots</id>
+			<url>http://bruciato.isti.cnr.it:8081/artifactory/hpc-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
