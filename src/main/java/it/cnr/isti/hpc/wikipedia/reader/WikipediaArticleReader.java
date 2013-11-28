@@ -44,6 +44,8 @@ import java.util.concurrent.TimeUnit;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A reader that converts a Wikipedia dump in its json dump. The json dump will
@@ -65,7 +67,7 @@ public class WikipediaArticleReader {
 	private BufferedWriter out;
 	private String lang;
 
-
+	public static final List<Type> OK_TYPES = Arrays.asList(new Type[] {Type.ARTICLE, Type.CATEGORY});
 	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
 			10000);
 
@@ -227,48 +229,51 @@ public class WikipediaArticleReader {
 				type = Type.CATEGORY;
 			if (page.isTemplate()) {
 				type = Type.TEMPLATE;
-				// FIXME just to go fast;
 			}
 
 			if (page.isProject()) {
 				type = Type.PROJECT;
-				// FIXME just to go fast;
 			}
 			if (page.isFile()) {
 				type = Type.FILE;
-				// FIXME just to go fast;
 			}
 			if (page.isMain())
 				type = Type.ARTICLE;
 
-			Article article = new Article();
-			article.setTitle(title);
-			article.setWikiId(Integer.parseInt(id));
-			article.setNamespace(namespace);
-			article.setIntegerNamespace(integerNamespace);
-			article.setTimestamp(timestamp);
-			article.setType(type);
 
-			ArticleParser parser = new ArticleParser(lang);
+			if( OK_TYPES.contains(type) ){
+				Article article = new Article();
+				article.setTitle(title);
+				article.setWikiId(Integer.parseInt(id));
+				article.setNamespace(namespace);
+				article.setIntegerNamespace(integerNamespace);
+				article.setTimestamp(timestamp);
+				article.setType(type);
 
-			parser.parse(article, page.getText());
-			String jres = article.toJson();
+				ArticleParser parser = new ArticleParser(lang);
 
-			// //REMOVE TESTING
-			// String jres = "";
+				parser.parse(article, page.getText());
+				String jres = article.toJson();
 
-			writeJson(jres);
+				// //REMOVE TESTING
+				// String jres = "";
+
+				writeJson(jres);
+
+				//just to be sure for garbage collection
+				article = null;
+				parser = null;
+				jres = null;
+
+			}
 
 			//just to be sure for garbage collection
-			article = null;
 			page = null;
 			title = null;
 			namespace = null;
 			id = null;
 			integerNamespace = null;
 			timestamp = null;
-			parser = null;
-			jres = null;
 
 
 			//increment progress count here
