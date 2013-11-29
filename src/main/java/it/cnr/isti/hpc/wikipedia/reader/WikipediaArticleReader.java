@@ -77,9 +77,9 @@ public class WikipediaArticleReader {
 
 	// preference
 	// private static int pool_size = Runtime.getRuntime().availableProcessors() - 1;
-	private static int pool_size = Runtime.getRuntime().availableProcessors();
-	private static int req_pool_size = (int) (Math.ceil(pool_size / 2));
-	private static int max_queue_size = pool_size * 256;
+	private int pool_size = Runtime.getRuntime().availableProcessors();
+	private int req_pool_size = (int) (Math.ceil(pool_size * 0.8 ));
+	private int max_queue_size = pool_size * 256;
 
 
 	private ThreadPoolExecutor texecutor;
@@ -103,6 +103,63 @@ public class WikipediaArticleReader {
 	public WikipediaArticleReader(String inputFile, String outputFile,
 			String lang) {
 		this(new File(inputFile), new File(outputFile), lang);
+	}
+
+
+	/**
+	 * Generates a converter from the xml to json dump.
+	 *
+	 * @param outputFile
+	 *            - the json output file, containing one article per line (if
+	 *            the filename ends with <tt>.gz </tt> the output will be
+	 *            compressed).
+	 *
+	 * @param lang
+	 *            - the language of the dump
+	 * @param numThreads
+	 *            - the number of max threads in the pool
+	 *
+	 *
+	 */
+	public WikipediaArticleReader(String outputPath, String l, int numThreads) {
+
+		File outputFile = new File(outputPath);
+		JsonConverter handler = new JsonConverter();
+		lang = l;
+
+		pool_size = numThreads;
+		// req_pool_size = (int) (Math.ceil(pool_size / 2));
+		req_pool_size = (int) (Math.ceil(pool_size * 0.8));
+
+		max_queue_size = pool_size * 256;
+
+		tqueue = new ArrayBlockingQueue<Runnable>(max_queue_size);
+
+		texecutor =  new ThreadPoolExecutor(req_pool_size, pool_size, 2, TimeUnit.SECONDS, tqueue);
+		texecutor.allowCoreThreadTimeOut(true);
+
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+		    public void run() {
+
+		    	try{ //close if still open somehow because of threading
+		    		out.close();
+		    	} catch (IOException e) {
+					logger.error("closing the stream {}", e.toString());
+		    	}
+
+		    }
+		});
+
+		try {
+			wxp = new WikiXMLParser(System.in, handler);
+		} catch (Exception e) {
+			logger.error("creating the parser {}", e.toString());
+			System.exit(-1);
+		}
+
+		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile.getAbsolutePath());
+
 	}
 
 	/**
@@ -156,6 +213,7 @@ public class WikipediaArticleReader {
 		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile.getAbsolutePath());
 
 	}
+
 
 
 	/**
