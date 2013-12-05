@@ -19,7 +19,7 @@ or
 
 	./scripts/convert-xml-dump-to-json.sh [en|it] wikipedia-dump.xml.bz wikipedia-dump.json[.gz]
 
-produces in `wikipedia-dump.json` the JSON version of the dump. Each line of the file contains an article 
+produces in `wikipedia-dump.json` the JSON version of the dump ([here you can find an example](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia-sample.json)). Each line of the file contains an article 
 of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html) object, 
 which represents an 
 _enriched_ version of the wikitext page. The Article object contains: 
