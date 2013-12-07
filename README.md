@@ -1,7 +1,7 @@
 json-wikipedia ![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia.png) 
 ==============
 
- Json Wikipedia contains code to convert the Wikipedia XML dump in a [JSON][json] dump.
+ Json Wikipedia contains code to convert the Wikipedia XML dump into a [JSON][json] dump.
 
 #### Setup ####
 
@@ -19,7 +19,7 @@ or
 
 	./scripts/convert-xml-dump-to-json.sh [en|it] wikipedia-dump.xml.bz wikipedia-dump.json[.gz]
 
-produces in `wikipedia-dump.json` the JSON version of the dump. Each line of the file contains an article 
+produces in `wikipedia-dump.json` the JSON version of the dump ([here you can find an example](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia-sample.json)). Each line of the file contains an article 
 of dump encoded in JSON. Each JSON line can be deserialized in an [Article](http://sassicaia.isti.cnr.it/javadocs/json-wikipedia/it/cnr/isti/hpc/wikipedia/article/Article.html) object, 
 which represents an 
 _enriched_ version of the wikitext page. The Article object contains: 
@@ -34,13 +34,14 @@ _enriched_ version of the wikitext page. The Article object contains:
   * a list of  tables that appear in the article ;
   * a list of lists that  that appear in the article ;
   * a list  of internal links that appear in the article;
+  * a list of external links that appear in the article;
   * if the article  is a redirect, the pointed article;
   * a list of section titles in the article;
-  * the text of the article, divided in paragraphs;
+  * the text of the article, divided in paragraphs (PLAIN, no wikitext);
   * the categories and the templates of the articles;
   * the list of attributes found in the templates;
   * a list of terms highlighted in the article;
-  * if present, the infobox.
+  * if present, the infobox. 
   
 #### Usage ####
 

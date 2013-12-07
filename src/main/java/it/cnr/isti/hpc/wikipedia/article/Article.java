@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 
 /**
  * Article represents an article in the Wikipedia dump.
- * 
+ *
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
  */
 public class Article {
@@ -57,6 +57,7 @@ public class Article {
 	private List<Link> images;
 	protected List<List<String>> lists;
 	private List<Link> links;
+	private List<Link> externalLinks;
 	protected String redirect;
 	private List<String> sections;
 	private List<String> paragraphs;
@@ -131,7 +132,7 @@ public class Article {
 
 	/**
 	 * the redirect without the anchor, e.g., da_vinci#life -> da_vinci
-	 * 
+	 *
 	 * @return the redirect without the anchor
 	 */
 	public String getRedirectNoAnchor() {
@@ -386,6 +387,10 @@ public class Article {
 		for (Link l : getLinks())
 			sb.append("\t").append(l).append("\n");
 
+		sb.append("EXTERNALLINKS:\n");
+		for (Link l : getExternalLinks())
+			sb.append("\t").append(l).append("\n");
+
 		sb.append("CATEGORIES:\n");
 		for (Link l : getCategories())
 			sb.append("\t").append(l).append("\n");
@@ -397,7 +402,7 @@ public class Article {
 
 	/**
 	 * Removes the TEMPLATE text from the row text of the article.
-	 * 
+	 *
 	 * @param text
 	 * @return the 'cleaned' text
 	 */
@@ -451,8 +456,18 @@ public class Article {
 		return links;
 	}
 
+	public List<Link> getExternalLinks() {
+		if (externalLinks == null)
+			return Collections.emptyList();
+		return externalLinks;
+	}
+
 	public void setLinks(List<Link> links) {
 		this.links = links;
+	}
+
+	public void setExternalLinks(List<Link> links) {
+		this.externalLinks = links;
 	}
 
 	public void addCategory(Link category) {

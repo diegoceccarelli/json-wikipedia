@@ -1,0 +1,7 @@
+## CREDITS.txt
+
+
+### Contributors
+
+Mike Huffman - added the external links for each article;
+Sara Montesi - http://www.saramontesi.it/ - json-wikipedia logo;

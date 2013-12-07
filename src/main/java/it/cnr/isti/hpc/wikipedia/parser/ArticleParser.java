@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
@@ -44,11 +44,11 @@ import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 /**
  * Generates a Mediawiki parser given a language, (it will expect to find a
  * locale file in <tt>src/main/resources/</tt>).
- * 
+ *
  * @see Locale
- * 
+ *
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
- * 
+ *
  *         Created on Feb 14, 2013
  */
 public class ArticleParser {
@@ -325,6 +325,7 @@ public class ArticleParser {
 	private void setLinks(Article article, ParsedPage page) {
 
 		List<Link> links = new ArrayList<Link>(10);
+		List<Link> elinks = new ArrayList<Link>(10);
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
 			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
@@ -332,8 +333,14 @@ public class ArticleParser {
 				links.add(new Link(t.getTarget(), t.getText()));
 
 			}
+			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
+
+				elinks.add(new Link(t.getTarget(), t.getText()));
+
+			}
 		}
 		article.setLinks(links);
+		article.setExternalLinks(elinks);
 	}
 
 	private void setTemplates(Article article, ParsedPage page) {
@@ -355,7 +362,7 @@ public class ArticleParser {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param templateParameters
 	 */
 	private void parseTemplatesSchema(Article article,
