@@ -159,25 +159,7 @@
 		           </configuration>
 		    </plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<configuration>
-					<fromDir>javadoc</fromDir>
-					<toDir>${artifactId}</toDir>
-					<url>scp://sassicaia.isti.cnr.it:/var/www/javadocs</url>
-				</configuration>
-				<executions>
-					<execution>
-						<id>javadoc</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>upload</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			
 
 		</plugins>
 	</build>
