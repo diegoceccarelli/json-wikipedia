@@ -74,6 +74,22 @@ and import the project in your new maven project adding the dependency:
 		<artifactId>json-wikipedia</artifactId>
 		<version>1.0.0</version>
 	</dependency> 
+	
+
+#### I need to go fast! Parallel Json-Wikipedia ####
+Mike Huffman wrote a parallel version of Json-Wikipedia. With his changes, on a c3.8xlarge he's 
+able to unzip and process the entire .bz2 dump in 20m2.596s. Compared to the original single-threaded 
+version that takes 149m57.215s on the same hardware, it is **7.5 times faster** ;). 
+
+Mike suggests to use [lbzip2](https://github.com/kjn/lbzip2) to unzip the archive. It it multithreaded and only takes a few minutes on fast hardware (2 to 5 minutes average vs. 20+ minutes using bunzip2, or even longer with the java bzip2 code). 
+
+Please note that **the order of the output is different**, because different threads write when available. 
+If you filter strictly for articles and categories, and sort the files, they will by identical.
+
+You can run the fast parallel version with: 
+
+	curl -s http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2 | lbzip2 -n 5 -cd | ./scripts/pipe-xml-to-json.sh en /sdf/wp_dump4.json 25
+
 
 #### Useful Links ####
 
