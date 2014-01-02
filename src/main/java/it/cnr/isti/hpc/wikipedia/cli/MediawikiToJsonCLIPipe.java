@@ -1,0 +1,116 @@
+/**
+ *  Copyright 2011 Diego Ceccarelli
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package it.cnr.isti.hpc.wikipedia.cli;
+
+import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
+import it.cnr.isti.hpc.wikipedia.article.Article;
+import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MediawikiToJsonCLIPipe converts a Wikipedia Dump in Json.
+ * <br/>
+ * <br/>
+ * <code>MediawikiToJsonCLIPipe  wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] -threads num_threads</code>
+ * <br/>
+ * <br/>
+ * produces in wikipedia-dump.json the JSON version of the dump. Each line of the file contains an article
+ * of dump encoded in JSON. Each JSON line can be deserialized in an Article object, which represents an
+ * <b> enriched </b> version of the wikitext page. The Article object contains:
+ *
+ * <ul>
+ * <li> the title (e.g., Leonardo Da Vinci);</li>
+ * <li> the wikititle (used in Wikipedia as key, e.g., Leonardo_Da_Vinci);</li>
+ * <li> the namespace and the integer namespace in the dump;</li>
+ * <li> the timestamp of the article;</li>
+ * <li> the type, if it is a standard article, a redirection, a category and so on;</li>
+ * <li> if it is not in English the title of the corrispondent English Article;</li>
+ * <li> a list of  tables that appear in the article ;</li>
+ * <li> a list of lists that  that appear in the article ;</li>
+ * <li> a list  of internal links that appear in the article;</li>
+ * <li> if the article  is a redirect, the pointed article;</li>
+ * <li> a list of section titles in the article;</li>
+ * <li> the text of the article, divided in paragraphs;</li>
+ * <li> the categories and the templates of the articles;</li>
+ * <li> the list of attributes found in the templates;</li>
+ * <li> a list of terms highlighted in the article;</li>
+ * <li> if present the infobox.</li>
+ * </ul>
+ *
+ * Once you have created (or downloaded) the JSON dump (say <code>wikipedia.json</code>), you can iterate over the articles of the collection
+ * easily using this snippet:
+ * <br/>
+ * <br/>
+ * <br/>
+ * <pre>
+ * {@code
+ * RecordReader<Article> reader = new RecordReader<Article>(
+ * 			"wikipedia.json",new JsonRecordParser<Article>(Article.class)
+ * ).filter(TypeFilter.STD_FILTER);
+ *
+ * for (Article a : reader) {
+ * 	 // do what you want with your articles
+ * }
+ *
+ * }
+ * </pre>
+ * <br/>
+ * <br/>
+ *
+ * You can also add some filters in order to iterate on only certain articles (in the example
+ * we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages.
+ *
+ * @see Article
+ * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
+ */
+public class MediawikiToJsonCLIPipe extends AbstractCommandLineInterface {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(MediawikiToJsonCLIPipe.class);
+
+	private static String[] params = new String[] { OUTPUT, "lang", "threads" };
+
+	private static final String USAGE = "PIPED_XML_DATA | java -cp $jar "
+			+ MediawikiToJsonCLIPipe.class
+			+ " -output wikipedia-dump.json -lang [en|it] -threads num_threads";
+
+	public MediawikiToJsonCLIPipe(String[] args) {
+		super(args, params, USAGE);
+	}
+
+	public static void main(String[] args) {
+
+		MediawikiToJsonCLIPipe cli = new MediawikiToJsonCLIPipe(args);
+		String output = cli.getOutput();
+		String lang = cli.getParam("lang");
+		int num_threads = Integer.parseInt(cli.getParam("threads"));
+
+		WikipediaArticleReader wap = new WikipediaArticleReader(output, lang, num_threads);
+
+		try {
+			wap.start();
+		} catch (Exception e) {
+			logger.error("parsing the mediawiki {}", e.toString());
+			System.exit(-1);
+		}
+
+	}
+
+}
