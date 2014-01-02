@@ -33,7 +33,7 @@ then
 
     echo "piping mediawiki to json dump ($WIKI_JSON_DUMP)"
 
-    $JAVA  it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLIPipe -output $WIKI_JSON_DUMP -lang $LANG -threads $NUM_THREADS
+    $JAVA  it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonPipeCLI -output $WIKI_JSON_DUMP -lang $LANG -threads $NUM_THREADS
 
 else
     echo "No piped input stream found."

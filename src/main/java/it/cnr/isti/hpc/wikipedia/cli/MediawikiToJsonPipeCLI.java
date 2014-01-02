@@ -78,26 +78,26 @@ import org.slf4j.LoggerFactory;
  * @see Article
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
  */
-public class MediawikiToJsonCLIPipe extends AbstractCommandLineInterface {
+public class MediawikiToJsonPipeCLI extends AbstractCommandLineInterface {
 	/**
 	 * Logger for this class
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(MediawikiToJsonCLIPipe.class);
+			.getLogger(MediawikiToJsonPipeCLI.class);
 
 	private static String[] params = new String[] { OUTPUT, "lang", "threads" };
 
 	private static final String USAGE = "PIPED_XML_DATA | java -cp $jar "
-			+ MediawikiToJsonCLIPipe.class
+			+ MediawikiToJsonPipeCLI.class
 			+ " -output wikipedia-dump.json -lang [en|it] -threads num_threads";
 
-	public MediawikiToJsonCLIPipe(String[] args) {
+	public MediawikiToJsonPipeCLI(String[] args) {
 		super(args, params, USAGE);
 	}
 
 	public static void main(String[] args) {
 
-		MediawikiToJsonCLIPipe cli = new MediawikiToJsonCLIPipe(args);
+		MediawikiToJsonPipeCLI cli = new MediawikiToJsonPipeCLI(args);
 		String output = cli.getOutput();
 		String lang = cli.getParam("lang");
 		int num_threads = Integer.parseInt(cli.getParam("threads"));
