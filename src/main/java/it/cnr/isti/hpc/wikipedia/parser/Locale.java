@@ -27,14 +27,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Models the locale for a language.
- *
+ * 
  * @author Diego Ceccarelli <diego.ceccarelli@isti.cnr.it>
- *
+ * 
  *         Created on Feb 14, 2013
  */
 public class Locale {
 
-	private Properties properties;
+	private final Properties properties;
 
 	private static final Logger logger = LoggerFactory.getLogger(Locale.class);
 	private static final String SEPARATOR = ",";
@@ -51,14 +51,14 @@ public class Locale {
 			System.exit(-1);
 		}
 
-		// logger.info("using {} language ",properties.get("language"));
+		logger.info("using {} language ", properties.get("language"));
 
 	}
 
 	private List<String> getValues(String key) {
 
 		String val = properties.getProperty(key);
-		if (val == null){
+		if (val == null) {
 			return Collections.emptyList();
 		}
 		List<String> values = new ArrayList<String>();

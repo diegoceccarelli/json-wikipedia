@@ -17,7 +17,7 @@ package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+import it.cnr.isti.hpc.wikipedia.reader.ParallelWikipediaArticleReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +102,7 @@ public class MediawikiToJsonCLIPipe extends AbstractCommandLineInterface {
 		String lang = cli.getParam("lang");
 		int num_threads = Integer.parseInt(cli.getParam("threads"));
 
-		WikipediaArticleReader wap = new WikipediaArticleReader(output, lang, num_threads);
+		ParallelWikipediaArticleReader wap = new ParallelWikipediaArticleReader(output, lang, num_threads);
 
 		try {
 			wap.start();

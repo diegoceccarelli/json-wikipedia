@@ -14,14 +14,12 @@
  *  limitations under the License.
  */
 
-
 package it.cnr.isti.hpc.wikipedia.reader;
 
 import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 import info.bliki.wiki.dump.WikiXMLParser;
-import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.Article;
@@ -31,43 +29,34 @@ import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import java.util.concurrent.ArrayBlockingQueue;
-
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * A reader that converts a Wikipedia dump in its json dump. The json dump will
  * contain all the article in the XML dump, one article per line. Each line will
  * be compose by the json serialization of the object Article.
- *
+ * 
  * @see Article
- *
+ * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 18/nov/2011
  */
-public class WikipediaArticleReader {
+public class ParallelWikipediaArticleReader {
 	/**
 	 * Logger for this class
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(WikipediaArticleReader.class);
+			.getLogger(ParallelWikipediaArticleReader.class);
 
 	private WikiXMLParser wxp;
-	private BufferedWriter out;
-	private String lang;
+	private final BufferedWriter out;
+	private final String lang;
 
-	public static final List<Type> OK_TYPES = Arrays.asList(new Type[] {Type.ARTICLE, Type.CATEGORY});
 	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
 			10000);
 
@@ -76,52 +65,52 @@ public class WikipediaArticleReader {
 	private int gc_counter = 0;
 
 	// preference
-	// private static int pool_size = Runtime.getRuntime().availableProcessors() - 1;
+	// private static int pool_size = Runtime.getRuntime().availableProcessors()
+	// - 1;
 	private int pool_size = Runtime.getRuntime().availableProcessors();
-	private int req_pool_size = (int) (Math.ceil(pool_size * 0.8 ));
+	private int req_pool_size = (int) (Math.ceil(pool_size * 0.8));
 	private int max_queue_size = pool_size * 256;
-
 
 	private ThreadPoolExecutor texecutor;
 	private ArrayBlockingQueue<Runnable> tqueue;
 
 	/**
 	 * Generates a converter from the xml to json dump.
-	 *
+	 * 
 	 * @param inputFile
 	 *            - the xml file (compressed)
 	 * @param outputFile
 	 *            - the json output file, containing one article per line (if
 	 *            the filename ends with <tt>.gz </tt> the output will be
 	 *            compressed).
-	 *
+	 * 
 	 * @param lang
 	 *            - the language of the dump
-	 *
-	 *
+	 * 
+	 * 
 	 */
-	public WikipediaArticleReader(String inputFile, String outputFile,
+	public ParallelWikipediaArticleReader(String inputFile, String outputFile,
 			String lang) {
 		this(new File(inputFile), new File(outputFile), lang);
 	}
 
-
 	/**
 	 * Generates a converter from the xml to json dump.
-	 *
+	 * 
 	 * @param outputFile
 	 *            - the json output file, containing one article per line (if
 	 *            the filename ends with <tt>.gz </tt> the output will be
 	 *            compressed).
-	 *
+	 * 
 	 * @param lang
 	 *            - the language of the dump
 	 * @param numThreads
 	 *            - the number of max threads in the pool
-	 *
-	 *
+	 * 
+	 * 
 	 */
-	public WikipediaArticleReader(String outputPath, String l, int numThreads) {
+	public ParallelWikipediaArticleReader(String outputPath, String l,
+			int numThreads) {
 
 		File outputFile = new File(outputPath);
 		JsonConverter handler = new JsonConverter();
@@ -135,20 +124,21 @@ public class WikipediaArticleReader {
 
 		tqueue = new ArrayBlockingQueue<Runnable>(max_queue_size);
 
-		texecutor =  new ThreadPoolExecutor(req_pool_size, pool_size, 2, TimeUnit.SECONDS, tqueue);
+		texecutor = new ThreadPoolExecutor(req_pool_size, pool_size, 2,
+				TimeUnit.SECONDS, tqueue);
 		texecutor.allowCoreThreadTimeOut(true);
 
-
 		Runtime.getRuntime().addShutdownHook(new Thread() {
-		    public void run() {
+			@Override
+			public void run() {
 
-		    	try{ //close if still open somehow because of threading
-		    		out.close();
-		    	} catch (IOException e) {
+				try { // close if still open somehow because of threading
+					out.close();
+				} catch (IOException e) {
 					logger.error("closing the stream {}", e.toString());
-		    	}
+				}
 
-		    }
+			}
 		});
 
 		try {
@@ -158,49 +148,52 @@ public class WikipediaArticleReader {
 			System.exit(-1);
 		}
 
-		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile.getAbsolutePath());
+		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile
+				.getAbsolutePath());
 
 	}
 
 	/**
 	 * Generates a converter from the xml to json dump.
-	 *
+	 * 
 	 * @param inputFile
 	 *            - the xml file (compressed)
 	 * @param outputFile
 	 *            - the json output file, containing one article per line (if
 	 *            the filename ends with <tt>.gz </tt> the output will be
 	 *            compressed).
-	 *
+	 * 
 	 * @param lang
 	 *            - the language of the dump
-	 *
-	 *
+	 * 
+	 * 
 	 */
-	public WikipediaArticleReader(File inputFile, File outputFile, String l) {
+	public ParallelWikipediaArticleReader(File inputFile, File outputFile,
+			String l) {
 		JsonConverter handler = new JsonConverter();
 		// encoder = new JsonRecordParser<Article>(Article.class);
 		// parser = new ArticleParser(lang);
 		lang = l;
 
 		// if(texecutor == null){
-			tqueue = new ArrayBlockingQueue<Runnable>(max_queue_size);
+		tqueue = new ArrayBlockingQueue<Runnable>(max_queue_size);
 
-			texecutor =  new ThreadPoolExecutor(req_pool_size, pool_size, 2, TimeUnit.SECONDS, tqueue);
-			texecutor.allowCoreThreadTimeOut(true);
+		texecutor = new ThreadPoolExecutor(req_pool_size, pool_size, 2,
+				TimeUnit.SECONDS, tqueue);
+		texecutor.allowCoreThreadTimeOut(true);
 		// }
 
-
 		Runtime.getRuntime().addShutdownHook(new Thread() {
-		    public void run() {
+			@Override
+			public void run() {
 
-		    	try{ //close if still open somehow because of threading
-		    		out.close();
-		    	} catch (IOException e) {
+				try { // close if still open somehow because of threading
+					out.close();
+				} catch (IOException e) {
 					logger.error("closing the stream {}", e.toString());
-		    	}
+				}
 
-		    }
+			}
 		});
 
 		try {
@@ -210,11 +203,10 @@ public class WikipediaArticleReader {
 			System.exit(-1);
 		}
 
-		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile.getAbsolutePath());
+		out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile
+				.getAbsolutePath());
 
 	}
-
-
 
 	/**
 	 * Starts the parsing
@@ -225,30 +217,30 @@ public class WikipediaArticleReader {
 
 		texecutor.shutdown();
 
+		// try{
+		// if (!executor.awaitTermination(1,
+		// java.util.concurrent.TimeUnit.MINUTES)){
+		// System.out.println("Threads didn't finish in 1 minutes!");
+		// }else{
 
 		// try{
-		// 	if (!executor.awaitTermination(1, java.util.concurrent.TimeUnit.MINUTES)){
-		// 		System.out.println("Threads didn't finish in 1 minutes!");
-		// 	}else{
-
-		//     	try{
-		//     		out.close();
-		//     	} catch (IOException e) {
-		// 			logger.error("closing the stream {}", e.toString());
-		//     	}
-
-		// 	}
-
-		// }catch(InterruptedException e2){
-		// 	System.out.println("Error waiting for pool to close");
+		// out.close();
+		// } catch (IOException e) {
+		// logger.error("closing the stream {}", e.toString());
 		// }
 
+		// }
+
+		// }catch(InterruptedException e2){
+		// System.out.println("Error waiting for pool to close");
+		// }
 
 	}
 
 	private synchronized void writeJson(String artjson) {
 
-		//may not be necessary, but not taking any chances since multiple threads writing
+		// may not be necessary, but not taking any chances since multiple
+		// threads writing
 		synchronized (lock) {
 			try {
 				out.write(artjson);
@@ -262,19 +254,16 @@ public class WikipediaArticleReader {
 
 	}
 
-
 	private class JsonThread implements Runnable {
 
-	    private WikiArticle page;
+		private WikiArticle page;
 
-	    JsonThread(WikiArticle p){
-	        page = p;
-	    }
-
+		JsonThread(WikiArticle p) {
+			page = p;
+		}
 
 		@Override
-		public void run(){
-
+		public void run() {
 
 			String title = page.getTitle();
 			String id = page.getId();
@@ -298,34 +287,30 @@ public class WikipediaArticleReader {
 			if (page.isMain())
 				type = Type.ARTICLE;
 
+			Article article = new Article();
+			article.setTitle(title);
+			article.setWikiId(Integer.parseInt(id));
+			article.setNamespace(namespace);
+			article.setIntegerNamespace(integerNamespace);
+			article.setTimestamp(timestamp);
+			article.setType(type);
 
-			if( OK_TYPES.contains(type) ){
-				Article article = new Article();
-				article.setTitle(title);
-				article.setWikiId(Integer.parseInt(id));
-				article.setNamespace(namespace);
-				article.setIntegerNamespace(integerNamespace);
-				article.setTimestamp(timestamp);
-				article.setType(type);
+			ArticleParser parser = new ArticleParser(lang);
 
-				ArticleParser parser = new ArticleParser(lang);
+			parser.parse(article, page.getText());
+			String jres = article.toJson();
 
-				parser.parse(article, page.getText());
-				String jres = article.toJson();
+			// //REMOVE TESTING
+			// String jres = "";
 
-				// //REMOVE TESTING
-				// String jres = "";
+			writeJson(jres);
 
-				writeJson(jres);
+			// just to be sure for garbage collection
+			article = null;
+			parser = null;
+			jres = null;
 
-				//just to be sure for garbage collection
-				article = null;
-				parser = null;
-				jres = null;
-
-			}
-
-			//just to be sure for garbage collection
+			// just to be sure for garbage collection
 			page = null;
 			title = null;
 			namespace = null;
@@ -333,93 +318,88 @@ public class WikipediaArticleReader {
 			integerNamespace = null;
 			timestamp = null;
 
-
-			//increment progress count here
-	        pl.up();
-
+			// increment progress count here
+			pl.up();
 
 		}
 
 	}
 
-
 	private class JsonConverter implements IArticleFilter {
+		@Override
 		public void process(WikiArticle page, Siteinfo si) {
 
-			//garbage collection is terrible for threadpools
-			//create threadpool if necessary
+			// garbage collection is terrible for threadpools
+			// create threadpool if necessary
 
-
-
-			//this is bullshit! why is this nec. to avoid overflows?
-			//does not seem to function on big servers without
-			///first let's garbage collect periodically
+			// this is bullshit! why is this nec. to avoid overflows?
+			// does not seem to function on big servers without
+			// /first let's garbage collect periodically
 
 			synchronized (lock) {
 				gc_counter = gc_counter + 1;
 
 				// maybe do this less freq.
-				if(gc_counter % (pool_size * 1000) == 0){
-// System.out.println("garbage collect here");
+				if (gc_counter % (pool_size * 1000) == 0) {
+					// System.out.println("garbage collect here");
 
-// System.out.println("##### Heap utilization statistics [MB] #####");
-// int mb = 1024*1024;
-// System.out.println("Used Memory:" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / mb);
-// System.out.println("Free Memory:" + Runtime.getRuntime().freeMemory() / mb);
-// System.out.println("Total Memory:" + Runtime.getRuntime().totalMemory() / mb);
-// System.out.println("Max Memory:" + Runtime.getRuntime().maxMemory() / mb);
+					// System.out.println("##### Heap utilization statistics [MB] #####");
+					// int mb = 1024*1024;
+					// System.out.println("Used Memory:" +
+					// (Runtime.getRuntime().totalMemory() -
+					// Runtime.getRuntime().freeMemory()) / mb);
+					// System.out.println("Free Memory:" +
+					// Runtime.getRuntime().freeMemory() / mb);
+					// System.out.println("Total Memory:" +
+					// Runtime.getRuntime().totalMemory() / mb);
+					// System.out.println("Max Memory:" +
+					// Runtime.getRuntime().maxMemory() / mb);
 
-// System.out.println("%% shutdown threadpool");
+					// System.out.println("%% shutdown threadpool");
 					texecutor.shutdown();
 					texecutor.purge();
 
-
-// System.out.println("%% waiting for cleanup");
-					while(texecutor.getActiveCount() > req_pool_size){
+					// System.out.println("%% waiting for cleanup");
+					while (texecutor.getActiveCount() > req_pool_size) {
 						try {
-						    Thread.sleep(100);
-						} catch(InterruptedException ex2) {
-						    Thread.currentThread().interrupt();
+							Thread.sleep(100);
+						} catch (InterruptedException ex2) {
+							Thread.currentThread().interrupt();
 						}
 
 					}
 
-
-					//delete all the things!
-					//seems to be required for gc to act correctly
-// System.out.println("%% renewing everything");
+					// delete all the things!
+					// seems to be required for gc to act correctly
+					// System.out.println("%% renewing everything");
 					tqueue = null;
 					texecutor = null;
-					System.gc(); //reming gc that we have nulled
+					System.gc(); // reming gc that we have nulled
 
-					//new setup
+					// new setup
 					tqueue = new ArrayBlockingQueue<Runnable>(max_queue_size);
-					texecutor =  new ThreadPoolExecutor(req_pool_size, pool_size, 2, TimeUnit.SECONDS, tqueue);
+					texecutor = new ThreadPoolExecutor(req_pool_size,
+							pool_size, 2, TimeUnit.SECONDS, tqueue);
 					texecutor.allowCoreThreadTimeOut(true);
 
 				}
 
-
 			}
 
+			// if everything is cool proceed if possible
 
-			//if everything is cool proceed if possible
-
-			while(tqueue.size() == max_queue_size){
+			while (tqueue.size() == max_queue_size) {
 				try {
-				    Thread.sleep(50);
-				} catch(InterruptedException ex2) {
-				    Thread.currentThread().interrupt();
+					Thread.sleep(50);
+				} catch (InterruptedException ex2) {
+					Thread.currentThread().interrupt();
 				}
 
 			}
 
-
-			//add thread
+			// add thread
 			Runnable worker = new JsonThread(page);
 			texecutor.execute(worker);
-
-
 
 			return;
 		}

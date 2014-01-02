@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+import it.cnr.isti.hpc.wikipedia.reader.ParallelWikipediaArticleReader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class WikipediaArticleReaderTest {
 	@Test
 	public void testParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
-		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),"/tmp/mercedes.json.gz", Language.EN);
+		ParallelWikipediaArticleReader wap = new ParallelWikipediaArticleReader(u.getFile(),"/tmp/mercedes.json.gz", Language.EN);
 		wap.start();
 		String json = IOUtils.getFileAsUTF8String("/tmp/mercedes.json.gz");
 		Article a = Article.fromJson(json);
