@@ -15,16 +15,13 @@
 	</appender>
 
 
+
+
+	<logger name="it.cnr.isti.hpc.property" level="ERROR" />
+	<logger name="it.cnr.isti.hpc.wikipedia.parser.Locale" level="ERROR" />
+	
 	<root level="${log:-INFO}">
 		<appender-ref ref="A1" />
 	</root>
-
-	<logger name="it.cnr.isti.hpc.property" level="ERROR" />
-	<logger name="it.cnr.isti.hpc.text" level="ERROR" />
-	<logger name="it.cnr.isti.hpc.jdbm" level="ERROR" />
-	<logger name="it.cnr.isti.hpc.dexter.lucene" level="ERROR" />
-	<logger name="it.cnr.isti.hpc.dexter.spot.repo" level="ERROR" />
-	<logger name="it.cnr.isti.hpc.eire.query.MostProbableQueryEntityReader"
-		level="ERROR" />
 
 </configuration>
