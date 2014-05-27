@@ -122,7 +122,7 @@
 		                    <extension>
 		                       <groupId>org.apache.maven.wagon</groupId>
 		                       <artifactId>wagon-ssh</artifactId>
-		                       <version>2.4</version>
+		                       <version>3.1.1</version>
 		                     </extension>
 		                   </extensions>
 						
