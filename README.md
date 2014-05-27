@@ -83,3 +83,7 @@ and import the project in your new maven project adding the dependency:
 
 
 [json]: http://www.json.org/fatfree.html "JSON: The Fat-Free Alternative to XML"
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/diegoceccarelli/json-wikipedia/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
