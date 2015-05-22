@@ -74,6 +74,60 @@ and import the project in your new maven project adding the dependency:
 		<artifactId>json-wikipedia</artifactId>
 		<version>1.0.0</version>
 	</dependency> 
+	
+#### Schema ####
+
+```
+ |-- categories: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- externalLinks: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- highlights: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- infobox: struct (nullable = true)
+ |    |-- description: array (nullable = true)
+ |    |    |-- element: string (containsNull = false)
+ |    |-- name: string (nullable = true)
+ |-- integerNamespace: integer (nullable = true)
+ |-- lang: string (nullable = true)
+ |-- links: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- lists: array (nullable = true)
+ |    |-- element: array (containsNull = false)
+ |    |    |-- element: string (containsNull = false)
+ |-- namespace: string (nullable = true)
+ |-- paragraphs: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- redirect: string (nullable = true)
+ |-- sections: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- tables: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- name: string (nullable = true)
+ |    |    |-- numCols: integer (nullable = true)
+ |    |    |-- numRows: integer (nullable = true)
+ |    |    |-- table: array (nullable = true)
+ |    |    |    |-- element: array (containsNull = false)
+ |    |    |    |    |-- element: string (containsNull = false)
+ |-- templates: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: array (nullable = true)
+ |    |    |    |-- element: string (containsNull = false)
+ |    |    |-- name: string (nullable = true)
+ |-- templatesSchema: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- timestamp: string (nullable = true)
+ |-- title: string (nullable = true)
+ |-- type: string (nullable = true)
+ |-- wid: integer (nullable = true)
+ |-- wikiTitle: string (nullable = true)
+```
 
 #### Useful Links ####
 
