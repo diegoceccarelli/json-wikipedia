@@ -4,5 +4,8 @@
 ### Contributors
 
 Hadi Shariaty - Farsi language locale
-Mike Huffman - added the external links for each article;
-Sara Montesi - json-wikipedia logo;
+Mike Huffman  - added the external links for each article;
+Sara Montesi  - json-wikipedia logo;
+Thiago Galery - several patches
+rod3go        - several patches
+

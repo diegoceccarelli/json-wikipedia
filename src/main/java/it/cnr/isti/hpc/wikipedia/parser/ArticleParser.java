@@ -15,6 +15,10 @@
  */
 package it.cnr.isti.hpc.wikipedia.parser;
 
+import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
+import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
+import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
+import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 import it.cnr.isti.hpc.wikipedia.article.Language;
@@ -23,7 +27,6 @@ import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,10 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.tudarmstadt.ukp.wikipedia.parser.Content;
-import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
-import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
-import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
-import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
 import de.tudarmstadt.ukp.wikipedia.parser.Paragraph;
 import de.tudarmstadt.ukp.wikipedia.parser.ParsedPage;
 import de.tudarmstadt.ukp.wikipedia.parser.Section;
@@ -62,10 +61,10 @@ public class ArticleParser {
 	private String lang = Language.EN;
 
 	static int shortDescriptionLength = 500;
-	private List<String> redirects;
+	private final List<String> redirects;
 
-	private MediaWikiParser parser;
-	private Locale locale;
+	private final MediaWikiParser parser;
+	private final Locale locale;
 
 	public ArticleParser(String lang) {
 		this.lang = lang;
@@ -83,7 +82,7 @@ public class ArticleParser {
 	}
 
 	public void parse(Article article, String mediawiki) {
-		ParsedPage page = parser.parse(mediawiki);
+		final ParsedPage page = parser.parse(mediawiki);
 		setRedirect(article, mediawiki);
 
 		parse(article, page);
@@ -112,319 +111,8 @@ public class ArticleParser {
 		setIsList(article);
 	}
 
-	// /**
-	// * @param article
-	// */
-	// private void setShortDescription(Article article) {
-	// StringBuilder sb = new StringBuilder();
-	// for (String paragraph : article.getParagraphs()) {
-	// paragraph = removeTemplates(paragraph);
-	// sb.append(paragraph);
-	// if (sb.length() > shortDescriptionLength) {
-	// break;
-	// }
-	// }
-	// if (sb.length() > shortDescriptionLength) {
-	// sb.setLength(shortDescriptionLength);
-	// int pos = sb.lastIndexOf(" ");
-	// sb.setLength(pos);
-	// }
-	// article.setShortDescription(sb.toString());
-	//
-	// }
-
-	// private final static String templatePattern = "TEMPLATE\\[[^]]+\\]";
-	//
-	// private static String removeTemplates(String paragraph) {
-	// paragraph = paragraph.replaceAll(templatePattern, " ");
-	//
-	// return paragraph;
-	// }
-
-	/**
-	 * @param article
-	 */
-	private void setWikiTitle(Article article) {
-		article.setWikiTitle(Article.getTitleInWikistyle(article.getTitle()));
-
-	}
-
-	/**
-	 * @param article
-	 */
-	private void setIsList(Article article) {
-		for (String list : locale.getListIdentifiers()) {
-			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
-				article.setType(Type.LIST);
-			}
-		}
-
-	}
-
-	private void setRedirect(Article article) {
-		if (!article.getRedirect().isEmpty())
-			return;
-		List<List<String>> lists = article.getLists();
-		if ((!lists.isEmpty()) && (! lists.get(0).isEmpty())) {
-			// checking only first item in first list
-			String line = lists.get(0).get(0);
-
-			for (String redirect : redirects) {
-				if (StringUtils.startsWithIgnoreCase(line, redirect)) {
-					int pos = line.indexOf(' ');
-					if (pos < 0)
-						return;
-					String red = line.substring(pos).trim();
-					red = Article.getTitleInWikistyle(red);
-					article.setRedirect(red);
-					article.setType(Type.REDIRECT);
-					return;
-
-				}
-			}
-		}
-	}
-
-	// for (List<String> lists : article.getLists()) {
-	// for (String line : lists) {
-	// for (String redirect : redirects) {
-	// if (StringUtils.startsWithIgnoreCase(line, redirect)) {
-	// int pos = line.indexOf(' ');
-	// if (pos < 0)
-	// return;
-	// String red = line.substring(pos).trim();
-	// red = Article.getTitleInWikistyle(red);
-	// article.setRedirect(red);
-	// article.setType(Type.REDIRECT);
-	// return;
-	//
-	// }
-	// }
-	// }
-	// }
-
-	/**
-	 * @param article
-	 * @param page
-	 */
-	private void setRedirect(Article article, String mediawiki) {
-		for (String redirect : redirects)
-			if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
-				int start = mediawiki.indexOf("[[") + 2;
-				int end = mediawiki.indexOf("]]");
-				if (start < 0 || end < 0) {
-					logger.warn("cannot find the redirect {}\n mediawiki: {}",
-							article.getTitle(), mediawiki);
-					continue;
-				}
-				String r = Article.getTitleInWikistyle(mediawiki.substring(
-						start, end));
-				article.setRedirect(r);
-				article.setType(Type.REDIRECT);
-			}
-
-	}
-
-	/**
-	 * @param page
-	 */
-	private void setTables(Article article, ParsedPage page) {
-		List<Table> tables = new ArrayList<Table>();
-
-		for (de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
-			// System.out.println(t);
-
-			int i = 0;
-			String title = "";
-			if (t.getTitleElement() != null) {
-				title = t.getTitleElement().getText();
-				if (title == null)
-					title = "";
-			}
-			Table table = new Table(title);
-			List<String> currentRow = new ArrayList<String>();
-			List<Content> contentList = t.getContentList();
-			for (@SuppressWarnings("unused")
-			Content c : contentList) {
-
-				int row, col;
-				String elem = "";
-
-				try {
-
-					col = t.getTableElement(i).getCol();
-					row = t.getTableElement(i).getRow();
-					elem = t.getTableElement(i).getText();
-
-				} catch (IndexOutOfBoundsException e) {
-					// logger.(
-					// "Error creating table {}, Index out of bound - content = {}",
-					// table.getName(), c.getText());
-					break;
-
-				}
-				if (row > 0 && col == 0) {
-					if ((currentRow.size() == 1)
-							&& (currentRow.get(0).equals(table.getName()))) {
-						currentRow = new ArrayList<String>();
-					} else {
-						if (!currentRow.isEmpty())
-							table.addRow(currentRow);
-						currentRow = new ArrayList<String>();
-					}
-
-				}
-				currentRow.add(elem);
-				i++;
-			}
-			table.addRow(currentRow);
-			tables.add(table);
-		}
-
-		article.setTables(tables);
-
-	}
-
-	protected void setEnWikiTitle(Article article, ParsedPage page) {
-		if (article.isLang(Language.EN)) {
-			return;
-		}
-		try {
-			if (page.getLanguages() == null) {
-				article.setEnWikiTitle("");
-				return;
-			}
-		} catch (NullPointerException e) {
-			// FIXME title is always null!
-			logger.warn("no languages for page {} ", article.getTitle());
-			return;
-		}
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link l : page.getLanguages())
-			if (l.getText().startsWith("en:")) {
-				article.setEnWikiTitle(l.getTarget().substring(3));
-				break;
-			}
-
-	}
-
-	/**
-	 * @param page
-	 */
-	private void setSections(Article article, ParsedPage page) {
-		List<String> sections = new ArrayList<String>(10);
-		for (Section s : page.getSections()) {
-
-			if (s == null || s.getTitle() == null)
-				continue;
-			sections.add(s.getTitle());
-		}
-		article.setSections(sections);
-
-	}
-
-	private void setLinks(Article article, ParsedPage page) {
-
-		List<Link> links = new ArrayList<Link>(10);
-		List<Link> elinks = new ArrayList<Link>(10);
-
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-
-				links.add(new Link(t.getTarget(), t.getText()));
-
-			}
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-
-				elinks.add(new Link(t.getTarget(), t.getText()));
-
-			}
-		}
-		article.setLinks(links);
-		article.setExternalLinks(elinks);
-	}
-
-	private void setTemplates(Article article, ParsedPage page) {
-		List<Template> templates = new ArrayList<Template>(10);
-
-		for (de.tudarmstadt.ukp.wikipedia.parser.Template t : page
-				.getTemplates()) {
-			List<String> templateParameters = t.getParameters();
-			parseTemplatesSchema(article, templateParameters);
-
-			if (t.getName().toLowerCase().startsWith("infobox")) {
-				article.setInfobox(new Template(t.getName(), templateParameters));
-			} else {
-				templates.add(new Template(t.getName(), templateParameters));
-			}
-		}
-		article.setTemplates(templates);
-
-	}
-
-	/**
-	 *
-	 * @param templateParameters
-	 */
-	private void parseTemplatesSchema(Article article,
-			List<String> templateParameters) {
-		List<String> schema = new ArrayList<String>(10);
-
-		for (String s : templateParameters) {
-			try {
-				if (s.contains("=")) {
-					String attributeName = s.split("=")[0].trim().toLowerCase();
-					schema.add(attributeName);
-				}
-
-			} catch (Exception e) {
-				continue;
-			}
-		}
-		article.addTemplatesSchema(schema);
-
-	}
-
-	private void setCategories(Article article, ParsedPage page) {
-		ArrayList<Link> categories = new ArrayList<Link>(10);
-
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link c : page.getCategories()) {
-
-			categories.add(new Link(c.getTarget(), c.getText()));
-		}
-		article.setCategories(categories);
-
-	}
-
-	private void setHighlights(Article article, ParsedPage page) {
-		List<String> highlights = new ArrayList<String>(20);
-
-		for (Paragraph p : page.getParagraphs()) {
-			for (Span t : p.getFormatSpans(Content.FormatType.BOLD)) {
-				highlights.add(t.getText(p.getText()));
-			}
-			for (Span t : p.getFormatSpans(Content.FormatType.ITALIC)) {
-				highlights.add(t.getText(p.getText()));
-			}
-
-		}
-		article.setHighlights(highlights);
-
-	}
-
-	private void setParagraphs(Article article, ParsedPage page) {
-		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
-		for (Paragraph p : page.getParagraphs()) {
-			String text = p.getText();
-			// text = removeTemplates(text);
-			text = text.replace("\n", " ").trim();
-			if (!text.isEmpty())
-				paragraphs.add(text);
-		}
-		article.setParagraphs(paragraphs);
-	}
-
 	private void setLists(Article article, ParsedPage page) {
-		List<List<String>> lists = new LinkedList<List<String>>();
+		List<List<String>> lists = new ArrayList<List<String>>();
 		for (DefinitionList dl : page.getDefinitionLists()) {
 			List<String> l = new ArrayList<String>();
 			for (ContentElement c : dl.getDefinitions()) {
@@ -434,30 +122,349 @@ public class ArticleParser {
 		}
 		for (NestedListContainer dl : page.getNestedLists()) {
 			List<String> l = new ArrayList<String>();
-			for (NestedList nl : dl.getNestedLists())
+			for (NestedList nl : dl.getNestedLists()) {
 				l.add(nl.getText());
+			}
 			lists.add(l);
 		}
 		article.setLists(lists);
+	}
+
+	/**
+	 * @param article
+	 */
+	private void setWikiTitle(Article article) {
+		article.setWikiTitle(Article.getTitleInWikistyle(article.getTitle()));
 
 	}
 
-	private void setDisambiguation(Article a) {
+	private Link addLink(final List<Link> links, final List<Link> externalLinks, final de.tudarmstadt.ukp.wikipedia.parser.Link link, final Link.Type jsonWikipediaType){
+		if (link.getTarget().isEmpty()){
+			return null;
+		}
 
-		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
-			if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
-				a.setType(Type.DISAMBIGUATION);
-				return;
-			}
-			for (Template t : a.getTemplates()) {
-				if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
-					a.setType(Type.DISAMBIGUATION);
-					return;
+		final Link jsonWikipediaLink;
+		if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
+			jsonWikipediaLink = new Link(link.getTarget(), link.getText(), link.getPos().getStart(), link.getPos().getEnd(), jsonWikipediaType);
+			links.add(jsonWikipediaLink);
+		}
+		else if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL){
+			jsonWikipediaLink = new Link(link.getTarget(), link.getText(), link.getPos().getStart(), link.getPos().getEnd(), jsonWikipediaType);
+			externalLinks.add(new Link(link.getTarget(), link.getText(), link.getPos().getStart(), link.getPos().getEnd(), jsonWikipediaType));
+		}
+		else if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.IMAGE){
+			jsonWikipediaLink = new Link(link.getTarget(), link.getText(), link.getPos().getStart(), link.getPos().getEnd(), Link.Type.IMAGE);
+			links.add(jsonWikipediaLink);
+		}
+		else {
+			jsonWikipediaLink = null;
+		}
+		return jsonWikipediaLink;
 
+
+	}
+
+	private void setLinksInParagraphs(final List<Link> links, final List<Link> externalLinks,  ParsedPage page){
+		int paragraphId = 0;
+		for (Paragraph p : page.getParagraphs()){
+			for (de.tudarmstadt.ukp.wikipedia.parser.Link link : p.getLinks()){
+				Link linkAdded = addLink(links, externalLinks, link, Link.Type.BODY);
+				if (linkAdded != null){
+					linkAdded.setParagraphId(paragraphId);
 				}
 			}
-
+			paragraphId++;
 		}
 	}
+
+	private void setLinksInTables(final List<Link> links, final List<Link> externalLinks,  ParsedPage page){
+		int tableId = 0;
+		for (de.tudarmstadt.ukp.wikipedia.parser.Table p : page.getTables()){
+
+			for (int el = 0; el <  p.nrOfTableElements(); el++) {
+				int col = p.getTableElement(el).getCol();
+				int row = p.getTableElement(el).getRow();
+				for (de.tudarmstadt.ukp.wikipedia.parser.Link link : p.getTableElement(el).getLinks()) {
+					Link linkAdded = addLink(links, externalLinks, link, Link.Type.TABLE);
+					if (linkAdded != null) {
+						linkAdded.setTableId(tableId);
+						linkAdded.setRowId(row);
+						linkAdded.setColumnId(col);
+					}
+				}
+			}
+			tableId++;
+		}
+	}
+
+	private void setLinksInLists(final List<Link> links, final List<Link> externalLinks,  ParsedPage page){
+		int listId = 0;
+		for (NestedListContainer p : page.getNestedLists()){
+			int item = 0;
+			for (NestedList list : p.getNestedLists()) {
+				for (de.tudarmstadt.ukp.wikipedia.parser.Link link : list.getLinks()) {
+					Link linkAdded = addLink(links, externalLinks, link, Link.Type.LIST);
+					if (linkAdded != null) {
+						linkAdded.setListId(listId);
+						linkAdded.setListItem(item);
+					}
+				}
+				item++;
+			}
+			listId++;
+		}
+	}
+
+
+
+	private void setLinks(Article article, ParsedPage page){
+        final List<Link> links = new ArrayList<Link>(page.getLinks().size());
+        final List<Link> elinks = new ArrayList<Link>(page.getLinks().size());
+		setLinksInParagraphs(links, elinks, page);
+		setLinksInTables(links, elinks, page);
+		setLinksInLists(links, elinks, page);
+		article.setLinks(links);
+		article.setExternalLinks(elinks);
+	}
+
+	/**
+	 * @param article
+	 */
+	private void setIsList(Article article) {
+		for (final String list : locale.getListIdentifiers()) {
+			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
+				article.setType(Type.LIST);
+			}
+		}
+
+	}
+
+    private void setRedirect(Article article) {
+        if (!article.getRedirect().isEmpty()) {
+            return;
+        }
+        final List<List<String>> lists = article.getLists();
+        if ((!lists.isEmpty()) && (! lists.get(0).isEmpty())) {
+            // checking only first item in first list
+            final String line = lists.get(0).get(0);
+
+            for (final String redirect : redirects) {
+                if (StringUtils.startsWithIgnoreCase(line, redirect)) {
+                    final int pos = line.indexOf(' ');
+                    if (pos < 0) {
+                        return;
+                    }
+                    String red = line.substring(pos).trim();
+                    red = Article.getTitleInWikistyle(red);
+                    article.setRedirect(red);
+                    article.setType(Type.REDIRECT);
+                    return;
+
+                }
+            }
+        }
+    }
+
+    private void setRedirect(Article article, String mediawiki) {
+        for (final String redirect : redirects) {
+            if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
+                final int start = mediawiki.indexOf("[[") + 2;
+                final int end = mediawiki.indexOf("]]");
+                if ((start < 0) || (end < 0)) {
+                    logger.warn("cannot find the redirect {}\n mediawiki: {}",
+                            article.getTitle(), mediawiki);
+                    continue;
+                }
+                final String r = Article.getTitleInWikistyle(mediawiki.substring(
+                            start, end));
+                article.setRedirect(r);
+                article.setType(Type.REDIRECT);
+            }
+        }
+    }
+
+    /**
+     * @param page
+     */
+    private void setTables(Article article, ParsedPage page) {
+        final List<Table> tables = new ArrayList<>();
+        int tableId = 0;
+        for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
+            String title = "";
+            if (t.getTitleElement() != null) {
+                title = t.getTitleElement().getText();
+                if (title == null) {
+                    title = "";
+                }
+            }
+            final Table table = new Table(title);
+            List<String> currentRow = new ArrayList<>();
+            for (int j = 0; j < t.nrOfTableElements(); j++) {
+
+                int col = t.getTableElement(j).getCol();
+                int row = t.getTableElement(j).getRow();
+                final String elem = t.getTableElement(j).getText();
+
+                if ((row > 0) && (col == 0)) {
+                    if ((currentRow.size() == 1) && (currentRow.get(0).equals(table.getName()))) {
+                        // first row, we want to create a list for currentRow
+                        currentRow = new ArrayList<>();
+                    } else {
+                        if (!currentRow.isEmpty()) {
+                            // otherwise, if there was a previous row we add it
+                            table.addRow(currentRow);
+                        }
+                        // and then we create a new one
+                        currentRow = new ArrayList<>();
+                    }
+                }
+                currentRow.add(elem);
+            }
+            table.addRow(currentRow);
+            tables.add(table);
+            tableId++;
+        }
+        article.setTables(tables);
+    }
+
+    protected void setEnWikiTitle(Article article, ParsedPage page) {
+        if (article.isLang(Language.EN)) {
+            return;
+        }
+        try {
+            if (page.getLanguages() == null) {
+                article.setEnWikiTitle("");
+                return;
+            }
+        } catch (final NullPointerException e) {
+            // FIXME title is always null!
+            logger.warn("no languages for page {} ", article.getTitle());
+            return;
+        }
+        for (final de.tudarmstadt.ukp.wikipedia.parser.Link l : page.getLanguages()) {
+            if (l.getText().startsWith("en:")) {
+                article.setEnWikiTitle(l.getTarget().substring(3));
+                break;
+            }
+        }
+
+    }
+
+    /**
+     * @param page
+     */
+    private void setSections(Article article, ParsedPage page) {
+        final List<String> sections = new ArrayList<String>(10);
+        for (final Section s : page.getSections()) {
+
+            if ((s == null) || (s.getTitle() == null)) {
+                continue;
+            }
+            sections.add(s.getTitle());
+        }
+        article.setSections(sections);
+
+    }
+
+    private void setTemplates(Article article, ParsedPage page) {
+        final List<Template> templates = new ArrayList<Template>(10);
+
+        for (final de.tudarmstadt.ukp.wikipedia.parser.Template t : page
+                .getTemplates()) {
+            final List<String> templateParameters = t.getParameters();
+            parseTemplatesSchema(article, templateParameters);
+
+            if (t.getName().toLowerCase().startsWith("infobox")) {
+                article.setInfobox(new Template(t.getName(), templateParameters));
+            } else {
+                templates.add(new Template(t.getName(), templateParameters));
+            }
+                }
+        article.setTemplates(templates);
+
+    }
+
+    /**
+     *
+     * @param templateParameters
+     */
+    private void parseTemplatesSchema(Article article,
+            List<String> templateParameters) {
+        final List<String> schema = new ArrayList<String>(10);
+
+        for (final String s : templateParameters) {
+            try {
+                if (s.contains("=")) {
+                    final String attributeName = s.split("=")[0].trim().toLowerCase();
+                    schema.add(attributeName);
+                }
+
+            } catch (final Exception e) {
+                continue;
+            }
+        }
+        article.addTemplatesSchema(schema);
+
+    }
+
+    private void setCategories(Article article, ParsedPage page) {
+        final ArrayList<Link> categories = new ArrayList<Link>(10);
+
+        for (final de.tudarmstadt.ukp.wikipedia.parser.Link c : page.getCategories()) {
+
+            categories.add(new Link(c.getTarget(), c.getText(), c.getPos().getStart(), c.getPos().getEnd(), Link.Type.CATEGORY));
+        }
+        article.setCategories(categories);
+
+    }
+
+    private void setHighlights(Article article, ParsedPage page) {
+        final List<String> highlights = new ArrayList<String>(20);
+
+        for (final Paragraph p : page.getParagraphs()) {
+            for (final Span t : p.getFormatSpans(Content.FormatType.BOLD)) {
+                highlights.add(t.getText(p.getText()));
+            }
+            for (final Span t : p.getFormatSpans(Content.FormatType.ITALIC)) {
+                highlights.add(t.getText(p.getText()));
+            }
+
+        }
+        article.setHighlights(highlights);
+
+    }
+
+    private void setParagraphs(Article article, ParsedPage page) {
+        final List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
+        int paragraphId = 0;
+        for (final Paragraph p : page.getParagraphs()) {
+            String text = p.getText();
+            // text = removeTemplates(text);
+            text = text.replace("\n", " ").trim();
+            if (!text.isEmpty()){
+                paragraphs.add(text);
+            }
+            paragraphId++;
+        }
+        article.setParagraphs(paragraphs);
+    }
+
+    private void setDisambiguation(Article a) {
+
+        for (final String disambiguation : locale.getDisambigutionIdentifiers()) {
+            if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
+                a.setType(Type.DISAMBIGUATION);
+                return;
+            }
+            for (final Template t : a.getTemplates()) {
+                if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
+                    a.setType(Type.DISAMBIGUATION);
+                    return;
+
+                }
+            }
+
+        }
+    }
 
 }
