@@ -18,6 +18,7 @@ package it.cnr.isti.hpc.wikipedia.article;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
@@ -61,6 +62,7 @@ public class Article {
 	protected String redirect;
 	private List<String> sections;
 	private List<String> paragraphs;
+	private Map<String, List<Link>> paragraphsLink;
 	private List<Link> categories;
 	private List<Template> templates;
 	private List<String> templatesSchema;
@@ -689,6 +691,13 @@ public class Article {
 		}
 		return "NULL";
 
+	}
+	public Map<String, List<Link>> getParagraphsLink() {
+		return paragraphsLink;
+	}
+
+	public void setParagraphsLink(Map<String, List<Link>> paragraphsLink) {
+		this.paragraphsLink = paragraphsLink;
 	}
 
 }
