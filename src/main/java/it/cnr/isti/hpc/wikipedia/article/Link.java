@@ -31,13 +31,16 @@ public class Link {
 	private String id;
 	/** the anchor text used in a article for linking to the target id **/
 	private String description;
-
 	
+	private int start;
+	private int end;
 	
-	public Link(String id, String description) {
+	public Link(String id, String description, int start, int end) {
 		super();
 		this.id = id;
 		setDescription(description);
+		this.start = start;
+		this.end = end;
 	}
 	
 	public String getId() {
@@ -92,7 +95,7 @@ public class Link {
 
 	@Override
 	public String toString() {
-		return "Link [id=" + id + ", description=" + getDescription() + "]";
+		return "Link [id=" + id + ", description=" + getDescription() + ", start=" + getStart() + ", end=" + getEnd() + "]";
 	}
 	
 	@Override
@@ -124,5 +127,21 @@ public class Link {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
 	}
 }
