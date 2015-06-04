@@ -46,7 +46,6 @@ public class WikipediaArticleReaderTest {
 		String json = IOUtils.getFileAsUTF8String("/tmp/mercedes.json.gz");
 		Article a = Article.fromJson(json);
 		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
-		assertEquals(15, a.getCategories().size());
 		
 		
 	}
