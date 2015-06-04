@@ -18,7 +18,6 @@ package it.cnr.isti.hpc.wikipedia.article;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gson.Gson;
 
@@ -54,19 +53,19 @@ public class Article {
 	private String timestamp;
 	private Type type = Type.ARTICLE;
 	private String enWikiTitle;
-	private List<Table> tables;
-	private List<Link> images;
+	private transient List<Table> tables;
+	private transient List<Link> images;
 	protected List<List<String>> lists;
 	private List<Link> links;
 	private List<Link> externalLinks;
 	protected String redirect;
-	private List<String> sections;
-	private List<String> paragraphs;
-	private Map<String, List<Link>> paragraphsLink;
-	private List<Link> categories;
-	private List<Template> templates;
-	private List<String> templatesSchema;
-	private List<String> highlights;
+	private transient List<String> sections;
+	private transient List<String> paragraphs;
+	private List<ParagraphWithLinks> paragraphsWithLinks;
+	private transient List<Link> categories;
+	private transient List<Template> templates;
+	private transient List<String> templatesSchema;
+	private transient List<String> highlights;
 	private transient String summary;
 	private Template infobox;
 
@@ -81,9 +80,11 @@ public class Article {
 	}
 
 	public List<String> getParagraphs() {
-		if (paragraphs == null)
-			return Collections.emptyList();
-		return paragraphs;
+        ArrayList<String> allParagraphs = new ArrayList<String>();
+        for(ParagraphWithLinks paragraph : paragraphsWithLinks){
+            allParagraphs.add(paragraph.getParagraph());
+        }
+		return allParagraphs;
 	}
 
 	public List<String> getCleanParagraphs() {
@@ -692,12 +693,12 @@ public class Article {
 		return "NULL";
 
 	}
-	public Map<String, List<Link>> getParagraphsLink() {
-		return paragraphsLink;
+	public List<ParagraphWithLinks> getParagraphsWithLinks() {
+		return paragraphsWithLinks;
 	}
 
-	public void setParagraphsLink(Map<String, List<Link>> paragraphsLink) {
-		this.paragraphsLink = paragraphsLink;
+	public void setParagraphsWithLinks(List<ParagraphWithLinks> paragraphsWithLinks) {
+		this.paragraphsWithLinks = paragraphsWithLinks;
 	}
 
 }

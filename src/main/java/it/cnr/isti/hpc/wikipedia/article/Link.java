@@ -19,7 +19,7 @@ package it.cnr.isti.hpc.wikipedia.article;
  * Link class models a link an internal link on Wikipedia. 
  * The class contains two attributes: the target <b> id </b>: a string representing the 
  * name of the page pointed by the link (e.g., <tt>FIFA_World_Cup_awards</tt>), and the 
- * <b> description </b>, i.e., the anchor text used in a article for linking
+ * <b> anchor </b>, i.e., the anchor text used in a article for linking
  * to the target id (e.g., <tt>golden shoe</tt>).
  *
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
@@ -30,15 +30,15 @@ public class Link {
 	/** a string representing the name of the page pointed by the link **/
 	private String id;
 	/** the anchor text used in a article for linking to the target id **/
-	private String description;
+	private String anchor;
 	
 	private int start;
 	private int end;
 	
-	public Link(String id, String description, int start, int end) {
+	public Link(String id, String anchor, int start, int end) {
 		super();
 		this.id = id;
-		setDescription(description);
+		this.anchor = anchor;
 		this.start = start;
 		this.end = end;
 	}
@@ -53,19 +53,17 @@ public class Link {
 	}
 	
 	
-	public String getDescription() {
-		return this.description;
+	public String getAnchor() {
+		// When anchor is empty, it means is the same of id
+		if (anchor != null && !anchor.isEmpty())
+			return anchor;
+		else
+			return id;
 	}
 	
 	
-	public void setDescription(String description) {
-        // Some links do not have any anchor
-        // For those cases the anchor is the same wikipedia Id
-		if (description.isEmpty()){
-            this.description = this.id.replace("_", " ");
-        }else{
-            this.description = description;
-        }
+	public void setAnchor(String anchor) {
+		this.anchor = anchor;
 	}
 
 	/**  
@@ -95,7 +93,7 @@ public class Link {
 
 	@Override
 	public String toString() {
-		return "Link [id=" + id + ", description=" + getDescription() + ", start=" + getStart() + ", end=" + getEnd() + "]";
+		return "Link [id=" + id + ", anchor=" + getAnchor() + ", start=" + getStart() + ", end=" + getEnd() + "]";
 	}
 	
 	@Override
@@ -103,7 +101,7 @@ public class Link {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+				+ ((anchor == null) ? 0 : anchor.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -116,10 +114,10 @@ public class Link {
 		if (getClass() != obj.getClass())
 			return false;
 		Link other = (Link) obj;
-		if (description == null) {
-			if (other.description != null)
+		if (anchor == null) {
+			if (other.anchor != null)
 				return false;
-		} else if (!description.equals(other.description))
+		} else if (!anchor.equals(other.anchor))
 			return false;
 		if (id == null) {
 			if (other.id != null)
