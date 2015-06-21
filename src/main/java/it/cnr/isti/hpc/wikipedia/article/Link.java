@@ -37,7 +37,7 @@ public class Link {
 	public Link(String id, String description) {
 		super();
 		this.id = id;
-		this.description = description;
+		setDescription(description);
 	}
 	
 	public String getId() {
@@ -51,16 +51,18 @@ public class Link {
 	
 	
 	public String getDescription() {
-		// When description is empty, it means is the same of id
-		if (description != null && !description.isEmpty())
-			return description;
-		else
-			return id;
+		return this.description;
 	}
 	
 	
 	public void setDescription(String description) {
-		this.description = description;
+        // Some links do not have any anchor
+        // For those cases the anchor is the same wikipedia Id
+		if (description.isEmpty()){
+            this.description = this.id.replace("_", " ");
+        }else{
+            this.description = description;
+        }
 	}
 
 	/**  
