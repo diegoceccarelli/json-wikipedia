@@ -27,7 +27,9 @@ import it.cnr.isti.hpc.wikipedia.article.ParagraphWithLinks;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
+import java.net.URL;
 
+import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import org.junit.Test;
 
 /**
@@ -108,24 +110,18 @@ public class ArticleTest {
     @Test
     public void testNoEmptyAnchors() throws IOException {
         Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces");
         parser.parse(a, mediawiki);
 
         // No anchor should be empty
-        for (Link link:a.getLinks()){
-            assertFalse(link.getDescription().isEmpty());
+        for (Link link : a.getLinks()) {
+            assert (link.getAnchor()!="");
         }
 
         // testing an specific anchor
-        for (Link link:a.getLinks()){
-            if (link.getId().equals("HTMS_Chakri_Naruebet"))
-                assertEquals(link.getDescription(),"HTMS Chakri Naruebet");
+        for (Link link : a.getLinks()) {
+            if (link.getId()=="HTMS_Chakri_Naruebet")
+                assert (link.getAnchor()=="HTMS Chakri Naruebet");
         }
-
-
     }
-	
-	
-	
-  
 }
