@@ -15,16 +15,11 @@
  */
 package it.cnr.isti.hpc.wikipedia.reader;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import de.tudarmstadt.ukp.wikipedia.parser.Paragraph;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.article.Link;
-import it.cnr.isti.hpc.wikipedia.article.ParagraphWithLinks;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
