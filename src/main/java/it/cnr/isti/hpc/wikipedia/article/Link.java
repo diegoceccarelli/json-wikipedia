@@ -40,7 +40,7 @@ public class Link {
 		this.id = id;
 		this.start = start;
 		this.end = end;
-        setAnchor(anchor);
+		setAnchor(anchor);
 	}
 	
 	public String getId() {
