@@ -124,4 +124,23 @@ public class ArticleTest {
                 assert (link.getAnchor()=="HTMS Chakri Naruebet");
         }
     }
+
+    @Test
+    public void testNoEmptyWikiIds() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Cenozoic");
+        parser.parse(a, mediawiki);
+
+        for(Link l: a.getLinks()){
+            assert(!l.getId().equals(""));
+        }
+
+        for (ParagraphWithLinks p : a.getParagraphsWithLinks()) {
+            for(Link link:p.getLinks()){
+                assert (!link.getId().equals(""));
+            }
+        }
+
+    }
+
 }
