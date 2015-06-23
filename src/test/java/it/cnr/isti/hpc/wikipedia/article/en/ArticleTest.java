@@ -143,4 +143,18 @@ public class ArticleTest {
 
     }
 
+    @Test
+    public void testEmptyLinksShouldBeFiltered() throws IOException {
+        // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
+        // Those should be filtered
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Phantom_kangaroo");
+        parser.parse(a, mediawiki);
+
+        for(Link l: a.getLinks()){
+            assert(!l.getId().equals(""));
+            assert(!l.getAnchor().equals(""));
+        }
+    }
+
 }

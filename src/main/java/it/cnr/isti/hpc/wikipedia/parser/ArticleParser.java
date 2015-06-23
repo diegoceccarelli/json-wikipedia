@@ -19,6 +19,7 @@ import de.tudarmstadt.ukp.wikipedia.parser.*;
 import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,7 @@ import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -314,23 +316,31 @@ public class ArticleParser {
 
 	}
 
+    private Pair<List<Link>, List<Link>> extractLinks(List<de.tudarmstadt.ukp.wikipedia.parser.Link> links){
+
+        List<Link> internalLinks = new ArrayList<Link>(10);
+        List<Link> externalLinks = new ArrayList<Link>(10);
+
+        for (de.tudarmstadt.ukp.wikipedia.parser.Link t : links) {
+            if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
+                if(!t.getTarget().equals(""))
+                    internalLinks.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+            }
+            if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
+                externalLinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
+            }
+        }
+
+        return Pair.of(internalLinks, externalLinks);
+    }
+
+
 	private void setLinks(Article article, ParsedPage page) {
+        Pair<List<Link>,List<Link>> extractedLinks = extractLinks(page.getLinks());
 
-		List<Link> links = new ArrayList<Link>(10);
-		List<Link> elinks = new ArrayList<Link>(10);
+        List<Link> links = extractedLinks.getLeft();
+        List<Link> elinks = extractedLinks.getRight();
 
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-
-				links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-
-			}
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-
-				elinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
-
-			}
-		}
 		article.setLinks(links);
 		article.setExternalLinks(elinks);
 	}
@@ -415,11 +425,11 @@ public class ArticleParser {
 			text = text.replace("\n", " ");//.trim();
 			if (!text.isEmpty()){
 				paragraphs.add(text);
-				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: p.getLinks()){
-					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL)
 
-						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-				}
+                Pair<List<Link>,List<Link>> extractedLinks = extractLinks(p.getLinks());
+                // internal links
+                links = extractedLinks.getLeft();
+
                 ParagraphWithLinks paragraphWithLinks = new ParagraphWithLinks(text, links);
 				paraLinks.add(paragraphWithLinks);
 			}
