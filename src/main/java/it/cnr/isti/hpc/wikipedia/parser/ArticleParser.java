@@ -15,6 +15,7 @@
  */
 package it.cnr.isti.hpc.wikipedia.parser;
 
+import de.tudarmstadt.ukp.wikipedia.parser.*;
 import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
 
@@ -22,19 +23,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.article.Table;
+import it.cnr.isti.hpc.wikipedia.article.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.tudarmstadt.ukp.wikipedia.parser.Content;
-import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
-import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
-import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
-import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
-import de.tudarmstadt.ukp.wikipedia.parser.Paragraph;
-import de.tudarmstadt.ukp.wikipedia.parser.ParsedPage;
-import de.tudarmstadt.ukp.wikipedia.parser.Section;
-import de.tudarmstadt.ukp.wikipedia.parser.Span;
 import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.MediaWikiParser;
 
 /**
