@@ -619,10 +619,10 @@ public class Article {
 			if (text.length() > 1000) {
 				sb.append(text.substring(0, 1000) + "...");
 
-			} else{
+			} else {
 				sb.append(text);
 			}
-		}else {
+		} else {
 			sb.append(getSummary());
 		}
 		sb.append("\n");

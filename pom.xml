@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.cnr.isti.hpc</groupId>
 	<artifactId>json-wikipedia</artifactId>
@@ -28,7 +29,7 @@
 		<dependency>
 			<artifactId>hpc-utils</artifactId>
 			<groupId>it.cnr.isti.hpc</groupId>
-			<version>0.0.5</version>
+			<version>0.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -97,30 +98,26 @@
 			<version>3.1</version>
 		</dependency>
 	</dependencies>
-	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
-		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
-		</snapshots> </repository> <repository> <id>info-bliki-repository</id> <url>http://gwtwiki.googlecode.com/svn/maven-repository/</url> 
-		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
-		</snapshots> </repository> <repository> <id>ontotext</id> <url>http://maven.ontotext.com/content/repositories/public/</url> 
-		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
-		</snapshots> </repository> </repositories -->
+
 	<repositories>
 		<repository>
 			<id>local jars</id>
 			<name>local jars</name>
 			<url>file://${basedir}/lib</url>
 		</repository>
+		<repository>
+			<id>dropbox</id>
+			<url>https://dl.dropboxusercontent.com/u/4663256/mvn-repository/</url>
+		</repository>
 	</repositories>
 	<build>
-		<!-- <extensions>
-		                    <extension>
-		                       <groupId>org.apache.maven.wagon</groupId>
-		                       <artifactId>wagon-ssh</artifactId>
-		                       <version>3.1.1</version>
-		                     </extension>
-		                   </extensions> -->
+		<!-- <extensions> <extension> <groupId>org.apache.maven.wagon</groupId> 
+			<artifactId>wagon-ssh</artifactId> <version>3.1.1</version> </extension> 
+			</extensions> -->
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<version>3.3</version>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<charset>${project.source.charset}</charset>
@@ -138,15 +135,10 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<reportOutputDirectory>javadoc</reportOutputDirectory>
-					<destDir>javadoc</destDir>
-				</configuration>
-			</plugin>
+
 		</plugins>
 	</build>
+
+
+
 </project>
