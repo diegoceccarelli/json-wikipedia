@@ -17,9 +17,11 @@ package it.cnr.isti.hpc.wikipedia.article.en;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
+import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
@@ -82,6 +84,26 @@ public class ArticleTest {
 		
 		
 	}
+
+    @Test
+    public void testNoEmptyAnchors() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+        parser.parse(a, mediawiki);
+
+        // No anchor should be empty
+        for (Link link:a.getLinks()){
+            assertFalse(link.getDescription().isEmpty());
+        }
+
+        // testing an specific anchor
+        for (Link link:a.getLinks()){
+            if (link.getId().equals("HTMS_Chakri_Naruebet"))
+                assertEquals(link.getDescription(),"HTMS Chakri Naruebet");
+        }
+
+
+    }
 	
 	
 	

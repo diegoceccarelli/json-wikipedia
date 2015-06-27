@@ -13,7 +13,7 @@ the command will produce a JAR file containing all the dependencies the target f
 
 #### Convert the Wikipedia XML to JSON ####
 
-    java target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] 		
+    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] 		
 
 or 
 
@@ -75,21 +75,59 @@ and import the project in your new maven project adding the dependency:
 		<version>1.0.0</version>
 	</dependency> 
 	
+#### Schema ####
 
-#### I need to go fast! Parallel Json-Wikipedia ####
-Mike Huffman wrote a parallel version of Json-Wikipedia. With his changes, on a c3.8xlarge he's 
-able to unzip and process the entire .bz2 dump in 20m2.596s. Compared to the original single-threaded 
-version that takes 149m57.215s on the same hardware, it is **7.5 times faster** ;). 
-
-Mike suggests to use [lbzip2](https://github.com/kjn/lbzip2) to unzip the archive. It it multithreaded and only takes a few minutes on fast hardware (2 to 5 minutes average vs. 20+ minutes using bunzip2, or even longer with the java bzip2 code). 
-
-Please note that **the order of the output is different**, because different threads write when available. 
-If you filter strictly for articles and categories, and sort the files, they will by identical.
-
-You can run the fast parallel version with: 
-
-	curl -s http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2 | lbzip2 -n 5 -cd | ./scripts/pipe-xml-to-json.sh en /sdf/wp_dump4.json 25
-
+```
+ |-- categories: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- externalLinks: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- highlights: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- infobox: struct (nullable = true)
+ |    |-- description: array (nullable = true)
+ |    |    |-- element: string (containsNull = false)
+ |    |-- name: string (nullable = true)
+ |-- integerNamespace: integer (nullable = true)
+ |-- lang: string (nullable = true)
+ |-- links: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: string (nullable = true)
+ |    |    |-- id: string (nullable = true)
+ |-- lists: array (nullable = true)
+ |    |-- element: array (containsNull = false)
+ |    |    |-- element: string (containsNull = false)
+ |-- namespace: string (nullable = true)
+ |-- paragraphs: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- redirect: string (nullable = true)
+ |-- sections: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- tables: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- name: string (nullable = true)
+ |    |    |-- numCols: integer (nullable = true)
+ |    |    |-- numRows: integer (nullable = true)
+ |    |    |-- table: array (nullable = true)
+ |    |    |    |-- element: array (containsNull = false)
+ |    |    |    |    |-- element: string (containsNull = false)
+ |-- templates: array (nullable = true)
+ |    |-- element: struct (containsNull = false)
+ |    |    |-- description: array (nullable = true)
+ |    |    |    |-- element: string (containsNull = false)
+ |    |    |-- name: string (nullable = true)
+ |-- templatesSchema: array (nullable = true)
+ |    |-- element: string (containsNull = false)
+ |-- timestamp: string (nullable = true)
+ |-- title: string (nullable = true)
+ |-- type: string (nullable = true)
+ |-- wid: integer (nullable = true)
+ |-- wikiTitle: string (nullable = true)
+```
 
 #### Useful Links ####
 
@@ -99,3 +137,7 @@ You can run the fast parallel version with:
 
 
 [json]: http://www.json.org/fatfree.html "JSON: The Fat-Free Alternative to XML"
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/diegoceccarelli/json-wikipedia/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
