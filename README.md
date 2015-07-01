@@ -2,6 +2,8 @@ json-wikipedia ![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp
 ==============
 
  Json Wikipedia contains code to convert the Wikipedia XML dump into a [JSON][json] dump.
+ 
+ - Please be aware that this tool does not work with the `multistream` dump.
 
 #### Setup ####
 
