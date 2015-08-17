@@ -413,12 +413,62 @@ public class ArticleParser {
 
 	}
 
+	/*
+	* Extracts text and links from tables and returns a list of paragraphs
+	* */
+	private List<Paragraph> getParagraphsInTables(ParsedPage page){
+		List<Paragraph> paragraphsInTables = new ArrayList<Paragraph>();
+		for(de.tudarmstadt.ukp.wikipedia.parser.Table t: page.getTables()){
+			for(Paragraph p: t.getParagraphs()){
+				paragraphsInTables.add(p);
+			}
+		}
+		return paragraphsInTables;
+	}
+
+	/*
+	* Extracts text and links from Lists and returns a list of paragraphs
+	* */
+	private List<Paragraph> getParagraphsInList(ParsedPage page){
+		List<Paragraph> paragraphsInLists = new ArrayList<Paragraph>();
+		for (DefinitionList dl : page.getDefinitionLists()) {
+			for (ContentElement c : dl.getDefinitions()) {
+				Paragraph p = new Paragraph(Paragraph.type.NORMAL);
+				p.setText(c.getText());
+				p.setLinks(c.getLinks());
+				paragraphsInLists.add(p);
+			}
+		}
+
+
+		for (NestedListContainer dl : page.getNestedLists()) {
+			List<String> l = new ArrayList<String>();
+			for (NestedList nl : dl.getNestedLists()){
+				Paragraph p = new Paragraph(Paragraph.type.NORMAL);
+				p.setText(nl.getText());
+				p.setLinks(nl.getLinks());
+				paragraphsInLists.add(p);
+			}
+
+		}
+		return paragraphsInLists;
+	}
+
 	private void setParagraphs(Article article, ParsedPage page) {
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
 
-        List<ParagraphWithLinks> paraLinks = new ArrayList<ParagraphWithLinks>();
+		List<ParagraphWithLinks> paraLinks = new ArrayList<ParagraphWithLinks>();
 
-		for (Paragraph p : page.getParagraphs()) {
+		List<Paragraph> AllParagraphs =  new ArrayList<Paragraph>();
+		// Paragraphs extracted from page
+		AllParagraphs.addAll(page.getParagraphs());
+		// Converting table's text into paragraphs
+		AllParagraphs.addAll(getParagraphsInTables(page));
+		// Converting list's text into paragarphs
+		AllParagraphs.addAll(getParagraphsInList(page));
+
+
+		for (Paragraph p : AllParagraphs) {
 			String text = p.getText();
 			List<Link> links = new ArrayList<Link>();
 

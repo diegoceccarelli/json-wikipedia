@@ -17,7 +17,10 @@ package it.cnr.isti.hpc.wikipedia.article.en;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.*;
+
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
@@ -28,6 +31,8 @@ import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import org.junit.Test;
@@ -143,6 +148,52 @@ public class ArticleTest {
 
     }
 
+
+    @Test
+    public void testAnnotationsInTables() throws IOException {
+		Article a = new Article();
+		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
+		parser.parse(a, mediawiki);
+
+		List<String> uris = new ArrayList<String>();
+		List<String> anchors = new ArrayList<String>();
+
+		for (ParagraphWithLinks p : a.getParagraphsWithLinks()) {
+			for(Link l:p.getLinks()){
+				uris.add(l.getId());
+				anchors.add(l.getAnchor());
+			}
+
+		}
+
+		assertThat(uris, hasItems("Hsiang_Che-chun", "Arthur_Strettell_Comyns_Carr", "New_Zealand_Army"));
+		assertThat(anchors, hasItems("Hsiang Che-chun", "Arthur Strettell Comyns Carr", "New Zealand Army"));
+		testAnchorsInText(a);
+    }
+
+    @Test
+    public void testAnnotationsInLists() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Hayami");
+        parser.parse(a, mediawiki);
+
+		List<String> uris = new ArrayList<String>();
+		List<String> anchors = new ArrayList<String>();
+
+		for (ParagraphWithLinks p : a.getParagraphsWithLinks()) {
+			for(Link l:p.getLinks()){
+				uris.add(l.getId());
+				anchors.add(l.getAnchor());
+			}
+		}
+
+		assertThat(uris, hasItems("Yū_Hayami", "Takumi_Hayami", "Hayami_District,_Ōita", "Mokomichi_Hayami"));
+		assertThat(anchors, hasItems("Takumi Hayami", "Dogen Handa", "Sky Girls"));
+		testAnchorsInText(a);
+
+    }
+
+
     @Test
     public void testEmptyLinksShouldBeFiltered() throws IOException {
         // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
@@ -156,5 +207,21 @@ public class ArticleTest {
             assert(!l.getAnchor().equals(""));
         }
     }
+
+
+	/*
+	* Matches the extracted anchors and spans against the text
+	* they have been extracted from.
+	* */
+	private void testAnchorsInText(Article article){
+		// first paragraph
+		for(ParagraphWithLinks p:  article.getParagraphsWithLinks()){
+			for(Link link: p.getLinks()){
+				String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd() );
+				assertEquals(anchorInPar, link.getAnchor());
+
+			}
+		}
+	}
 
 }
