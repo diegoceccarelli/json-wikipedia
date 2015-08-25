@@ -76,12 +76,16 @@ public class ArticleParser {
 	}
 
 	public void parse(Article article, String mediawiki) {
-        String cleanedMediawiki = removeTemplates(mediawiki);
-        //String cleanedMediawiki=mediawiki;
-		ParsedPage page = parser.parse(cleanedMediawiki);
-        setRedirect(article, cleanedMediawiki);
+        if (mediawiki == null) {
+            logger.warn("Text is null for article {}", article.getTitle());
+        } else {
+            String cleanedMediawiki = removeTemplates(mediawiki);
+            //String cleanedMediawiki=mediawiki;
+            ParsedPage page = parser.parse(cleanedMediawiki);
+            setRedirect(article, cleanedMediawiki);
 
-		parse(article, page);
+            parse(article, page);
+        }
 
 	}
 
