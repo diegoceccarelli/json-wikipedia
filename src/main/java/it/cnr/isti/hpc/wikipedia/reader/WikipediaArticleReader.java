@@ -101,7 +101,7 @@ public class WikipediaArticleReader {
 		// encoder = new JsonRecordParser<Article>(Article.class);
 		parser = new ArticleParser(lang);
 		try {
-			wxp = new WikiXMLParser(inputFile.getAbsolutePath(), handler);
+			wxp = new WikiXMLParser(new File(inputFile.getAbsolutePath()), handler);
 		} catch (Exception e) {
 			logger.error("creating the parser {}", e.toString());
 			System.exit(-1);
