@@ -61,7 +61,7 @@ public class Link {
 	public void setAnchor(String anchor) {
         // Some links do not have any anchor
         // For those cases the anchor is the same wikipedia Id
-        if (anchor=="")
+        if (anchor == null || anchor.isEmpty())
            this.anchor = this.id.replace("_", " ");
         else
            this.anchor = anchor;
