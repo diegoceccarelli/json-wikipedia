@@ -65,7 +65,7 @@ public class Article {
 	private List<Template> templates;
 	private List<String> templatesSchema;
 	private List<String> highlights;
-	private String summary;
+	private transient String summary;
 	private Template infobox;
 
 	public List<String> getTemplatesSchema() {

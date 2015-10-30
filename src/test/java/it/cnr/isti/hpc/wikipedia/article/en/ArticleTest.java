@@ -142,7 +142,7 @@ public class ArticleTest {
 
         for (ParagraphWithLinks p : a.getParagraphsWithLinks()) {
             for(Link link:p.getLinks()){
-                assert (!link.getId().equals(""));
+                assert (!link.getId().isEmpty());
             }
         }
 
