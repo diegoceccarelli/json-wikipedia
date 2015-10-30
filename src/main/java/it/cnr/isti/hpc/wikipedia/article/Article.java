@@ -53,20 +53,19 @@ public class Article {
 	private String timestamp;
 	private Type type = Type.ARTICLE;
 	private String enWikiTitle;
-	private transient List<Table> tables;
-	private transient List<Link> images;
+	private List<Table> tables;
+	private List<Link> images;
 	protected List<List<String>> lists;
 	private List<Link> links;
 	private List<Link> externalLinks;
 	protected String redirect;
-	private transient List<String> sections;
-	private transient List<String> paragraphs;
+	private List<String> sections;
 	private List<ParagraphWithLinks> paragraphsWithLinks;
-	private transient List<Link> categories;
-	private transient List<Template> templates;
-	private transient List<String> templatesSchema;
-	private transient List<String> highlights;
-	private transient String summary;
+	private List<Link> categories;
+	private List<Template> templates;
+	private List<String> templatesSchema;
+	private List<String> highlights;
+	private String summary;
 	private Template infobox;
 
 	public List<String> getTemplatesSchema() {
@@ -114,10 +113,6 @@ public class Article {
 
 		}
 		return sb.toString();
-	}
-
-	public void setParagraphs(List<String> paragraphs) {
-		this.paragraphs = paragraphs;
 	}
 
 	public String getRedirect() {

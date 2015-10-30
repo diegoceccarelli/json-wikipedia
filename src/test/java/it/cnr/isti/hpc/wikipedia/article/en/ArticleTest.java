@@ -53,10 +53,10 @@ public class ArticleTest {
 		Article a = new Article();
 		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
 		parser.parse(a, mediawiki);
-//		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
-//		assertEquals(5, a.getCategories().size());
-//		assertEquals(7,a.getSections().size());
-//		assertEquals(74,a.getLinks().size());
+		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
+		assertEquals(5, a.getCategories().size());
+		assertEquals(7,a.getSections().size());
+		assertEquals(74,a.getLinks().size());
 
         // first paragraph
         for(ParagraphWithLinks p:  a.getParagraphsWithLinks()){
@@ -217,7 +217,7 @@ public class ArticleTest {
 		// first paragraph
 		for(ParagraphWithLinks p:  article.getParagraphsWithLinks()){
 			for(Link link: p.getLinks()){
-				String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd() );
+				String anchorInPar = p.getParagraph().substring(link.getStart(),link.getEnd());
 				assertEquals(anchorInPar, link.getAnchor());
 
 			}
