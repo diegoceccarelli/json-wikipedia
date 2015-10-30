@@ -120,7 +120,7 @@ public class ArticleTest {
 
         // No anchor should be empty
         for (Link link : a.getLinks()) {
-            assert (link.getAnchor()!="");
+            assert (!link.getAnchor().isEmpty());
         }
 
         // testing an specific anchor
