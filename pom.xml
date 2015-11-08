@@ -127,44 +127,48 @@
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
-		</repository>
-	</repositories>
-	<build>
-		<!-- <extensions>
-		                    <extension>
-		                       <groupId>org.apache.maven.wagon</groupId>
-		                       <artifactId>wagon-ssh</artifactId>
-		                       <version>3.1.1</version>
-		                     </extension>
-		                   </extensions> -->
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<encoding>${project.source.encoding}</encoding>
-					<source>${java.version.source}</source>
-					<target>${java.version.target}</target>
-				</configuration>
-				<version>3.3</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<reportOutputDirectory>javadoc</reportOutputDirectory>
-					<destDir>javadoc</destDir>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-</project>
+                    </repository>
+                    <repository>
+                        <id>dropbox</id>
+                        <url>https://dl.dropboxusercontent.com/u/4663256/mvn-repository/</url>
+                    </repository>
+                </repositories>
+                <build>
+                    <!-- <extensions>
+                                    <extension>
+                                       <groupId>org.apache.maven.wagon</groupId>
+                                       <artifactId>wagon-ssh</artifactId>
+                                       <version>3.1.1</version>
+                                     </extension>
+                                   </extensions> -->
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <encoding>${project.source.encoding}</encoding>
+                            <source>${java.version.source}</source>
+                            <target>${java.version.target}</target>
+                        </configuration>
+                        <version>3.3</version>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9</version>
+                        <configuration>
+                            <reportOutputDirectory>javadoc</reportOutputDirectory>
+                            <destDir>javadoc</destDir>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </project>
