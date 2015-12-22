@@ -23,10 +23,8 @@ import it.cnr.isti.hpc.wikipedia.article.Table;
 import it.cnr.isti.hpc.wikipedia.article.Template;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -98,10 +96,10 @@ public class ArticleParser {
 		if (page == null) {
 			logger.warn("page is null for article {}", article.getTitle());
 		} else {
+			setLinks(article, page);
 			setParagraphs(article, page);
 			// setShortDescription(article);
 			setTemplates(article, page);
-			setLinks(article, page);
 			setCategories(article, page);
 			setHighlights(article, page);
 			setSections(article, page);
@@ -415,24 +413,36 @@ public class ArticleParser {
 
 	private void setParagraphs(Article article, ParsedPage page) {
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
-		Map<String, List<Link>> paraLinks 
-					= new LinkedHashMap<String, List<Link>>();
+		List<Link> links = new ArrayList<Link>();
+		int paragraphIndex = 0;
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
-			List<Link> links = new ArrayList<Link>();
 			// text = removeTemplates(text);
 			text = text.replace("\n", " ").trim();
 			if (!text.isEmpty()){
 				paragraphs.add(text);
 				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: p.getLinks()){
-					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL)
-						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
+						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.BODY, paragraphIndex));
+					}
 				}
-				paraLinks.put(text, links);
 			}
+			paragraphIndex++;
 		}
 		article.setParagraphs(paragraphs);
-		article.setParagraphsLink(paraLinks);
+		updateLinks(article, links);
+
+	}
+	
+	private void updateLinks(Article article, List<Link> links) {
+		for(Link l: links){
+			if(article.getLinks().contains(l)){
+				int index = article.getLinks().indexOf(l);
+				Link o = article.getLinks().get(index);
+				o.setType(l.getType());
+				o.setParagraphIndex(l.getParagraphIndex());
+			}
+		}
 	}
 
 	private void setLists(Article article, ParsedPage page) {
