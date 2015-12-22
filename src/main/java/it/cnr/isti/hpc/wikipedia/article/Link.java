@@ -30,15 +30,32 @@ public class Link {
 	/** a string representing the name of the page pointed by the link **/
 	private String id;
 	/** the anchor text used in a article for linking to the target id **/
-	private String description;
+	private String anchor;
 	
 	private int start;
 	private int end;
+	private int paragraphIndex;
+	private Type type;
 	
-	public Link(String id, String description, int start, int end) {
+	/** The possible types of a Link (e.g., body, table, list) **/
+	public enum Type {
+		BODY, TABLE, LIST
+	};
+	
+	public Link(String id, String anchor, int start, int end, Type type, int paragraphIndex) {
 		super();
 		this.id = id;
-		setDescription(description);
+		setAnchor(anchor);
+		this.start = start;
+		this.end = end;
+		this.type = type;
+		this.paragraphIndex = paragraphIndex;
+	}
+
+	public Link(String id, String anchor, int start, int end) {
+		super();
+		this.id = id;
+		setAnchor(anchor);
 		this.start = start;
 		this.end = end;
 	}
@@ -53,18 +70,18 @@ public class Link {
 	}
 	
 	
-	public String getDescription() {
-		return this.description;
+	public String getAnchor() {
+		return this.anchor;
 	}
 	
 	
-	public void setDescription(String description) {
+	public void setAnchor(String anchor) {
         // Some links do not have any anchor
         // For those cases the anchor is the same wikipedia Id
-		if (description.isEmpty()){
-            this.description = this.id.replace("_", " ");
+		if (anchor.isEmpty()){
+            this.anchor = this.id.replace("_", " ");
         }else{
-            this.description = description;
+            this.anchor = anchor;
         }
 	}
 
@@ -95,7 +112,7 @@ public class Link {
 
 	@Override
 	public String toString() {
-		return "Link [id=" + id + ", description=" + getDescription() + ", start=" + getStart() + ", end=" + getEnd() + "]";
+		return "Link [id=" + id + ", anchor=" + getAnchor() + ", start=" + getStart() + ", end=" + getEnd() + ", type=" + getType() + ", paragraphIndex=" + getParagraphIndex() + "]";
 	}
 	
 	@Override
@@ -103,7 +120,7 @@ public class Link {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+				+ ((anchor == null) ? 0 : anchor.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -116,15 +133,19 @@ public class Link {
 		if (getClass() != obj.getClass())
 			return false;
 		Link other = (Link) obj;
-		if (description == null) {
-			if (other.description != null)
+		if (anchor == null) {
+			if (other.anchor != null)
 				return false;
-		} else if (!description.equals(other.description))
+		} else if (!anchor.equals(other.anchor))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (start != other.start)
+			return false;
+		if (end != other.end)
 			return false;
 		return true;
 	}
@@ -143,5 +164,21 @@ public class Link {
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	public int getParagraphIndex() {
+		return paragraphIndex;
+	}
+
+	public void setParagraphIndex(int paragraphIndex) {
+		this.paragraphIndex = paragraphIndex;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 }
