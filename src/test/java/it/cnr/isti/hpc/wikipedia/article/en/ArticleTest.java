@@ -93,19 +93,35 @@ public class ArticleTest {
 
         // No anchor should be empty
         for (Link link:a.getLinks()){
-            assertFalse(link.getDescription().isEmpty());
+            assertFalse(link.getAnchor().isEmpty());
         }
 
         // testing an specific anchor
         for (Link link:a.getLinks()){
             if (link.getId().equals("HTMS_Chakri_Naruebet"))
-                assertEquals(link.getDescription(),"HTMS Chakri Naruebet");
+                assertEquals(link.getAnchor(),"HTMS Chakri Naruebet");
         }
 
 
     }
 	
-	
+    @Test
+    public void testParagraphLinks() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+        parser.parse(a, mediawiki);
+        
+     // testing specific links
+        for (Link link:a.getLinks()){
+        	// testing a paragraph link
+            if (link.getId().equals("military")){
+            	System.out.println(link);
+                assertEquals(link.getType(), Link.Type.BODY);
+                assertEquals(link.getParagraphIndex(), 1);
+            }
+            //TODO: test a non paragraph link
+        }
+    }
 	
   
 }
