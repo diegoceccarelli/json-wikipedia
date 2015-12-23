@@ -115,11 +115,11 @@ public class ArticleTest {
         for (Link link:a.getLinks()){
         	// testing a paragraph link
             if (link.getId().equals("military")){
-            	System.out.println(link);
                 assertEquals(link.getType(), Link.Type.BODY);
                 assertEquals(link.getParagraphIndex(), 1);
             }
             //TODO: test a non paragraph link
+          //TODO: test links at the same start and end position but different paragraphs
         }
     }
 	

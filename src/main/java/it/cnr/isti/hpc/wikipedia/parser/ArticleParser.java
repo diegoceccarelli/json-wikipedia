@@ -435,12 +435,18 @@ public class ArticleParser {
 	}
 	
 	private void updateLinks(Article article, List<Link> links) {
+		List<Link> articleLinks = article.getLinks();
 		for(Link l: links){
-			if(article.getLinks().contains(l)){
-				int index = article.getLinks().indexOf(l);
-				Link o = article.getLinks().get(index);
-				o.setType(l.getType());
-				o.setParagraphIndex(l.getParagraphIndex());
+			if(articleLinks.contains(l)){
+				for(Link a: articleLinks){
+					if(a.getParagraphIndex() == 0 && a.getType() == null) {
+						a.setType(l.getType());
+						a.setParagraphIndex(l.getParagraphIndex());
+						break;
+					}
+				}
+			} else {
+				articleLinks.add(l);
 			}
 		}
 	}
