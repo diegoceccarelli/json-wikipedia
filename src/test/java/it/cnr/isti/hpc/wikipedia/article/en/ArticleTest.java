@@ -108,18 +108,24 @@ public class ArticleTest {
     @Test
     public void testParagraphLinks() throws IOException {
         Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ParagraphLinksTest.txt");
         parser.parse(a, mediawiki);
         
      // testing specific links
         for (Link link:a.getLinks()){
         	// testing a paragraph link
-            if (link.getId().equals("military")){
+            if (link.getId().equals("document")){
                 assertEquals(link.getType(), Link.Type.BODY);
-                assertEquals(link.getParagraphIndex(), 1);
+                assertEquals(link.getParagraphIndex(), 0);
             }
             //TODO: test a non paragraph link
-          //TODO: test links at the same start and end position but different paragraphs
+            // testing links at the same start and end position but different paragraphs
+            if(link.getParagraphIndex() == 1) {
+            	assertEquals(link.getId(), "link");
+            }
+            if(link.getParagraphIndex() == 2) {
+            	assertEquals(link.getId(), "link");
+            }
         }
     }
 	
