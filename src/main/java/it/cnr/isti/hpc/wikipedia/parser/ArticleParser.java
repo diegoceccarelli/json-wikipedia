@@ -439,7 +439,7 @@ public class ArticleParser {
 		for(Link l: links){
 			if(articleLinks.contains(l)){
 				for(Link a: articleLinks){
-					if(a.getParagraphIndex() == 0 && a.getType() == null) {
+					if(a.getType() == null) {
 						a.setType(l.getType());
 						a.setParagraphIndex(l.getParagraphIndex());
 						break;
