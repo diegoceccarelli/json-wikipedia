@@ -46,31 +46,29 @@ public class Link {
 
 	public Link(String id, String anchor, int start, int end) {
 		super();
-		this.id = id;
-		setAnchor(anchor);
-		this.start = start;
-		this.end = end;
+		init(id, anchor, start, end);
 	}
 	
 	public Link(String id, String anchor, int start, int end, Type type, int paragraphId) {
 		super();
-		this.id = id;
-		setAnchor(anchor);
-		this.start = start;
-		this.end = end;
+		init(id, anchor, start, end);
 		this.type = type;
 		this.paragraphId = paragraphId;
 	}
 	
 	public Link(String id, String anchor, int start, int end, Type type, int listId, int itemId) {
 		super();
+		init(id, anchor, start, end);
+		this.type = type;
+		this.listId = listId;
+		this.itemId = itemId;
+	}
+	
+	private void init(String id, String anchor, int start, int end) {
 		this.id = id;
 		setAnchor(anchor);
 		this.start = start;
 		this.end = end;
-		this.type = type;
-		this.listId = listId;
-		this.itemId = itemId;
 	}
 	
 	public String getId() {
