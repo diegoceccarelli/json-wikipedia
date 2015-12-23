@@ -34,23 +34,15 @@ public class Link {
 	
 	private int start;
 	private int end;
-	private int paragraphIndex;
+	private int paragraphId;
+	private int listId;
+	private int itemId;
 	private Type type;
 	
 	/** The possible types of a Link (e.g., body, table, list) **/
 	public enum Type {
 		BODY, TABLE, LIST
 	};
-	
-	public Link(String id, String anchor, int start, int end, Type type, int paragraphIndex) {
-		super();
-		this.id = id;
-		setAnchor(anchor);
-		this.start = start;
-		this.end = end;
-		this.type = type;
-		this.paragraphIndex = paragraphIndex;
-	}
 
 	public Link(String id, String anchor, int start, int end) {
 		super();
@@ -58,6 +50,27 @@ public class Link {
 		setAnchor(anchor);
 		this.start = start;
 		this.end = end;
+	}
+	
+	public Link(String id, String anchor, int start, int end, Type type, int paragraphId) {
+		super();
+		this.id = id;
+		setAnchor(anchor);
+		this.start = start;
+		this.end = end;
+		this.type = type;
+		this.paragraphId = paragraphId;
+	}
+	
+	public Link(String id, String anchor, int start, int end, Type type, int listId, int itemId) {
+		super();
+		this.id = id;
+		setAnchor(anchor);
+		this.start = start;
+		this.end = end;
+		this.type = type;
+		this.listId = listId;
+		this.itemId = itemId;
 	}
 	
 	public String getId() {
@@ -112,7 +125,8 @@ public class Link {
 
 	@Override
 	public String toString() {
-		return "Link [id=" + id + ", anchor=" + getAnchor() + ", start=" + getStart() + ", end=" + getEnd() + ", type=" + getType() + ", paragraphIndex=" + getParagraphIndex() + "]";
+		return "Link [id=" + id + ", anchor=" + anchor + ", start=" + start + ", end=" + end + ", type=" + type
+				+ ", paragraphId=" + paragraphId + ", listId=" + listId + ", itemId=" + itemId + "]";
 	}
 	
 	@Override
@@ -167,11 +181,11 @@ public class Link {
 	}
 
 	public int getParagraphIndex() {
-		return paragraphIndex;
+		return paragraphId;
 	}
 
 	public void setParagraphIndex(int paragraphIndex) {
-		this.paragraphIndex = paragraphIndex;
+		this.paragraphId = paragraphIndex;
 	}
 
 	public Type getType() {
@@ -180,5 +194,21 @@ public class Link {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public int getListId() {
+		return listId;
+	}
+
+	public void setListId(int listId) {
+		this.listId = listId;
+	}
+
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 }
