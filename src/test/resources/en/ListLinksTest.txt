@@ -1,0 +1,11 @@
+* [[Lists]] are easy to do:
+** start [[every]] line
+* with a star
+** more stars mean
+*** deeper levels
+
+* A [[newline]]
+* in a list
+marks the end of the list. Of course
+* you can
+* start again.

@@ -128,6 +128,32 @@ public class ArticleTest {
             }
         }
     }
+    
+    @Test
+    public void testListLinks() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ListLinksTest.txt");
+        parser.parse(a, mediawiki);
+        
+     // testing specific links
+        for (Link link:a.getLinks()){
+            if (link.getId().equals("Lists")){
+                assertEquals(link.getType(), Link.Type.LIST);
+                assertEquals(link.getListId(), 0);
+                assertEquals(link.getItemId(), 0);
+            }
+            if (link.getId().equals("every")){
+                assertEquals(link.getType(), Link.Type.LIST);
+                assertEquals(link.getListId(), 0);
+                assertEquals(link.getItemId(), 1);
+            }
+            if (link.getId().equals("newline")){
+                assertEquals(link.getType(), Link.Type.LIST);
+                assertEquals(link.getListId(), 1);
+                assertEquals(link.getItemId(), 0);
+            }
+        }
+    }
 	
   
 }
