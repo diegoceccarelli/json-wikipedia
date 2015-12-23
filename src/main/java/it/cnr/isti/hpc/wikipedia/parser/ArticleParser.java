@@ -440,8 +440,7 @@ public class ArticleParser {
 			if(articleLinks.contains(l)){
 				for(Link a: articleLinks){
 					if(a.getType() == null) {
-						a.setType(l.getType());
-						a.setParagraphIndex(l.getParagraphIndex());
+						articleLinks.set(articleLinks.indexOf(a), l);
 						break;
 					}
 				}
@@ -460,14 +459,25 @@ public class ArticleParser {
 			}
 			lists.add(l);
 		}
+		List<Link> links = new ArrayList<Link>();
+		int listId = 0;
 		for (NestedListContainer dl : page.getNestedLists()) {
+			int itemId = 0;
 			List<String> l = new ArrayList<String>();
-			for (NestedList nl : dl.getNestedLists())
+			for (NestedList nl : dl.getNestedLists()){
 				l.add(nl.getText());
+				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: nl.getLinks()){
+					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
+						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.LIST, listId, itemId));
+					}
+				}
+				itemId++;
+			}
 			lists.add(l);
+			listId++;
 		}
 		article.setLists(lists);
-
+		updateLinks(article, links);
 	}
 
 	private void setDisambiguation(Article a) {
