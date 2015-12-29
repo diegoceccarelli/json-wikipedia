@@ -231,6 +231,8 @@ public class ArticleParser {
 	private void setTables(Article article, ParsedPage page) {
 		List<Table> tables = new ArrayList<Table>();
 
+		List<Link> links = new ArrayList<Link>();
+		int tableId = 0;
 		for (de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
 			// System.out.println(t);
 
@@ -274,15 +276,23 @@ public class ArticleParser {
 					}
 
 				}
+				
+				for(de.tudarmstadt.ukp.wikipedia.parser.Link l: t.getTableElement(i).getLinks()){
+					if (l.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
+						links.add(new Link(l.getTarget(), l.getText(), l.getPos().getStart(), l.getPos().getEnd(), Link.Type.TABLE, tableId, row, col));
+					}
+				}
+				
 				currentRow.add(elem);
 				i++;
 			}
 			table.addRow(currentRow);
 			tables.add(table);
+			tableId++;
 		}
 
 		article.setTables(tables);
-
+		updateLinks(article, links);
 	}
 
 	protected void setEnWikiTitle(Article article, ParsedPage page) {
@@ -414,7 +424,7 @@ public class ArticleParser {
 	private void setParagraphs(Article article, ParsedPage page) {
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
 		List<Link> links = new ArrayList<Link>();
-		int paragraphIndex = 0;
+		int paragraphId = 0;
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
 			// text = removeTemplates(text);
@@ -423,11 +433,11 @@ public class ArticleParser {
 				paragraphs.add(text);
 				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: p.getLinks()){
 					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
-						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.BODY, paragraphIndex));
+						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.BODY, paragraphId));
 					}
 				}
 			}
-			paragraphIndex++;
+			paragraphId++;
 		}
 		article.setParagraphs(paragraphs);
 		updateLinks(article, links);
@@ -436,11 +446,13 @@ public class ArticleParser {
 	
 	private void updateLinks(Article article, List<Link> links) {
 		List<Link> articleLinks = article.getLinks();
+		
 		for(Link l: links){
 			if(articleLinks.contains(l)){
 				for(Link a: articleLinks){
 					if(a.getType() == null) {
-						articleLinks.set(articleLinks.indexOf(a), l);
+						articleLinks.remove(articleLinks.indexOf(a));
+						articleLinks.add(l);
 						break;
 					}
 				}
