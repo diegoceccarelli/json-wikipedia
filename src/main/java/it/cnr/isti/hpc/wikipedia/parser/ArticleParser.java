@@ -449,15 +449,14 @@ public class ArticleParser {
 		
 		for(Link l: links){
 			if(articleLinks.contains(l)){
+				int index = 0; 
 				for(Link a: articleLinks){
-					if(a.getType() == null) {
-						articleLinks.remove(articleLinks.indexOf(a));
-						articleLinks.add(l);
+					if(a.equals(l) && a.getType() == null) {
+						articleLinks.set(index, l);
 						break;
 					}
+					index++;
 				}
-			} else {
-				articleLinks.add(l);
 			}
 		}
 	}
