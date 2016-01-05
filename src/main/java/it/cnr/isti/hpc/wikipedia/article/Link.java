@@ -189,12 +189,12 @@ public class Link {
 		this.end = end;
 	}
 
-	public int getParagraphIndex() {
+	public int getParagraphId() {
 		return paragraphId;
 	}
 
-	public void setParagraphIndex(int paragraphIndex) {
-		this.paragraphId = paragraphIndex;
+	public void setParagraphId(int paragraphId) {
+		this.paragraphId = paragraphId;
 	}
 
 	public Type getType() {

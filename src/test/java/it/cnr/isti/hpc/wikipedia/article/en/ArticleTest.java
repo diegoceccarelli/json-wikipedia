@@ -116,14 +116,14 @@ public class ArticleTest {
         	// testing a paragraph link
             if (link.getId().equals("document")){
                 assertEquals(link.getType(), Link.Type.BODY);
-                assertEquals(link.getParagraphIndex(), 0);
+                assertEquals(link.getParagraphId(), 0);
             }
             //TODO: test a non paragraph link
             // testing links at the same start and end position but different paragraphs
-            if(link.getParagraphIndex() == 1) {
+            if(link.getParagraphId() == 1) {
             	assertEquals(link.getId(), "link");
             }
-            if(link.getParagraphIndex() == 2) {
+            if(link.getParagraphId() == 2) {
             	assertEquals(link.getId(), "link");
             }
         }
