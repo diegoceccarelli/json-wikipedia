@@ -444,6 +444,13 @@ public class ArticleParser {
 
 	}
 	
+	/**
+	 * Updates the article's links with more specific ones, 
+	 * i.e, containing type information, listId, etc. 
+	 *
+	 * @param  article  the article being parsed
+	 * @param  links the more specific links
+	 */
 	private void updateLinks(Article article, List<Link> links) {
 		List<Link> articleLinks = article.getLinks();
 		
