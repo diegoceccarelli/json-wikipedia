@@ -135,9 +135,7 @@ public class Link {
 
 	@Override
 	public String toString() {
-		return "Link [id=" + id + ", anchor=" + anchor + ", start=" + start + ", end=" + end + ", type=" + type
-				+ ", paragraphId=" + paragraphId + ", listId=" + listId + ", listItem=" + listItem + ", tableId=" + tableId
-				+ ", rowId=" + rowId + ", colId=" + colId + "]";
+		return "Link [id=" + id + ", anchor=" + anchor + ", start=" + start + ", end=" + end + ", type=" + type + "]";
 	}
 	
 	@Override
