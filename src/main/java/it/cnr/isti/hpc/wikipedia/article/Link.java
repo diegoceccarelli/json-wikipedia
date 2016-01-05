@@ -36,7 +36,7 @@ public class Link {
 	private int end;
 	private int paragraphId;
 	private int listId;
-	private int itemId;
+	private int listItem;
 	private int tableId;
 	private int rowId;
 	private int colId;
@@ -59,12 +59,12 @@ public class Link {
 		this.paragraphId = paragraphId;
 	}
 	
-	public Link(String id, String anchor, int start, int end, Type type, int listId, int itemId) {
+	public Link(String id, String anchor, int start, int end, Type type, int listId, int listItem) {
 		super();
 		init(id, anchor, start, end);
 		this.type = type;
 		this.listId = listId;
-		this.itemId = itemId;
+		this.listItem = listItem;
 	}
 	
 	public Link(String id, String anchor, int start, int end, Type type, int tableId, int rowId, int colId) {
@@ -136,7 +136,7 @@ public class Link {
 	@Override
 	public String toString() {
 		return "Link [id=" + id + ", anchor=" + anchor + ", start=" + start + ", end=" + end + ", type=" + type
-				+ ", paragraphId=" + paragraphId + ", listId=" + listId + ", itemId=" + itemId + ", tableId=" + tableId
+				+ ", paragraphId=" + paragraphId + ", listId=" + listId + ", listItem=" + listItem + ", tableId=" + tableId
 				+ ", rowId=" + rowId + ", colId=" + colId + "]";
 	}
 	
@@ -215,12 +215,12 @@ public class Link {
 		this.listId = listId;
 	}
 
-	public int getItemId() {
-		return itemId;
+	public int getlistItem() {
+		return listItem;
 	}
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setlistItem(int listItem) {
+		this.listItem = listItem;
 	}
 
 	public int getTableId() {

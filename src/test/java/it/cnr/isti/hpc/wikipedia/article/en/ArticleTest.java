@@ -140,17 +140,17 @@ public class ArticleTest {
             if (link.getId().equals("Lists")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 0);
-                assertEquals(link.getItemId(), 0);
+                assertEquals(link.getlistItem(), 0);
             }
             if (link.getId().equals("every")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 0);
-                assertEquals(link.getItemId(), 1);
+                assertEquals(link.getlistItem(), 1);
             }
             if (link.getId().equals("newline")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 1);
-                assertEquals(link.getItemId(), 0);
+                assertEquals(link.getlistItem(), 0);
             }
         }
     }
