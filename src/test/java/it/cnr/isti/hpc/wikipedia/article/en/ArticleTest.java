@@ -22,9 +22,11 @@ import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.article.Link.Type;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -114,6 +116,22 @@ public class ArticleTest {
             assert(!l.getId().equals(""));
         }
     }
+    
+    @Test
+    public void testEmptyLinksShouldBeFiltered() throws IOException {
+        // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
+        // Those should be filtered
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Phantom_kangaroo");
+        parser.parse(a, mediawiki);
+
+        for(Link l: a.getLinks()){
+            assert(!l.getId().equals(""));
+            assert(!l.getAnchor().equals(""));
+        }
+        testAnchorsInParagraphs(a);
+        testAnchorsInLists(a);
+    }
 	
     @Test
     public void testParagraphLinks() throws IOException {
@@ -137,6 +155,18 @@ public class ArticleTest {
             	assertEquals(link.getId(), "link");
             }
         }
+        testAnchorsInParagraphs(a);
+    }
+    
+    private void testAnchorsInParagraphs(Article article) {
+    	List<String> paragraphs = article.getParagraphs();
+    	for(Link link: article.getLinks()){
+    		if(link.getType() == Type.BODY) {
+    			String paragraph = paragraphs.get(link.getParagraphId());
+    			String anchor = paragraph.substring(link.getStart(), link.getEnd());
+    			assertEquals(anchor, link.getAnchor());
+    		}
+    	}
     }
     
     @Test
@@ -163,7 +193,18 @@ public class ArticleTest {
                 assertEquals(link.getlistItem(), 0);
             }
         }
+        testAnchorsInLists(a);
     }
 	
-  
+    private void testAnchorsInLists(Article article) {
+    	List<List<String>> lists = article.getLists();
+    	for(Link link: article.getLinks()){
+    		if(link.getType() == Type.LIST) {
+    			List<String> list = lists.get(link.getListId());
+    			String item = list.get(link.getlistItem());
+    			String anchor = item.substring(link.getStart(), link.getEnd());
+    			assertEquals(anchor, link.getAnchor());
+    		}
+    	}
+    }
 }
