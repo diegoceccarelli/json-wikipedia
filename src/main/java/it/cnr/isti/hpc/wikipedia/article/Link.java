@@ -142,9 +142,10 @@ public class Link {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((anchor == null) ? 0 : anchor.hashCode());
+		result = prime * result + ((anchor == null) ? 0 : anchor.hashCode());
+		result = prime * result + end;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + start;
 		return result;
 	}
 	@Override
@@ -161,14 +162,14 @@ public class Link {
 				return false;
 		} else if (!anchor.equals(other.anchor))
 			return false;
+		if (end != other.end)
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		if (start != other.start)
-			return false;
-		if (end != other.end)
 			return false;
 		return true;
 	}
