@@ -113,7 +113,7 @@ public class ArticleTest {
         parser.parse(a, mediawiki);
 
         for(Link l: a.getLinks()){
-            assert(!l.getId().equals(""));
+        	assertFalse(l.getId().isEmpty());
         }
     }
     
@@ -126,8 +126,8 @@ public class ArticleTest {
         parser.parse(a, mediawiki);
 
         for(Link l: a.getLinks()){
-            assert(!l.getId().equals(""));
-            assert(!l.getAnchor().equals(""));
+            assertFalse(l.getId().isEmpty());
+            assertFalse(l.getAnchor().isEmpty());
         }
         testAnchorsInParagraphs(a);
         testAnchorsInLists(a);
