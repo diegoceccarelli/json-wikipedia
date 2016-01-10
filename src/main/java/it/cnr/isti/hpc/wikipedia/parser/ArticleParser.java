@@ -229,9 +229,9 @@ public class ArticleParser {
 	 * @param page
 	 */
 	private void setTables(Article article, ParsedPage page) {
-		List<Table> tables = new ArrayList<Table>();
+		List<Table> tables = new ArrayList<>();
 
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = new ArrayList<>();
 		int tableId = 0;
 		for (de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
 			// System.out.println(t);
@@ -244,7 +244,7 @@ public class ArticleParser {
 					title = "";
 			}
 			Table table = new Table(title);
-			List<String> currentRow = new ArrayList<String>();
+			List<String> currentRow = new ArrayList<>();
 			List<Content> contentList = t.getContentList();
 			for (@SuppressWarnings("unused")
 			Content c : contentList) {
@@ -268,11 +268,11 @@ public class ArticleParser {
 				if (row > 0 && col == 0) {
 					if ((currentRow.size() == 1)
 							&& (currentRow.get(0).equals(table.getName()))) {
-						currentRow = new ArrayList<String>();
+						currentRow = new ArrayList<>();
 					} else {
 						if (!currentRow.isEmpty())
 							table.addRow(currentRow);
-						currentRow = new ArrayList<String>();
+						currentRow = new ArrayList<>();
 					}
 
 				}
@@ -423,7 +423,7 @@ public class ArticleParser {
 
 	private void setParagraphs(Article article, ParsedPage page) {
 		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = new ArrayList<>();
 		int paragraphId = 0;
 		for (Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
@@ -469,19 +469,19 @@ public class ArticleParser {
 	}
 
 	private void setLists(Article article, ParsedPage page) {
-		List<List<String>> lists = new LinkedList<List<String>>();
+		List<List<String>> lists = new LinkedList<>();
 		for (DefinitionList dl : page.getDefinitionLists()) {
-			List<String> l = new ArrayList<String>();
+			List<String> l = new ArrayList<>();
 			for (ContentElement c : dl.getDefinitions()) {
 				l.add(c.getText());
 			}
 			lists.add(l);
 		}
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = new ArrayList<>();
 		int listId = 0;
 		for (NestedListContainer dl : page.getNestedLists()) {
 			int itemId = 0;
-			List<String> l = new ArrayList<String>();
+			List<String> l = new ArrayList<>();
 			for (NestedList nl : dl.getNestedLists()){
 				l.add(nl.getText());
 				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: nl.getLinks()){
