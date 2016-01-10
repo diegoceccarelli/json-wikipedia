@@ -339,14 +339,14 @@ public class ArticleParser {
 
 		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
 			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-
-				links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-
+				if(!t.getTarget().isEmpty()){
+					links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
+				}
 			}
 			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-
-				elinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
-
+				if(!t.getTarget().isEmpty()){
+					elinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
+				}
 			}
 		}
 		article.setLinks(links);
