@@ -34,12 +34,12 @@ public class Link {
 	
 	private int start;
 	private int end;
-	private int paragraphId;
-	private int listId;
-	private int listItem;
-	private int tableId;
-	private int rowId;
-	private int colId;
+	private Integer paragraphId;
+	private Integer listId;
+	private Integer listItem;
+	private Integer tableId;
+	private Integer rowId;
+	private Integer colId;
 	private Type type;
 	
 	/** The possible types of a Link (e.g., body, table, list) **/
@@ -52,14 +52,14 @@ public class Link {
 		init(id, anchor, start, end);
 	}
 	
-	public Link(String id, String anchor, int start, int end, Type type, int paragraphId) {
+	public Link(String id, String anchor, int start, int end, Type type, Integer paragraphId) {
 		super();
 		init(id, anchor, start, end);
 		this.type = type;
 		this.paragraphId = paragraphId;
 	}
 	
-	public Link(String id, String anchor, int start, int end, Type type, int listId, int listItem) {
+	public Link(String id, String anchor, int start, int end, Type type, Integer listId, Integer listItem) {
 		super();
 		init(id, anchor, start, end);
 		this.type = type;
@@ -67,7 +67,7 @@ public class Link {
 		this.listItem = listItem;
 	}
 	
-	public Link(String id, String anchor, int start, int end, Type type, int tableId, int rowId, int colId) {
+	public Link(String id, String anchor, int start, int end, Type type, Integer tableId, Integer rowId, Integer colId) {
 		super();
 		init(id, anchor, start, end);
 		this.type = type;
@@ -193,7 +193,7 @@ public class Link {
 		return paragraphId;
 	}
 
-	public void setParagraphId(int paragraphId) {
+	public void setParagraphId(Integer paragraphId) {
 		this.paragraphId = paragraphId;
 	}
 
@@ -209,7 +209,7 @@ public class Link {
 		return listId;
 	}
 
-	public void setListId(int listId) {
+	public void setListId(Integer listId) {
 		this.listId = listId;
 	}
 
@@ -217,7 +217,7 @@ public class Link {
 		return listItem;
 	}
 
-	public void setlistItem(int listItem) {
+	public void setlistItem(Integer listItem) {
 		this.listItem = listItem;
 	}
 
@@ -225,7 +225,7 @@ public class Link {
 		return tableId;
 	}
 
-	public void setTableId(int tableId) {
+	public void setTableId(Integer tableId) {
 		this.tableId = tableId;
 	}
 
@@ -233,7 +233,7 @@ public class Link {
 		return rowId;
 	}
 
-	public void setRowId(int rowId) {
+	public void setRowId(Integer rowId) {
 		this.rowId = rowId;
 	}
 
@@ -241,7 +241,7 @@ public class Link {
 		return colId;
 	}
 
-	public void setColId(int colId) {
+	public void setColId(Integer colId) {
 		this.colId = colId;
 	}
 }
