@@ -101,7 +101,7 @@ public class ArticleTest {
         // testing an specific anchor
         for (Link link:a.getLinks()){
             if (link.getId().equals("HTMS_Chakri_Naruebet"))
-                assertEquals(link.getAnchor(),"HTMS Chakri Naruebet");
+                assertEquals("HTMS Chakri Naruebet", link.getAnchor());
         }
 
     }
@@ -143,16 +143,16 @@ public class ArticleTest {
         for (Link link:a.getLinks()){
         	// testing a paragraph link
             if (link.getId().equals("document")){
-                assertEquals(link.getType(), Link.Type.BODY);
-                assertEquals(link.getParagraphId(), 0);
+                assertEquals(Link.Type.BODY, link.getType());
+                assertEquals(0, link.getParagraphId());
             }
-            //TODO: test a non paragraph link
+            
             // testing links at the same start and end position but different paragraphs
             if(link.getParagraphId() == 1) {
-            	assertEquals(link.getId(), "link");
+            	assertEquals("link", link.getId());
             }
             if(link.getParagraphId() == 2) {
-            	assertEquals(link.getId(), "link");
+            	assertEquals("link", link.getId());
             }
         }
         testAnchorsInParagraphs(a);
@@ -178,19 +178,19 @@ public class ArticleTest {
      // testing specific links
         for (Link link:a.getLinks()){
             if (link.getId().equals("Lists")){
-                assertEquals(link.getType(), Link.Type.LIST);
-                assertEquals(link.getListId(), 0);
-                assertEquals(link.getListItem(), 0);
+                assertEquals(Link.Type.LIST, link.getType());
+                assertEquals(0, link.getListId());
+                assertEquals(0, link.getListItem());
             }
             if (link.getId().equals("every")){
-                assertEquals(link.getType(), Link.Type.LIST);
-                assertEquals(link.getListId(), 0);
-                assertEquals(link.getListItem(), 1);
+                assertEquals(Link.Type.LIST, link.getType());
+                assertEquals(0, link.getListId());
+                assertEquals(1, link.getListItem());
             }
             if (link.getId().equals("newline")){
-                assertEquals(link.getType(), Link.Type.LIST);
-                assertEquals(link.getListId(), 1);
-                assertEquals(link.getListItem(), 0);
+                assertEquals(Link.Type.LIST, link.getType());
+                assertEquals(1, link.getListId());
+                assertEquals(0, link.getListItem());
             }
         }
         testAnchorsInLists(a);
@@ -235,6 +235,5 @@ public class ArticleTest {
                 assertEquals(1, link.getColumnId());
             }
         }
-        testAnchorsInLists(a);
     }
 }

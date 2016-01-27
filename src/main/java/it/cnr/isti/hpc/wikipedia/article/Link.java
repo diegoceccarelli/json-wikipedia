@@ -39,7 +39,7 @@ public class Link {
 	private Integer listItem;
 	private Integer tableId;
 	private Integer rowId;
-	private Integer colId;
+	private Integer columnId;
 	private Type type;
 	
 	/** The possible types of a Link (e.g., body, table, list) **/
@@ -67,13 +67,13 @@ public class Link {
 		this.listItem = listItem;
 	}
 	
-	public Link(String id, String anchor, int start, int end, Type type, Integer tableId, Integer rowId, Integer colId) {
+	public Link(String id, String anchor, int start, int end, Type type, Integer tableId, Integer rowId, Integer columnId) {
 		super();
 		init(id, anchor, start, end);
 		this.type = type;
 		this.tableId = tableId;
 		this.rowId = rowId;
-		this.colId = colId;
+		this.columnId = columnId;
 	}
 	
 	private void init(String id, String anchor, int start, int end) {
@@ -214,11 +214,11 @@ public class Link {
 		this.listId = listId;
 	}
 
-	public int getlistItem() {
+	public int getListItem() {
 		return listItem;
 	}
 
-	public void setlistItem(Integer listItem) {
+	public void setListItem(Integer listItem) {
 		this.listItem = listItem;
 	}
 
@@ -238,11 +238,11 @@ public class Link {
 		this.rowId = rowId;
 	}
 
-	public int getColId() {
-		return colId;
+	public int getColumnId() {
+		return columnId;
 	}
 
-	public void setColId(Integer colId) {
-		this.colId = colId;
+	public void setColumnId(Integer columnId) {
+		this.columnId = columnId;
 	}
 }
