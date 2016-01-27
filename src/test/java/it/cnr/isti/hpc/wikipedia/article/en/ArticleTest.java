@@ -180,17 +180,17 @@ public class ArticleTest {
             if (link.getId().equals("Lists")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 0);
-                assertEquals(link.getlistItem(), 0);
+                assertEquals(link.getListItem(), 0);
             }
             if (link.getId().equals("every")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 0);
-                assertEquals(link.getlistItem(), 1);
+                assertEquals(link.getListItem(), 1);
             }
             if (link.getId().equals("newline")){
                 assertEquals(link.getType(), Link.Type.LIST);
                 assertEquals(link.getListId(), 1);
-                assertEquals(link.getlistItem(), 0);
+                assertEquals(link.getListItem(), 0);
             }
         }
         testAnchorsInLists(a);
@@ -201,10 +201,40 @@ public class ArticleTest {
     	for(Link link: article.getLinks()){
     		if(link.getType() == Type.LIST) {
     			List<String> list = lists.get(link.getListId());
-    			String item = list.get(link.getlistItem());
+    			String item = list.get(link.getListItem());
     			String anchor = item.substring(link.getStart(), link.getEnd());
     			assertEquals(anchor, link.getAnchor());
     		}
     	}
+    }
+    
+    @Test
+    public void testTableLinks() throws IOException {
+        Article a = new Article();
+        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
+        parser.parse(a, mediawiki);
+        
+     // testing specific links
+        for (Link link:a.getLinks()){
+            if (link.getId().equals("William_Webb")){
+                assertEquals(Link.Type.TABLE, link.getType());
+                assertEquals(0, link.getTableId());
+                assertEquals(2, link.getRowId());
+                assertEquals(1, link.getColumnId());
+            }
+            if (link.getId().equals("Canada")){
+                assertEquals(Link.Type.TABLE, link.getType());
+                assertEquals(0, link.getTableId());
+                assertEquals(3, link.getRowId());
+                assertEquals(0, link.getColumnId());
+            }
+            if (link.getId().equals("Alan_Mansfield")){
+                assertEquals(Link.Type.TABLE, link.getType());
+                assertEquals(1, link.getTableId());
+                assertEquals(3, link.getRowId());
+                assertEquals(1, link.getColumnId());
+            }
+        }
+        testAnchorsInLists(a);
     }
 }
