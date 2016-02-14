@@ -62,10 +62,10 @@ public class ArticleParser {
 	private String lang = Language.EN;
 
 	static int shortDescriptionLength = 500;
-	private List<String> redirects;
+	private final List<String> redirects;
 
-	private MediaWikiParser parser;
-	private Locale locale;
+	private final MediaWikiParser parser;
+	private final Locale locale;
 
 	public ArticleParser(String lang) {
 		this.lang = lang;
@@ -83,7 +83,7 @@ public class ArticleParser {
 	}
 
 	public void parse(Article article, String mediawiki) {
-		ParsedPage page = parser.parse(mediawiki);
+		final ParsedPage page = parser.parse(mediawiki);
 		setRedirect(article, mediawiki);
 
 		parse(article, page);
@@ -153,7 +153,7 @@ public class ArticleParser {
 	 * @param article
 	 */
 	private void setIsList(Article article) {
-		for (String list : locale.getListIdentifiers()) {
+		for (final String list : locale.getListIdentifiers()) {
 			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
 				article.setType(Type.LIST);
 			}
@@ -162,18 +162,20 @@ public class ArticleParser {
 	}
 
 	private void setRedirect(Article article) {
-		if (!article.getRedirect().isEmpty())
-			return;
-		List<List<String>> lists = article.getLists();
+		if (!article.getRedirect().isEmpty()) {
+      return;
+    }
+		final List<List<String>> lists = article.getLists();
 		if ((!lists.isEmpty()) && (! lists.get(0).isEmpty())) {
 			// checking only first item in first list
-			String line = lists.get(0).get(0);
+			final String line = lists.get(0).get(0);
 
-			for (String redirect : redirects) {
+			for (final String redirect : redirects) {
 				if (StringUtils.startsWithIgnoreCase(line, redirect)) {
-					int pos = line.indexOf(' ');
-					if (pos < 0)
-						return;
+					final int pos = line.indexOf(' ');
+					if (pos < 0) {
+            return;
+          }
 					String red = line.substring(pos).trim();
 					red = Article.getTitleInWikistyle(red);
 					article.setRedirect(red);
@@ -208,20 +210,21 @@ public class ArticleParser {
 	 * @param page
 	 */
 	private void setRedirect(Article article, String mediawiki) {
-		for (String redirect : redirects)
-			if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
-				int start = mediawiki.indexOf("[[") + 2;
-				int end = mediawiki.indexOf("]]");
-				if (start < 0 || end < 0) {
+		for (final String redirect : redirects) {
+      if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
+				final int start = mediawiki.indexOf("[[") + 2;
+				final int end = mediawiki.indexOf("]]");
+				if ((start < 0) || (end < 0)) {
 					logger.warn("cannot find the redirect {}\n mediawiki: {}",
 							article.getTitle(), mediawiki);
 					continue;
 				}
-				String r = Article.getTitleInWikistyle(mediawiki.substring(
+				final String r = Article.getTitleInWikistyle(mediawiki.substring(
 						start, end));
 				article.setRedirect(r);
 				article.setType(Type.REDIRECT);
 			}
+    }
 
 	}
 
@@ -229,24 +232,25 @@ public class ArticleParser {
 	 * @param page
 	 */
 	private void setTables(Article article, ParsedPage page) {
-		List<Table> tables = new ArrayList<>();
+		final List<Table> tables = new ArrayList<>();
 
-		List<Link> links = new ArrayList<>();
+		final List<Link> links = new ArrayList<>();
 		int tableId = 0;
-		for (de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
+		for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
 			// System.out.println(t);
 
 			int i = 0;
 			String title = "";
 			if (t.getTitleElement() != null) {
 				title = t.getTitleElement().getText();
-				if (title == null)
-					title = "";
+				if (title == null) {
+          title = "";
+        }
 			}
-			Table table = new Table(title);
+			final Table table = new Table(title);
 			List<String> currentRow = new ArrayList<>();
-			List<Content> contentList = t.getContentList();
-			for (@SuppressWarnings("unused")
+			final List<Content> contentList = t.getContentList();
+			for (@SuppressWarnings("unused") final
 			Content c : contentList) {
 
 				int row, col;
@@ -258,26 +262,27 @@ public class ArticleParser {
 					row = t.getTableElement(i).getRow();
 					elem = t.getTableElement(i).getText();
 
-				} catch (IndexOutOfBoundsException e) {
+				} catch (final IndexOutOfBoundsException e) {
 					// logger.(
 					// "Error creating table {}, Index out of bound - content = {}",
 					// table.getName(), c.getText());
 					break;
 
 				}
-				if (row > 0 && col == 0) {
+				if ((row > 0) && (col == 0)) {
 					if ((currentRow.size() == 1)
 							&& (currentRow.get(0).equals(table.getName()))) {
 						currentRow = new ArrayList<>();
 					} else {
-						if (!currentRow.isEmpty())
-							table.addRow(currentRow);
+						if (!currentRow.isEmpty()) {
+              table.addRow(currentRow);
+            }
 						currentRow = new ArrayList<>();
 					}
 
 				}
 				
-				for(de.tudarmstadt.ukp.wikipedia.parser.Link l: t.getTableElement(i).getLinks()){
+				for(final de.tudarmstadt.ukp.wikipedia.parser.Link l: t.getTableElement(i).getLinks()){
 					if (l.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
 						links.add(new Link(l.getTarget(), l.getText(), l.getPos().getStart(), l.getPos().getEnd(), Link.Type.TABLE, tableId, row, col));
 					}
@@ -304,16 +309,17 @@ public class ArticleParser {
 				article.setEnWikiTitle("");
 				return;
 			}
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			// FIXME title is always null!
 			logger.warn("no languages for page {} ", article.getTitle());
 			return;
 		}
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link l : page.getLanguages())
-			if (l.getText().startsWith("en:")) {
+		for (final de.tudarmstadt.ukp.wikipedia.parser.Link l : page.getLanguages()) {
+      if (l.getText().startsWith("en:")) {
 				article.setEnWikiTitle(l.getTarget().substring(3));
 				break;
 			}
+    }
 
 	}
 
@@ -321,11 +327,12 @@ public class ArticleParser {
 	 * @param page
 	 */
 	private void setSections(Article article, ParsedPage page) {
-		List<String> sections = new ArrayList<String>(10);
-		for (Section s : page.getSections()) {
+		final List<String> sections = new ArrayList<String>(10);
+		for (final Section s : page.getSections()) {
 
-			if (s == null || s.getTitle() == null)
-				continue;
+			if ((s == null) || (s.getTitle() == null)) {
+        continue;
+      }
 			sections.add(s.getTitle());
 		}
 		article.setSections(sections);
@@ -334,31 +341,44 @@ public class ArticleParser {
 
 	private void setLinks(Article article, ParsedPage page) {
 
-		List<Link> links = new ArrayList<Link>(10);
-		List<Link> elinks = new ArrayList<Link>(10);
+    final List<Link> links = new ArrayList<Link>(10);
+    final List<Link> elinks = new ArrayList<Link>(10);
 
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
-				if(!t.getTarget().isEmpty()){
-					links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd()));
-				}
-			}
-			if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
-				if(!t.getTarget().isEmpty()){
-					elinks.add(new Link(t.getTarget(), t.getText(),t.getPos().getStart(), t.getPos().getEnd()));
-				}
-			}
-		}
-		article.setLinks(links);
-		article.setExternalLinks(elinks);
-	}
+    for (final de.tudarmstadt.ukp.wikipedia.parser.Link t : page.getLinks()) {
+      
+      final Span linkSpan = t.getPos();
+      if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.IMAGE) {
+        if (!t.getTarget().isEmpty()) {
+          final Link image = new Link(t.getTarget(), t.getText(),
+              linkSpan.getStart(), linkSpan.getEnd());
+          image.setType(Link.Type.IMAGE);
+          image.setParams(t.getParameters());
+          links.add(image);
+        }
+      }
+      if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL) {
+        if (!t.getTarget().isEmpty()) {
+          links.add(new Link(t.getTarget(), t.getText(), linkSpan.getStart(),
+              linkSpan.getEnd()));
+        }
+      }
+      if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL) {
+        if (!t.getTarget().isEmpty()) {
+          elinks.add(new Link(t.getTarget(), t.getText(), linkSpan.getStart(),
+              linkSpan.getEnd()));
+        }
+      }
+    }
+    article.setLinks(links);
+    article.setExternalLinks(elinks);
+  }
 
 	private void setTemplates(Article article, ParsedPage page) {
-		List<Template> templates = new ArrayList<Template>(10);
+		final List<Template> templates = new ArrayList<Template>(10);
 
-		for (de.tudarmstadt.ukp.wikipedia.parser.Template t : page
+		for (final de.tudarmstadt.ukp.wikipedia.parser.Template t : page
 				.getTemplates()) {
-			List<String> templateParameters = t.getParameters();
+			final List<String> templateParameters = t.getParameters();
 			parseTemplatesSchema(article, templateParameters);
 
 			if (t.getName().toLowerCase().startsWith("infobox")) {
@@ -377,16 +397,16 @@ public class ArticleParser {
 	 */
 	private void parseTemplatesSchema(Article article,
 			List<String> templateParameters) {
-		List<String> schema = new ArrayList<String>(10);
+		final List<String> schema = new ArrayList<String>(10);
 
-		for (String s : templateParameters) {
+		for (final String s : templateParameters) {
 			try {
 				if (s.contains("=")) {
-					String attributeName = s.split("=")[0].trim().toLowerCase();
+					final String attributeName = s.split("=")[0].trim().toLowerCase();
 					schema.add(attributeName);
 				}
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				continue;
 			}
 		}
@@ -395,9 +415,9 @@ public class ArticleParser {
 	}
 
 	private void setCategories(Article article, ParsedPage page) {
-		ArrayList<Link> categories = new ArrayList<Link>(10);
+		final ArrayList<Link> categories = new ArrayList<Link>(10);
 
-		for (de.tudarmstadt.ukp.wikipedia.parser.Link c : page.getCategories()) {
+		for (final de.tudarmstadt.ukp.wikipedia.parser.Link c : page.getCategories()) {
 
 			categories.add(new Link(c.getTarget(), c.getText(), c.getPos().getStart(), c.getPos().getEnd()));
 		}
@@ -406,13 +426,13 @@ public class ArticleParser {
 	}
 
 	private void setHighlights(Article article, ParsedPage page) {
-		List<String> highlights = new ArrayList<String>(20);
+		final List<String> highlights = new ArrayList<String>(20);
 
-		for (Paragraph p : page.getParagraphs()) {
-			for (Span t : p.getFormatSpans(Content.FormatType.BOLD)) {
+		for (final Paragraph p : page.getParagraphs()) {
+			for (final Span t : p.getFormatSpans(Content.FormatType.BOLD)) {
 				highlights.add(t.getText(p.getText()));
 			}
-			for (Span t : p.getFormatSpans(Content.FormatType.ITALIC)) {
+			for (final Span t : p.getFormatSpans(Content.FormatType.ITALIC)) {
 				highlights.add(t.getText(p.getText()));
 			}
 
@@ -422,16 +442,16 @@ public class ArticleParser {
 	}
 
 	private void setParagraphs(Article article, ParsedPage page) {
-		List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
-		List<Link> links = new ArrayList<>();
+		final List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
+		final List<Link> links = new ArrayList<>();
 		int paragraphId = 0;
-		for (Paragraph p : page.getParagraphs()) {
+		for (final Paragraph p : page.getParagraphs()) {
 			String text = p.getText();
 			// text = removeTemplates(text);
 			text = text.replace("\n", " ").trim();
 			if (!text.isEmpty()){
 				paragraphs.add(text);
-				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: p.getLinks()){
+				for(final de.tudarmstadt.ukp.wikipedia.parser.Link t: p.getLinks()){
 					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
 						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.BODY, paragraphId));
 					}
@@ -452,13 +472,13 @@ public class ArticleParser {
 	 * @param  links the more specific links
 	 */
 	private void updateLinks(Article article, List<Link> links) {
-		List<Link> articleLinks = article.getLinks();
+		final List<Link> articleLinks = article.getLinks();
 		
-		for(Link l: links){
+		for(final Link l: links){
 			if(articleLinks.contains(l)){
 				int index = 0; 
-				for(Link a: articleLinks){
-					if(a.equals(l) && a.getType() == null) {
+				for(final Link a: articleLinks){
+					if(a.equals(l) && (a.getType() == null)) {
 						articleLinks.set(index, l);
 						break;
 					}
@@ -469,22 +489,22 @@ public class ArticleParser {
 	}
 
 	private void setLists(Article article, ParsedPage page) {
-		List<List<String>> lists = new LinkedList<>();
-		for (DefinitionList dl : page.getDefinitionLists()) {
-			List<String> l = new ArrayList<>();
-			for (ContentElement c : dl.getDefinitions()) {
+		final List<List<String>> lists = new LinkedList<>();
+		for (final DefinitionList dl : page.getDefinitionLists()) {
+			final List<String> l = new ArrayList<>();
+			for (final ContentElement c : dl.getDefinitions()) {
 				l.add(c.getText());
 			}
 			lists.add(l);
 		}
-		List<Link> links = new ArrayList<>();
+		final List<Link> links = new ArrayList<>();
 		int listId = 0;
-		for (NestedListContainer dl : page.getNestedLists()) {
+		for (final NestedListContainer dl : page.getNestedLists()) {
 			int itemId = 0;
-			List<String> l = new ArrayList<>();
-			for (NestedList nl : dl.getNestedLists()){
+			final List<String> l = new ArrayList<>();
+			for (final NestedList nl : dl.getNestedLists()){
 				l.add(nl.getText());
-				for(de.tudarmstadt.ukp.wikipedia.parser.Link t: nl.getLinks()){
+				for(final de.tudarmstadt.ukp.wikipedia.parser.Link t: nl.getLinks()){
 					if (t.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL){
 						links.add(new Link(t.getTarget(), t.getText(), t.getPos().getStart(), t.getPos().getEnd(), Link.Type.LIST, listId, itemId));
 					}
@@ -500,12 +520,12 @@ public class ArticleParser {
 
 	private void setDisambiguation(Article a) {
 
-		for (String disambiguation : locale.getDisambigutionIdentifiers()) {
+		for (final String disambiguation : locale.getDisambigutionIdentifiers()) {
 			if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
 				a.setType(Type.DISAMBIGUATION);
 				return;
 			}
-			for (Template t : a.getTemplates()) {
+			for (final Template t : a.getTemplates()) {
 				if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
 					a.setType(Type.DISAMBIGUATION);
 					return;

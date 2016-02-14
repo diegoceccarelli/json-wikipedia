@@ -16,8 +16,8 @@
 package it.cnr.isti.hpc.wikipedia.article.en;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
@@ -43,13 +43,13 @@ public class ArticleTest {
 	
 	@Test
 	public void testParsing() throws IOException {
-		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
+		final Article a = new Article();
+		final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
 		parser.parse(a, mediawiki);
 		assertTrue("Wrong parsed text",a.getCleanText().trim().startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface."));
 		assertEquals(5, a.getCategories().size());
 		assertEquals(7,a.getSections().size());
-		assertEquals(74,a.getLinks().size());
+		assertEquals(77,a.getLinks().size());
 		
 	}
 	
@@ -57,8 +57,8 @@ public class ArticleTest {
 	
 	@Test
 	public void testMercedes() throws IOException {
-		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/mercedes.txt");
+		final Article a = new Article();
+		final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/mercedes.txt");
 		parser.parse(a, mediawiki);
 		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
@@ -68,8 +68,8 @@ public class ArticleTest {
 	
 	@Test
 	public void testDisambiguation() throws IOException {
-		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/hdis.txt");
+		final Article a = new Article();
+		final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/hdis.txt");
 		parser.parse(a, mediawiki);
 		assertTrue(a.isDisambiguation());
 		
@@ -78,8 +78,8 @@ public class ArticleTest {
 	
 	@Test
 	public void testNotRedirect() throws IOException {
-		Article a = new Article();
-		String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/liberalism.txt");
+		final Article a = new Article();
+		final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/liberalism.txt");
 		parser.parse(a, mediawiki);
 		System.out.println(a.getRedirect());
 		assertTrue(! a.isRedirect());
@@ -89,30 +89,31 @@ public class ArticleTest {
 
     @Test
     public void testNoEmptyAnchors() throws IOException {
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
         parser.parse(a, mediawiki);
 
         // No anchor should be empty
-        for (Link link:a.getLinks()){
+        for (final Link link:a.getLinks()){
             assertFalse(link.getAnchor().isEmpty());
         }
 
         // testing an specific anchor
-        for (Link link:a.getLinks()){
-            if (link.getId().equals("HTMS_Chakri_Naruebet"))
-                assertEquals("HTMS Chakri Naruebet", link.getAnchor());
+        for (final Link link:a.getLinks()){
+            if (link.getId().equals("HTMS_Chakri_Naruebet")) {
+              assertEquals("HTMS Chakri Naruebet", link.getAnchor());
+            }
         }
 
     }
     
     @Test
     public void testNoEmptyWikiIds() throws IOException {
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Cenozoic");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Cenozoic");
         parser.parse(a, mediawiki);
 
-        for(Link l: a.getLinks()){
+        for(final Link l: a.getLinks()){
         	assertFalse(l.getId().isEmpty());
         }
     }
@@ -121,11 +122,11 @@ public class ArticleTest {
     public void testEmptyLinksShouldBeFiltered() throws IOException {
         // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
         // Those should be filtered
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Phantom_kangaroo");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/Phantom_kangaroo");
         parser.parse(a, mediawiki);
 
-        for(Link l: a.getLinks()){
+        for(final Link l: a.getLinks()){
             assertFalse(l.getId().isEmpty());
             assertFalse(l.getAnchor().isEmpty());
         }
@@ -135,12 +136,12 @@ public class ArticleTest {
 	
     @Test
     public void testParagraphLinks() throws IOException {
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ParagraphLinksTest.txt");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ParagraphLinksTest.txt");
         parser.parse(a, mediawiki);
         
      // testing specific links
-        for (Link link:a.getLinks()){
+        for (final Link link:a.getLinks()){
         	// testing a paragraph link
             if (link.getId().equals("document")){
                 assertEquals(Link.Type.BODY, link.getType());
@@ -159,11 +160,11 @@ public class ArticleTest {
     }
     
     private void testAnchorsInParagraphs(Article article) {
-    	List<String> paragraphs = article.getParagraphs();
-    	for(Link link: article.getLinks()){
+    	final List<String> paragraphs = article.getParagraphs();
+    	for(final Link link: article.getLinks()){
     		if(link.getType() == Type.BODY) {
-    			String paragraph = paragraphs.get(link.getParagraphId());
-    			String anchor = paragraph.substring(link.getStart(), link.getEnd());
+    			final String paragraph = paragraphs.get(link.getParagraphId());
+    			final String anchor = paragraph.substring(link.getStart(), link.getEnd());
     			assertEquals(anchor, link.getAnchor());
     		}
     	}
@@ -171,12 +172,12 @@ public class ArticleTest {
     
     @Test
     public void testListLinks() throws IOException {
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ListLinksTest.txt");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/ListLinksTest.txt");
         parser.parse(a, mediawiki);
         
      // testing specific links
-        for (Link link:a.getLinks()){
+        for (final Link link:a.getLinks()){
             if (link.getId().equals("Lists")){
                 assertEquals(Link.Type.LIST, link.getType());
                 assertEquals(0, link.getListId());
@@ -197,12 +198,12 @@ public class ArticleTest {
     }
 	
     private void testAnchorsInLists(Article article) {
-    	List<List<String>> lists = article.getLists();
-    	for(Link link: article.getLinks()){
+    	final List<List<String>> lists = article.getLists();
+    	for(final Link link: article.getLinks()){
     		if(link.getType() == Type.LIST) {
-    			List<String> list = lists.get(link.getListId());
-    			String item = list.get(link.getListItem());
-    			String anchor = item.substring(link.getStart(), link.getEnd());
+    			final List<String> list = lists.get(link.getListId());
+    			final String item = list.get(link.getListItem());
+    			final String anchor = item.substring(link.getStart(), link.getEnd());
     			assertEquals(anchor, link.getAnchor());
     		}
     	}
@@ -210,12 +211,12 @@ public class ArticleTest {
     
     @Test
     public void testTableLinks() throws IOException {
-        Article a = new Article();
-        String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
+        final Article a = new Article();
+        final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
         parser.parse(a, mediawiki);
         
      // testing specific links
-        for (Link link:a.getLinks()){
+        for (final Link link:a.getLinks()){
             if (link.getId().equals("William_Webb")){
                 assertEquals(Link.Type.TABLE, link.getType());
                 assertEquals(0, link.getTableId());

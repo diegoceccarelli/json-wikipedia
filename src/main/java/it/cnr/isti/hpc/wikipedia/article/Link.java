@@ -15,6 +15,8 @@
  */
 package it.cnr.isti.hpc.wikipedia.article;
 
+import java.util.List;
+
 /**
  * Link class models a link an internal link on Wikipedia. 
  * The class contains two attributes: the target <b> id </b>: a string representing the 
@@ -41,10 +43,11 @@ public class Link {
 	private Integer rowId;
 	private Integer columnId;
 	private Type type;
+	private List<String> params;
 	
 	/** The possible types of a Link (e.g., body, table, list) **/
 	public enum Type {
-		BODY, TABLE, LIST
+		BODY, TABLE, LIST, IMAGE
 	};
 
 	public Link(String id, String anchor, int start, int end) {
@@ -117,7 +120,7 @@ public class Link {
 		if ( ! cleanId.isEmpty()){
 			cleanId = Character.toUpperCase(cleanId.charAt(0))+cleanId.substring(1);
 		}
-		int pos = cleanId.indexOf('#');
+		final int pos = cleanId.indexOf('#');
 		if (pos >= 0){
 			cleanId = cleanId.substring(0,pos);
 		}
@@ -142,35 +145,44 @@ public class Link {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((anchor == null) ? 0 : anchor.hashCode());
-		result = prime * result + end;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + start;
+		result = (prime * result) + ((anchor == null) ? 0 : anchor.hashCode());
+		result = (prime * result) + end;
+		result = (prime * result) + ((id == null) ? 0 : id.hashCode());
+		result = (prime * result) + start;
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Link other = (Link) obj;
+		if (this == obj) {
+      return true;
+    }
+		if (obj == null) {
+      return false;
+    }
+		if (getClass() != obj.getClass()) {
+      return false;
+    }
+		final Link other = (Link) obj;
 		if (anchor == null) {
-			if (other.anchor != null)
-				return false;
-		} else if (!anchor.equals(other.anchor))
-			return false;
-		if (end != other.end)
-			return false;
+			if (other.anchor != null) {
+        return false;
+      }
+		} else if (!anchor.equals(other.anchor)) {
+      return false;
+    }
+		if (end != other.end) {
+      return false;
+    }
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (start != other.start)
-			return false;
+			if (other.id != null) {
+        return false;
+      }
+		} else if (!id.equals(other.id)) {
+      return false;
+    }
+		if (start != other.start) {
+      return false;
+    }
 		return true;
 	}
 
@@ -244,5 +256,9 @@ public class Link {
 
 	public void setColumnId(Integer columnId) {
 		this.columnId = columnId;
+	}
+	
+	public void setParams(List<String> params){
+	  this.params = params;
 	}
 }
