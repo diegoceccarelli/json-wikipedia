@@ -25,6 +25,7 @@ import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.BufferedWriter;
@@ -122,7 +123,7 @@ public class WikipediaArticleReader {
 		logger.info(sw.stat("articles"));
 	}
 
-	private class JsonConverter implements IArticleFilter {
+	public class JsonConverter implements IArticleFilter {
 		public void process(WikiArticle page, Siteinfo si) {
 			pl.up();
 			sw.start("articles");
@@ -179,4 +180,67 @@ public class WikipediaArticleReader {
 			return;
 		}
 	}
+
+	public class AvroConverter implements IArticleFilter {
+		public void process(WikiArticle page, Siteinfo si) {
+			pl.up();
+			sw.start("articles");
+			String title = page.getTitle();
+			String id = page.getId();
+			String namespace = page.getNamespace();
+			Integer integerNamespace = page.getIntegerNamespace();
+			String timestamp = page.getTimeStamp();
+
+			Type type = Type.UNKNOWN;
+			if (page.isCategory())
+				type = Type.CATEGORY;
+			if (page.isTemplate()) {
+				type = Type.TEMPLATE;
+				// FIXME just to go fast;
+				sw.stop("articles");
+				return;
+			}
+
+			if (page.isProject()) {
+				type = Type.PROJECT;
+				// FIXME just to go fast;
+				sw.stop("articles");
+				return;
+			}
+			if (page.isFile()) {
+				type = Type.FILE;
+				// FIXME just to go fast;
+				sw.stop("articles");
+				return;
+			}
+			if (page.isMain())
+				type = Type.ARTICLE;
+			Article article = new Article();
+			parser.parse(article, page.getText());
+			AvroArticle avroArticle = AvroArticle.newBuilder()
+				.setTitle(title)
+				.setWikiTitle(article.getWikiTitle())
+				.build();
+//			article.setTitle(title);
+//			article.setWikiId(Integer.parseInt(id));
+//			article.setNamespace(namespace);
+//			article.setIntegerNamespace(integerNamespace);
+//			article.setTimestamp(timestamp);
+//			article.setType(type);
+
+
+			try {
+				out.write(article.toJson());
+				out.write("\n");
+			} catch (IOException e) {
+				logger.error("writing the output file {}", e.toString());
+				System.exit(-1);
+			}
+
+			sw.stop("articles");
+
+			return;
+		}
+	}
+
 }

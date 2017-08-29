@@ -1,0 +1,8 @@
+{"namespace": "it.cnr.isti.hpc.wikipedia.article",
+ "type": "record",
+ "name": "AvroArticle",
+ "fields": [
+     {"name": "title", "type": "string"},
+     {"name": "wikiTitle",  "type": "string"}
+ ]
+}
