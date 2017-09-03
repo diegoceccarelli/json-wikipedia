@@ -100,9 +100,9 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 		String input = cli.getInput();
 		String output = cli.getOutput();
 		String lang = cli.getParam("lang");
-		WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
-				lang);
 		try {
+			WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
+				lang);
 			wap.start();
 		} catch (Exception e) {
 			logger.error("parsing the mediawiki {}", e.toString());

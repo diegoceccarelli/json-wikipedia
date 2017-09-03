@@ -3,6 +3,26 @@
  "name": "AvroArticle",
  "fields": [
      {"name": "title", "type": "string"},
-     {"name": "wikiTitle",  "type": "string"}
- ]
+     {"name": "wikiTitle",  "type": "string"},
+     {"name": "wid",  "type": "int"},
+     {"name": "integerNamespace",  "type": "int"},
+     {"name": "lang", "type": "string"},
+     {"name": "namespace", "type": "string"},
+     {"name": "timestamp", "type": "string"},
+     {"name": "enWikiTitle", "type": "string"},
+     {"name": "redirect", "type": "string"},
+     {"name": "paragraphs", "type": { "type" : "array", "items": { "type": "string" }}},
+     {"name": "links", "type":
+        { "type" : "array", "items":
+              { "type": "record",
+                "name": "AvroLink",
+                "namespace": "it.cnr.isti.hpc.wikipedia.article",
+                "fields": [
+                {"name": "id", "type": "string"},
+                {"name": "description",  "type": "string"}
+                ]
+              }
+        }
+     }
+     ]
 }
