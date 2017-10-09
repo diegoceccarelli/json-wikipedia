@@ -61,15 +61,15 @@ public class ArticleTest {
 
 		assertEquals(1, a.getCategories().size());
 		assertEquals("Categoria:Aerofoni a mantice", a.getCategories().get(0)
-				.getDescription());
+				.getAnchor());
 	}
 
 	@Test
 	public void links() throws IOException {
 
-		assertEquals("strumento musicale", a.getLinks().get(0).getDescription());
+		assertEquals("strumento musicale", a.getLinks().get(0).getAnchor());
 		assertEquals("Giovanni Tamburini",
-				a.getLinks().get(a.getLinks().size() - 1).getDescription());
+				a.getLinks().get(a.getLinks().size() - 1).getAnchor());
 
 	}
 

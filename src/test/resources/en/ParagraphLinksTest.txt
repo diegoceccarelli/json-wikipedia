@@ -1,0 +1,5 @@
+This [[document]] has been created to test links in paragraphs.
+
+This [[link]] is at the second paragraph.
+
+This [[link]], however, is at the third paragraph.

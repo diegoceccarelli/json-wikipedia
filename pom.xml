@@ -15,8 +15,8 @@
 	<properties>
 		<project.source.charset>UTF-8</project.source.charset>
 		<project.source.encoding>UTF-8</project.source.encoding>
-		<java.version.source>1.6</java.version.source>
-		<java.version.target>1.6</java.version.target>
+                <java.version.source>1.7</java.version.source>
+		<java.version.target>1.7</java.version.target>
 	</properties>
 	<developers>
 		<developer>
