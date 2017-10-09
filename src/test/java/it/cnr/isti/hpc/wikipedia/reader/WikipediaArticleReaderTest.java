@@ -15,12 +15,11 @@
  */
 package it.cnr.isti.hpc.wikipedia.reader;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,9 +45,6 @@ public class WikipediaArticleReaderTest {
 		String json = IOUtils.getFileAsUTF8String("/tmp/mercedes.json.gz");
 		Article a = Article.fromJson(json);
 		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
-		assertEquals(15, a.getCategories().size());
-		
-		
 	}
 
 }

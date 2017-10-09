@@ -15,6 +15,7 @@
  */
 package it.cnr.isti.hpc.wikipedia.parser;
 
+import de.tudarmstadt.ukp.wikipedia.parser.mediawiki.FlushTemplates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,7 @@ public class MediaWikiParserFactory {
 	public MediaWikiParser getParser(String lang) {
 		Locale locale = new Locale(lang);
 		LocalizedMediaWikiParserFactory parserFactory = new LocalizedMediaWikiParserFactory(locale);
+        parserFactory.setTemplateParserClass(FlushTemplates.class);
 		return parserFactory.createParser();
 	}
 

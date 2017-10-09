@@ -60,7 +60,7 @@ public class Article {
 	private List<Link> externalLinks;
 	protected String redirect;
 	private List<String> sections;
-	private List<String> paragraphs;
+	private List<ParagraphWithLinks> paragraphsWithLinks;
 	private List<Link> categories;
 	private List<Template> templates;
 	private List<String> templatesSchema;
@@ -79,9 +79,11 @@ public class Article {
 	}
 
 	public List<String> getParagraphs() {
-		if (paragraphs == null)
-			return Collections.emptyList();
-		return paragraphs;
+        ArrayList<String> allParagraphs = new ArrayList<String>();
+        for(ParagraphWithLinks paragraph : paragraphsWithLinks){
+            allParagraphs.add(paragraph.getParagraph());
+        }
+		return allParagraphs;
 	}
 
 	public List<String> getCleanParagraphs() {
@@ -111,10 +113,6 @@ public class Article {
 
 		}
 		return sb.toString();
-	}
-
-	public void setParagraphs(List<String> paragraphs) {
-		this.paragraphs = paragraphs;
 	}
 
 	public String getRedirect() {
@@ -689,6 +687,13 @@ public class Article {
 		}
 		return "NULL";
 
+	}
+	public List<ParagraphWithLinks> getParagraphsWithLinks() {
+		return paragraphsWithLinks;
+	}
+
+	public void setParagraphsWithLinks(List<ParagraphWithLinks> paragraphsWithLinks) {
+		this.paragraphsWithLinks = paragraphsWithLinks;
 	}
 
 }
