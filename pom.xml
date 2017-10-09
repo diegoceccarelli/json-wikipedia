@@ -39,7 +39,7 @@
 	<dependencies>
 		<dependency>
 			<artifactId>hpc-utils</artifactId>
-			<groupId>it.cnr.isti.hpc</groupId>
+			<groupId>com.github.diegoceccarelli</groupId>
 			<version>0.0.7</version>
 		</dependency>
 		<dependency>
@@ -130,8 +130,8 @@
 			</snapshots>
                     </repository>
                     <repository>
-                        <id>dropbox</id>
-                        <url>https://dl.dropboxusercontent.com/u/4663256/mvn-repository/</url>
+                        <id>jitpack.io</id>
+                        <url>https://jitpack.io</url>
                     </repository>
                 </repositories>
                 <build>
