@@ -39,7 +39,7 @@ public class Article {
 
 	/** The possible types of an article (e.g., template, article, category) **/
 	public enum Type {
-		TEMPLATE, ARTICLE, CATEGORY, DISCUSSION, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE
+		TEMPLATE, ARTICLE, CATEGORY, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE
 	};
 
 	protected String title = NOTITLE;
@@ -190,49 +190,6 @@ public class Article {
 		this.highlights = highlights;
 	}
 
-	// public static Article fromMediaWiki(String mediawiki) {
-	// if (parser == null) {
-	// MediaWikiParserFactory factory = new EnMediaWikiParserFactory();
-	// parser = factory.createParser();
-	// }
-	//
-	// ParsedPage page = parser.parse(mediawiki);
-	// Article article = new Article();
-	// article.setParagraphs(page);
-	// article.setTemplates(page);
-	// article.setLinks(page);
-	// article.setCategories(page);
-	// article.setHighlights(page);
-	// article.setSections(page);
-	// article.setTables(page);
-	// article.setEnId(page);
-	// article.setLists(page);
-	//
-	// if (mediawiki.startsWith(REDIRECT_UC) ||
-	// mediawiki.startsWith(REDIRECT_LC)) {
-	// int start = mediawiki.indexOf("[[") + 2;
-	// int end = mediawiki.indexOf("]]");
-	// String r = Article.getTitleInWikistyle(mediawiki.substring(start, end));
-	// article.setRedirect(r);
-	// }
-	//
-	// // StringBuilder sb = new StringBuilder();
-	// // String t = article.getFirstParagraph().getText();
-	// //
-	// // sb.append("\t").append(t).append("\n");
-	// // for (Section s : article.getSections()){
-	// // sb.append(s.getTitle()).append("\n");
-	// // for ( Paragraph p : s.getParagraphs()){
-	// // t = p.getText();
-	// // if (t.startsWith("TEMPLATE")) continue;
-	// // sb.append("\t").append(t).append("\n");
-	// // }
-	// // }
-	// // a.setText(sb.toString());
-	//
-	// return article;
-	// }
-
 	/**
 	 * @return the images
 	 */
@@ -249,34 +206,11 @@ public class Article {
 	}
 
 	public boolean isRedirect() {
-
 		return type == Type.REDIRECT;
-		// if ((redirect != null) && (!redirect.isEmpty())) {
-		// return true;
-		// }
-		// for (List<String> lists : getLists()) {
-		// for (String line : lists) {
-		// if (line.startsWith("redirect ")) {
-		// // remove "redirect " string
-		// String red = line.substring(9);
-		// red = red.trim();
-		// redirect = Article.getTitleInWikistyle(red);
-		// return true;
-		// }
-		// }
-		// }
-		// return false;
 	}
 
 	public boolean isDisambiguation() {
 		return type == Type.DISAMBIGUATION;
-		// if (title.contains("disambiguation"))
-		// return true;
-		// for (Template t : templates) {
-		// if (t.isDisambiguation())
-		// return true;
-		// }
-		// return false;
 	}
 
 	// MOVE IN THE FACTORY
@@ -303,16 +237,6 @@ public class Article {
 			return Collections.emptyList();
 		return lists;
 	}
-
-	// public List<Link> getIncomingLinks() {
-	// if (incomingLinks == null)
-	// return Collections.emptyList();
-	// return incomingLinks;
-	// }
-
-	// public void setIncomingLinks(List<Link> incomingLinks) {
-	// this.incomingLinks = incomingLinks;
-	// }
 
 	public int getWikiId() {
 		return wid;
@@ -662,32 +586,7 @@ public class Article {
 	}
 
 	public String getTypeName() {
-		switch (type) {
-		case TEMPLATE:
-			return "Template";
-		case ARTICLE:
-			return "Article";
-		case CATEGORY:
-			return "Category";
-		case DISCUSSION:
-			return "Discussion";
-		case REDIRECT:
-			return "Redirect";
-		case DISAMBIGUATION:
-			return "Disambiguation";
-		case UNKNOWN:
-			return "Unknown";
-		case MAIN:
-			return "Main";
-		case LIST:
-			return "List";
-		case PROJECT:
-			return "Project";
-		case FILE:
-			return "File";
-
-		}
-		return "NULL";
+		return type.toString();
 
 	}
 

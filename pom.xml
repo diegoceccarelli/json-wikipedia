@@ -15,8 +15,8 @@
 	<properties>
 		<project.source.charset>UTF-8</project.source.charset>
 		<project.source.encoding>UTF-8</project.source.encoding>
-		<java.version.source>1.6</java.version.source>
-		<java.version.target>1.6</java.version.target>
+		<java.version.source>1.8</java.version.source>
+		<java.version.target>1.8</java.version.target>
 	</properties>
 	<developers>
 		<developer>
@@ -29,8 +29,7 @@
 			<dependency>
 				<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 				<artifactId>de.tudarmstadt.ukp.wikipedia</artifactId>
-				<version>1.1.0
-				</version>
+				<version>1.1.0-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -51,7 +50,7 @@
 		<dependency>
 			<groupId>info.bliki.wiki</groupId>
 			<artifactId>bliki-core</artifactId>
-			<version>3.1.0</version>
+			<version>3.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
@@ -61,27 +60,27 @@
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.api</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.parser</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.datamachine</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.revisionmachine</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.wikipedia</groupId>
 			<artifactId>de.tudarmstadt.ukp.wikipedia.timemachine</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
