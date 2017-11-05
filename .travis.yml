@@ -8,3 +8,4 @@ cache:
 script:
       - mvn clean install
           - bash <(curl -s https://codecov.io/bash)
+sudo: false
