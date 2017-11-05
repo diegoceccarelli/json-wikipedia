@@ -228,7 +228,6 @@ public class WikipediaArticleReader {
 			DatumWriter<AvroArticle> userDatumWriter = new SpecificDatumWriter<AvroArticle>(AvroArticle.class);
 			dataFileWriter = new DataFileWriter<AvroArticle>(userDatumWriter).setCodec(CodecFactory.deflateCodec(6));
 			dataFileWriter.create(new AvroArticle().getSchema(), output);
-
 		}
 
 		public void write(Article a) throws IOException {
@@ -248,7 +247,6 @@ public class WikipediaArticleReader {
 				.setEnWikiTitle(a.getEnWikiTitle())
 				.setParagraphs(a.getParagraphs())
 				.setLinks(links)
-
 				.build();
 
 			dataFileWriter.append(avroArticle);
