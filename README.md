@@ -1,23 +1,23 @@
-json-wikipedia ![json-wikipedia](https://dl.dropboxusercontent.com/u/4663256/tmp/json-wikipedia.png) 
+json-wikipedia ![travis-ci-badge](https://travis-ci.org/diegoceccarelli/json-wikipedia.svg?branch=travis-ci) 
 ==============
 
  Json Wikipedia contains code to convert the Wikipedia XML dump into a [JSON][json] dump.
- 
+
  - Please be aware that this tool does not work with the `multistream` dump.
 
 #### Setup ####
 
-compile the project running 
+compile the project running
 
-    mvn assembly:assembly 
-	
-the command will produce a JAR file containing all the dependencies the target folder.  
+    mvn assembly:assembly
+
+the command will produce a JAR file containing all the dependencies the target folder.
 
 #### Convert the Wikipedia XML to JSON ####
 
-    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it] 		
+    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it]
 
-or 
+or
 
 	./scripts/convert-xml-dump-to-json.sh [en|it] wikipedia-dump.xml.bz wikipedia-dump.json[.gz]
 
