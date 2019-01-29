@@ -50,7 +50,6 @@ public class Link {
 	/** if it occurs in a paragraph, the ordinal of the paragraph **/
 	private Integer columnId;
 	private Type type;
-	private List<String> params;
 
 	/** The possible types of a Link (e.g., body, table, list) **/
 	public enum Type {
@@ -135,24 +134,6 @@ public class Link {
 	}
 
 	@Override
-	public String toString() {
-		return "Link{" +
-			"id='" + id + '\'' +
-			", anchor='" + anchor + '\'' +
-			", start=" + start +
-			", end=" + end +
-			", paragraphId=" + paragraphId +
-			", listId=" + listId +
-			", listItem=" + listItem +
-			", tableId=" + tableId +
-			", rowId=" + rowId +
-			", columnId=" + columnId +
-			", type=" + type +
-			", params=" + params +
-			'}';
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -169,8 +150,7 @@ public class Link {
 		if (tableId != null ? !tableId.equals(link.tableId) : link.tableId != null) return false;
 		if (rowId != null ? !rowId.equals(link.rowId) : link.rowId != null) return false;
 		if (columnId != null ? !columnId.equals(link.columnId) : link.columnId != null) return false;
-		if (type != link.type) return false;
-		return params != null ? params.equals(link.params) : link.params == null;
+		return type == link.type;
 
 	}
 
@@ -187,8 +167,24 @@ public class Link {
 		result = 31 * result + (rowId != null ? rowId.hashCode() : 0);
 		result = 31 * result + (columnId != null ? columnId.hashCode() : 0);
 		result = 31 * result + (type != null ? type.hashCode() : 0);
-		result = 31 * result + (params != null ? params.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Link{" +
+			"id='" + id + '\'' +
+			", anchor='" + anchor + '\'' +
+			", start=" + start +
+			", end=" + end +
+			", paragraphId=" + paragraphId +
+			", listId=" + listId +
+			", listItem=" + listItem +
+			", tableId=" + tableId +
+			", rowId=" + rowId +
+			", columnId=" + columnId +
+			", type=" + type +
+			'}';
 	}
 
 	public int getStart() {
@@ -261,9 +257,5 @@ public class Link {
 
 	public void setColumnId(Integer columnId) {
 		this.columnId = columnId;
-	}
-
-	public void setParams(List<String> params){
-	  this.params = params;
 	}
 }

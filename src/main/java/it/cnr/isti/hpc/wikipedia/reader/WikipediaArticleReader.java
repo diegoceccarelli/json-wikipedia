@@ -233,7 +233,19 @@ public class WikipediaArticleReader {
 		public void write(Article a) throws IOException {
 			List<AvroLink> links = new ArrayList<>(a.getLinks().size());
 			for (Link l : a.getLinks()){
-				links.add(new AvroLink(l.getId(), l.getDescription()));
+				AvroLink.Builder builder = AvroLink.newBuilder().setId(l.getId())
+					.setAnchor(l.getAnchor())
+					.setColumnId(l.getColumnId())
+					.setStart(l.getStart())
+					.setEnd(l.getEnd())
+					.setParagraphId(l.getParagraphId())
+					.setListId(l.getListId())
+					.setListItem(l.getListItem())
+					.setTableId(l.getTableId())
+					.setRowId(l.getRowId())
+					.setColumnId(l.getColumnId())
+					.setType(it.cnr.isti.hpc.wikipedia.article.Type.values()[l.getType().ordinal()]);
+				links.add(builder.build());
 			}
 			AvroArticle avroArticle = AvroArticle.newBuilder()
 				.setTitle(a.getTitle())

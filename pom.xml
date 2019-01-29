@@ -44,7 +44,7 @@
 		<dependency>
 			<artifactId>hpc-utils</artifactId>
 			<groupId>com.github.diegoceccarelli</groupId>
-			<version>0.0.7</version>
+			<version>0.0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
