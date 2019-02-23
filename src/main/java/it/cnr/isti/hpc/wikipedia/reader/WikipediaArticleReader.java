@@ -134,7 +134,7 @@ public class WikipediaArticleReader {
 
 		wxp.parse();
 		handler.close();
-		logger.info(sw.stat("articles"));
+		//logger.info(sw.stat("articles"));
 	}
 
 	private abstract class Handler implements IArticleFilter, Closeable {
@@ -226,7 +226,7 @@ public class WikipediaArticleReader {
 
 		public AvroConverter(File output) throws IOException {
 			DatumWriter<AvroArticle> userDatumWriter = new SpecificDatumWriter<AvroArticle>(AvroArticle.class);
-			dataFileWriter = new DataFileWriter<AvroArticle>(userDatumWriter).setCodec(CodecFactory.deflateCodec(6));
+			dataFileWriter = new DataFileWriter<AvroArticle>(userDatumWriter).setCodec(CodecFactory.snappyCodec());
 			dataFileWriter.create(new AvroArticle().getSchema(), output);
 		}
 

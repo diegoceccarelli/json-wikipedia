@@ -62,8 +62,9 @@ public class WikipediaArticleReaderTest {
 	public void testAvroParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
 		final File file = File.createTempFile("jsonwikipedia-mercedes", ".avro");
-		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),"/tmp/mercedes.avro", Language.EN);
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),file.getAbsolutePath(), Language.EN);
 		wap.start();
+
 
 		DatumReader<AvroArticle> datumReader = new GenericDatumReader<>();
 		DataFileReader<AvroArticle> dataFileReader = new DataFileReader<AvroArticle>(file, datumReader);

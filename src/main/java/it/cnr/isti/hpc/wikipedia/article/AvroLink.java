@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -7691834852635433514L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroLink\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":\"int\",\"doc\":\"if it occurs in a paragraph, the item in the list\"},{\"name\":\"listId\",\"type\":\"int\",\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\"},{\"name\":\"listItem\",\"type\":\"int\",\"doc\":\"if it occurs in a  list, the item in the list\"},{\"name\":\"tableId\",\"type\":\"int\",\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\"},{\"name\":\"rowId\",\"type\":\"int\",\"doc\":\"if it occurs in a table, the ordinal of the row\"},{\"name\":\"columnId\",\"type\":\"int\",\"doc\":\"if it occurs in a table, the ordinal of the column\"},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"Type\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}");
+  private static final long serialVersionUID = 2372553405532092217L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroLink\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a paragraph, the item in the list\",\"default\":null},{\"name\":\"listId\",\"type\":[\"null\",\"int\"],\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\",\"default\":null},{\"name\":\"listItem\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a  list, the item in the list\",\"default\":null},{\"name\":\"tableId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\",\"default\":null},{\"name\":\"rowId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the row\",\"default\":null},{\"name\":\"columnId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the column\",\"default\":null},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"Type\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.String id;
   @Deprecated public java.lang.String anchor;
@@ -20,17 +20,17 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
   /** where the anchor ends in the text */
   @Deprecated public int end;
   /** if it occurs in a paragraph, the item in the list */
-  @Deprecated public int paragraphId;
+  @Deprecated public java.lang.Integer paragraphId;
   /**  if it occurs in a list, the ordinal of the list among all the lists */
-  @Deprecated public int listId;
+  @Deprecated public java.lang.Integer listId;
   /** if it occurs in a  list, the item in the list */
-  @Deprecated public int listItem;
+  @Deprecated public java.lang.Integer listItem;
   /** if it occurs in a table, the ordinal of the table among all the tables */
-  @Deprecated public int tableId;
+  @Deprecated public java.lang.Integer tableId;
   /** if it occurs in a table, the ordinal of the row */
-  @Deprecated public int rowId;
+  @Deprecated public java.lang.Integer rowId;
   /** if it occurs in a table, the ordinal of the column */
-  @Deprecated public int columnId;
+  @Deprecated public java.lang.Integer columnId;
   @Deprecated public it.cnr.isti.hpc.wikipedia.article.Type type;
 
   /**
@@ -329,17 +329,17 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
     /** where the anchor ends in the text */
     private int end;
     /** if it occurs in a paragraph, the item in the list */
-    private int paragraphId;
+    private java.lang.Integer paragraphId;
     /**  if it occurs in a list, the ordinal of the list among all the lists */
-    private int listId;
+    private java.lang.Integer listId;
     /** if it occurs in a  list, the item in the list */
-    private int listItem;
+    private java.lang.Integer listItem;
     /** if it occurs in a table, the ordinal of the table among all the tables */
-    private int tableId;
+    private java.lang.Integer tableId;
     /** if it occurs in a table, the ordinal of the row */
-    private int rowId;
+    private java.lang.Integer rowId;
     /** if it occurs in a table, the ordinal of the column */
-    private int columnId;
+    private java.lang.Integer columnId;
     private it.cnr.isti.hpc.wikipedia.article.Type type;
 
     /** Creates a new Builder */
@@ -628,7 +628,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'paragraphId'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setParagraphId(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setParagraphId(java.lang.Integer value) {
       validate(fields()[4], value);
       this.paragraphId = value;
       fieldSetFlags()[4] = true;
@@ -651,6 +651,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearParagraphId() {
+      paragraphId = null;
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -670,7 +671,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'listId'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setListId(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setListId(java.lang.Integer value) {
       validate(fields()[5], value);
       this.listId = value;
       fieldSetFlags()[5] = true;
@@ -693,6 +694,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearListId() {
+      listId = null;
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -712,7 +714,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'listItem'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setListItem(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setListItem(java.lang.Integer value) {
       validate(fields()[6], value);
       this.listItem = value;
       fieldSetFlags()[6] = true;
@@ -735,6 +737,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearListItem() {
+      listItem = null;
       fieldSetFlags()[6] = false;
       return this;
     }
@@ -754,7 +757,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'tableId'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setTableId(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setTableId(java.lang.Integer value) {
       validate(fields()[7], value);
       this.tableId = value;
       fieldSetFlags()[7] = true;
@@ -777,6 +780,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearTableId() {
+      tableId = null;
       fieldSetFlags()[7] = false;
       return this;
     }
@@ -796,7 +800,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'rowId'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setRowId(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setRowId(java.lang.Integer value) {
       validate(fields()[8], value);
       this.rowId = value;
       fieldSetFlags()[8] = true;
@@ -819,6 +823,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearRowId() {
+      rowId = null;
       fieldSetFlags()[8] = false;
       return this;
     }
@@ -838,7 +843,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'columnId'.
       * @return This builder.
       */
-    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setColumnId(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder setColumnId(java.lang.Integer value) {
       validate(fields()[9], value);
       this.columnId = value;
       fieldSetFlags()[9] = true;
@@ -861,6 +866,7 @@ public class AvroLink extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public it.cnr.isti.hpc.wikipedia.article.AvroLink.Builder clearColumnId() {
+      columnId = null;
       fieldSetFlags()[9] = false;
       return this;
     }

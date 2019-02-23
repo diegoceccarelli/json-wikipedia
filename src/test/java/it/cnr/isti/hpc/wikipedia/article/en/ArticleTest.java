@@ -180,18 +180,18 @@ public class ArticleTest {
         for (final Link link:a.getLinks()){
             if (link.getId().equals("Lists")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(0, link.getListId());
-                assertEquals(0, link.getListItem());
+                assertEquals(0, link.getListId().intValue());
+                assertEquals(0, link.getListItem().intValue());
             }
             if (link.getId().equals("every")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(0, link.getListId());
-                assertEquals(1, link.getListItem());
+                assertEquals(0, link.getListId().intValue());
+                assertEquals(1, link.getListItem().intValue());
             }
             if (link.getId().equals("newline")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(1, link.getListId());
-                assertEquals(0, link.getListItem());
+                assertEquals(1, link.getListId().intValue());
+                assertEquals(0, link.getListItem().intValue());
             }
         }
         testAnchorsInLists(a);
@@ -219,21 +219,21 @@ public class ArticleTest {
         for (final Link link:a.getLinks()){
             if (link.getId().equals("William_Webb")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(0, link.getTableId());
-                assertEquals(2, link.getRowId());
-                assertEquals(1, link.getColumnId());
+                assertEquals(0, link.getTableId().intValue());
+                assertEquals(2, link.getRowId().intValue());
+                assertEquals(1, link.getColumnId().intValue());
             }
             if (link.getId().equals("Canada")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(0, link.getTableId());
-                assertEquals(3, link.getRowId());
-                assertEquals(0, link.getColumnId());
+                assertEquals(0, link.getTableId().intValue());
+                assertEquals(3, link.getRowId().intValue());
+                assertEquals(0, link.getColumnId().intValue());
             }
             if (link.getId().equals("Alan_Mansfield")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(1, link.getTableId());
-                assertEquals(3, link.getRowId());
-                assertEquals(1, link.getColumnId());
+                assertEquals(1, link.getTableId().intValue());
+                assertEquals(3, link.getRowId().intValue());
+                assertEquals(1, link.getColumnId().intValue());
             }
         }
     }

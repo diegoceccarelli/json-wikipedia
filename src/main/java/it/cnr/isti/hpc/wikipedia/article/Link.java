@@ -16,6 +16,7 @@
 package it.cnr.isti.hpc.wikipedia.article;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Link class models a link an internal link on Wikipedia. 
@@ -23,9 +24,6 @@ import java.util.List;
  * name of the page pointed by the link (e.g., <tt>FIFA_World_Cup_awards</tt>), and the 
  * <b> description </b>, i.e., the anchor text used in a article for linking
  * to the target id (e.g., <tt>golden shoe</tt>).
- *
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
- * created on 19/nov/2011
  */
 public class Link {
 	
@@ -156,18 +154,7 @@ public class Link {
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (anchor != null ? anchor.hashCode() : 0);
-		result = 31 * result + (start != null ? start.hashCode() : 0);
-		result = 31 * result + (end != null ? end.hashCode() : 0);
-		result = 31 * result + (paragraphId != null ? paragraphId.hashCode() : 0);
-		result = 31 * result + (listId != null ? listId.hashCode() : 0);
-		result = 31 * result + (listItem != null ? listItem.hashCode() : 0);
-		result = 31 * result + (tableId != null ? tableId.hashCode() : 0);
-		result = 31 * result + (rowId != null ? rowId.hashCode() : 0);
-		result = 31 * result + (columnId != null ? columnId.hashCode() : 0);
-		result = 31 * result + (type != null ? type.hashCode() : 0);
-		return result;
+		return Objects.hash(id, anchor, start, end, paragraphId, listId, listId, listItem, tableId, rowId, columnId, type);
 	}
 
 	@Override
@@ -219,7 +206,7 @@ public class Link {
 		this.type = type;
 	}
 
-	public int getListId() {
+	public Integer getListId() {
 		return listId;
 	}
 
@@ -227,7 +214,7 @@ public class Link {
 		this.listId = listId;
 	}
 
-	public int getListItem() {
+	public Integer getListItem() {
 		return listItem;
 	}
 
@@ -235,7 +222,7 @@ public class Link {
 		this.listItem = listItem;
 	}
 
-	public int getTableId() {
+	public Integer getTableId() {
 		return tableId;
 	}
 
@@ -243,7 +230,7 @@ public class Link {
 		this.tableId = tableId;
 	}
 
-	public int getRowId() {
+	public Integer getRowId() {
 		return rowId;
 	}
 
@@ -251,7 +238,7 @@ public class Link {
 		this.rowId = rowId;
 	}
 
-	public int getColumnId() {
+	public Integer getColumnId() {
 		return columnId;
 	}
 
