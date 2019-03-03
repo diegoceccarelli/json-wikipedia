@@ -40,7 +40,7 @@
      {"name": "lang", "type": "Language"},
      {"name": "namespace", "type": "string"},
      {"name": "timestamp", "type": "string"},
-     {"name": "enWikiTitle", "type": "string"},
+     {"name": "enWikiTitle", "type": ["null", "string"], "default":null},
      {"name": "redirect", "type": ["null", "string"], "default":null },
      {"name": "paragraphs", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},
      {"name": "sections", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},

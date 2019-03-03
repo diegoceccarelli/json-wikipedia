@@ -31,7 +31,12 @@ public class ArticleHelper {
 		return sb.toString();
 	}
 
-  	public static List<String> getCleanParagraphs(List<String> paragraphs) {
+	public static String wikiStyleToText(String text){
+		return text.replace('_', ' ');
+	}
+
+
+	public static List<String> getCleanParagraphs(List<String> paragraphs) {
 		if (paragraphs.isEmpty())
 			return Collections.emptyList();
 		List<String> cleanParagraphs = new ArrayList<String>(paragraphs.size());

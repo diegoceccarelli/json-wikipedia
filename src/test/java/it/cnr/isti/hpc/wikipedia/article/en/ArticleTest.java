@@ -54,7 +54,6 @@ public class ArticleTest {
 
   @Before
   public void runBeforeTestMethod() throws IOException {
-    System.out.println("@Before - runBeforeTestMethod");
     articleBuilder = AvroArticle.newBuilder();
     articleBuilder.setTitle("Test"); // title must always be set before parsing
     articleBuilder.setWid(42); // wikiId must always be set before parsing
@@ -125,9 +124,6 @@ public class ArticleTest {
 
         // No anchor should be empty
         for (final Link link : article.getLinks()){
-          System.out.println(link.getId());
-          System.out.println("anchor"+link.getAnchor());
-
           assertThat(link.getAnchor()).isNotEmpty();
         }
 
@@ -190,9 +186,7 @@ public class ArticleTest {
 
     private void testAnchorsInParagraphs(AvroArticle article) {
     	final List<String> paragraphs = article.getParagraphs();
-    	System.out.println("Paragraphs "+paragraphs);
     	for(final Link link: article.getLinks()){
-        System.out.println("Link "+link);
 
         if(link.getType() == LinkType.BODY) {
     			final String paragraph = paragraphs.get(link.getParagraphId());
@@ -207,7 +201,6 @@ public class ArticleTest {
         final AvroArticle article = parseAvroArticle("./src/test/resources/en/ListLinksTest.txt");
      // testing specific links
         for (final Link link : article.getLinks()){
-            System.out.println("Link " + link);
             if (link.getId().equals("Lists")){
                 assertEquals(LinkType.LIST, link.getType());
                 assertEquals(0, link.getListId().intValue());

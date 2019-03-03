@@ -48,7 +48,6 @@ public class ArticleTest {
 
   @Before
   public void runBeforeTestMethod() throws IOException {
-    System.out.println("@Before - runBeforeTestMethod");
     articleBuilder = AvroArticle.newBuilder();
     articleBuilder.setTitle("Test"); // title must always be set before parsing
 		articleBuilder.setWid(42); // wikiId must always be set before parsing

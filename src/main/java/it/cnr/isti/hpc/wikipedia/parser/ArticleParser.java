@@ -159,12 +159,24 @@ public class ArticleParser {
 		if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.INTERNAL || link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.EXTERNAL ||
       link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.IMAGE)
 		{
-		  System.out.println(link.getTarget()+ " [" + link.getText()+"]");
       linkBuilder.setId(link.getTarget());
       linkBuilder.setAnchor(link.getText());
       linkBuilder.setStart(link.getPos().getStart());
       linkBuilder.setEnd(link.getPos().getEnd());
       linkBuilder.setType(jsonWikipediaType);
+      if (link.getText().isEmpty()) {
+        linkBuilder.setAnchor(ArticleHelper.wikiStyleToText(link.getTarget()));
+        if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.IMAGE) {
+          List<String> parameters = link.getParameters();
+          if (!parameters.isEmpty()) {
+            linkBuilder.setAnchor(parameters.get(parameters.size() - 1));
+          }
+        }
+      }
+      if (link.getType() == de.tudarmstadt.ukp.wikipedia.parser.Link.type.IMAGE){
+        linkBuilder.setType(LinkType.IMAGE);
+      }
+
       return linkBuilder;
     }
     logger.warn("No link for [{}] built: link type {} ", link.getText(), link.getType());

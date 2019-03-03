@@ -52,8 +52,6 @@ public class WikipediaArticleReaderTest {
 		AvroArticle a = ArticleHelper.fromJson(json);
 		assertTrue(ArticleHelper.cleanText(a.getParagraphs()).startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
-		
-		
 	}
 
 	@Test
