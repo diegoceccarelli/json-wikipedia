@@ -1,101 +1,343 @@
 [
-{
-    "namespace": "it.cnr.isti.hpc.wikipedia.article",
-    "name": "Language",
-    "type":"enum", "symbols" : ["EN", "IT"]
-},
-{
-    "namespace": "it.cnr.isti.hpc.wikipedia.article",
-    "name": "LinkType",
-    "type":"enum", "symbols" : ["BODY", "TABLE", "LIST", "IMAGE", "UNKNOWN", "CATEGORY"]
-},
-{
-    "namespace": "it.cnr.isti.hpc.wikipedia.article",
-    "name": "ArticleType",
-    "type":"enum",
-    "symbols" : ["TEMPLATE", "ARTICLE", "CATEGORY", "REDIRECT", "DISAMBIGUATION", "UNKNOWN", "MAIN", "LIST", "PROJECT", "FILE"]
-},
-{
-    "namespace": "it.cnr.isti.hpc.wikipedia.article",
-    "name": "Table",
-    "type": "record",
-    "namespace": "it.cnr.isti.hpc.wikipedia.article",
-    "fields": [
-                          {"name": "title", "type": "string"},
-                          {"name": "numCols", "type": "int", "default":0},
-                          {"name": "numRows", "type": "int", "default":0},
-                          {"name": "table", "type": { "type" : "array",
-                            "items": { "type": "array",
-                                       "items" : {
-                                          "type": "string"
-                                        }
-                                     }
-                                 }
-
-                          }
-
-                      ]
-
-},
-{"namespace": "it.cnr.isti.hpc.wikipedia.article",
- "type": "record",
- "name": "Link",
-                 "fields": [
-                     {"name": "id", "type": "string"},
-                     {"name": "anchor",  "type": "string"},
-                     {"name": "start", "type": "int", "doc": "where the anchor starts in the text"},
-                     {"name": "end", "type": "int", "doc": "where the anchor ends in the text" },
-                     {"name": "paragraphId", "type": ["null", "int"], "default": null, "doc": "if it occurs in a paragraph, the item in the list"},
-                     {"name": "listId", "type": ["null", "int"], "default": null, "doc": " if it occurs in a list, the ordinal of the list among all the lists"},
-                     {"name": "listItem","type": ["null", "int"], "default":null, "doc": "if it occurs in a  list, the item in the list"},
-                     {"name": "tableId", "type": ["null", "int"], "default": null,  "doc": "if it occurs in a table, the ordinal of the table among all the tables"},
-                     {"name": "rowId", "type": ["null", "int"], "default": null, "doc": "if it occurs in a table, the ordinal of the row"},
-                     {"name": "columnId", "type": ["null", "int"], "default": null, "doc": "if it occurs in a table, the ordinal of the column"},
-                     {"name": "type", "type": "LinkType"}
-                 ]
-},
-{"namespace": "it.cnr.isti.hpc.wikipedia.article",
- "type": "record",
- "name": "Template",
-                 "fields": [
-                     {"name": "name", "type": "string"},
-                     {"name": "description", "type": { "type" : "array", "items": { "type": "string" }}}
- ]
-},
-{"namespace": "it.cnr.isti.hpc.wikipedia.article",
- "type": "record",
- "name": "AvroArticle",
- "fields": [
-     {"name": "title", "type": "string", "default": ""},
-     {"name": "wikiTitle",  "type": "string", "default": ""},
-     {"name": "wid",  "type": "int"},
-     {"name": "integerNamespace",  "type": "int"},
-     {"name": "lang", "type": "Language"},
-     {"name": "namespace", "type": "string"},
-     {"name": "timestamp", "type": "string"},
-     {"name": "enWikiTitle", "type": ["null", "string"], "default":null},
-     {"name": "redirect", "type": ["null", "string"], "default":null },
-     {"name": "paragraphs", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},
-     {"name": "sections", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},
-     {"name": "highlights", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},
-     {"name": "templatesSchema", "type": { "type" : "array", "items": { "type": "string" }}, "default": []},
-
-     {"name": "links", "type": { "type" : "array", "items": "Link"}, "default": []},
-     {"name": "externalLinks", "type": { "type" : "array", "items": "Link"}, "default": []},
-     {"name": "categories", "type": { "type" : "array", "items": "Link"}, "default": []},
-     {"name": "images", "type": { "type" : "array", "items": "Link"}, "default": []},
-     {"name": "type", "type":"ArticleType"},
-     {"name": "tables", "type": { "type" : "array", "items":"Table" }, "default": []},
-     {"name": "lists", "type": { "type" : "array",
-                                 "items": { "type": "array",
-                                            "items" : {
-                                               "type": "string"
-                                             }
-                                          }
-                                      },
-                               "default": []},
-     {"name": "infobox", "type": ["null", "Template"], "default":null},
-     {"name": "templates", "type": { "type" : "array", "items": "Template"}, "default": []}
-    ]
-}
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "name": "Language",
+        "type": "enum",
+        "symbols": [
+            "EN",
+            "IT"
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "name": "LinkType",
+        "type": "enum",
+        "symbols": [
+            "BODY",
+            "TABLE",
+            "LIST",
+            "IMAGE",
+            "UNKNOWN",
+            "CATEGORY"
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "name": "ArticleType",
+        "type": "enum",
+        "symbols": [
+            "TEMPLATE",
+            "ARTICLE",
+            "CATEGORY",
+            "REDIRECT",
+            "DISAMBIGUATION",
+            "UNKNOWN",
+            "MAIN",
+            "LIST",
+            "PROJECT",
+            "FILE"
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "name": "Table",
+        "type": "record",
+        "fields": [
+            {
+                "name": "title",
+                "type": "string"
+            },
+            {
+                "name": "numCols",
+                "type": "int",
+                "default": 0
+            },
+            {
+                "name": "numRows",
+                "type": "int",
+                "default": 0
+            },
+            {
+                "name": "table",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "type": "record",
+        "name": "Link",
+        "fields": [
+            {
+                "name": "id",
+                "type": "string"
+            },
+            {
+                "name": "anchor",
+                "type": "string"
+            },
+            {
+                "name": "start",
+                "type": "int",
+                "doc": "where the anchor starts in the text"
+            },
+            {
+                "name": "end",
+                "type": "int",
+                "doc": "where the anchor ends in the text"
+            },
+            {
+                "name": "paragraphId",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": "if it occurs in a paragraph, the item in the list"
+            },
+            {
+                "name": "listId",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": " if it occurs in a list, the ordinal of the list among all the lists"
+            },
+            {
+                "name": "listItem",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": "if it occurs in a  list, the item in the list"
+            },
+            {
+                "name": "tableId",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": "if it occurs in a table, the ordinal of the table among all the tables"
+            },
+            {
+                "name": "rowId",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": "if it occurs in a table, the ordinal of the row"
+            },
+            {
+                "name": "columnId",
+                "type": [
+                    "null",
+                    "int"
+                ],
+                "default": null,
+                "doc": "if it occurs in a table, the ordinal of the column"
+            },
+            {
+                "name": "type",
+                "type": "LinkType"
+            }
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "type": "record",
+        "name": "Template",
+        "fields": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "description",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "namespace": "it.cnr.isti.hpc.wikipedia.article",
+        "type": "record",
+        "name": "AvroArticle",
+        "fields": [
+            {
+                "name": "title",
+                "type": "string",
+                "default": ""
+            },
+            {
+                "name": "wikiTitle",
+                "type": "string",
+                "default": ""
+            },
+            {
+                "name": "wid",
+                "type": "int"
+            },
+            {
+                "name": "integerNamespace",
+                "type": "int"
+            },
+            {
+                "name": "lang",
+                "type": "Language"
+            },
+            {
+                "name": "namespace",
+                "type": "string"
+            },
+            {
+                "name": "timestamp",
+                "type": "string"
+            },
+            {
+                "name": "enWikiTitle",
+                "type": [
+                    "null",
+                    "string"
+                ],
+                "default": null
+            },
+            {
+                "name": "redirect",
+                "type": [
+                    "null",
+                    "string"
+                ],
+                "default": null
+            },
+            {
+                "name": "paragraphs",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default": []
+            },
+            {
+                "name": "sections",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default": []
+            },
+            {
+                "name": "highlights",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default": []
+            },
+            {
+                "name": "templatesSchema",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "default": []
+            },
+            {
+                "name": "links",
+                "type": {
+                    "type": "array",
+                    "items": "Link"
+                },
+                "default": []
+            },
+            {
+                "name": "externalLinks",
+                "type": {
+                    "type": "array",
+                    "items": "Link"
+                },
+                "default": []
+            },
+            {
+                "name": "categories",
+                "type": {
+                    "type": "array",
+                    "items": "Link"
+                },
+                "default": []
+            },
+            {
+                "name": "images",
+                "type": {
+                    "type": "array",
+                    "items": "Link"
+                },
+                "default": []
+            },
+            {
+                "name": "type",
+                "type": "ArticleType"
+            },
+            {
+                "name": "tables",
+                "type": {
+                    "type": "array",
+                    "items": "Table"
+                },
+                "default": []
+            },
+            {
+                "name": "lists",
+                "type": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "default": []
+            },
+            {
+                "name": "infobox",
+                "type": [
+                    "null",
+                    "Template"
+                ],
+                "default": null
+            },
+            {
+                "name": "templates",
+                "type": {
+                    "type": "array",
+                    "items": "Template"
+                },
+                "default": []
+            }
+        ]
+    }
 ]

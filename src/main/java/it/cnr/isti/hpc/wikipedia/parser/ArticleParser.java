@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package it.cnr.isti.hpc.wikipedia.parser;
+  package it.cnr.isti.hpc.wikipedia.parser;
 
 import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
 import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
@@ -260,7 +260,7 @@ public class ArticleParser {
 	}
 
     private void setRedirect(AvroArticle.Builder article) {
-        if (article.getRedirect() == null || !article.getRedirect().isEmpty()) {
+        if ( !article.hasRedirect() || !article.getRedirect().isEmpty()) {
             return;
         }
         final List<List<String>> lists = article.getLists();
@@ -303,43 +303,46 @@ public class ArticleParser {
         }
     }
 
+    private void ensureLength(List<List<String>> rows, int minLen){
+	    while (rows.size() < minLen){
+	      rows.add(new ArrayList<>());
+      }
+    }
+
     private void setTables(AvroArticle.Builder article, ParsedPage page) {
         final List<Table> tables = new ArrayList<>();
-        for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
-            String title = "";
+
+      for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
+        List<List<String>> table = new ArrayList<>();
+
+        String title = "";
             if (t.getTitleElement() != null) {
                 title = t.getTitleElement().getText();
                 if (title == null) {
                     title = "";
                 }
             }
-            final Table.Builder table = Table.newBuilder().setTitle(title);
-            table.setTable(new ArrayList<>());
-            table.setNumRows(table.getNumCols()+1);
-
             List<String> currentRow = null;
             int maxCols = 0;
             for (int elementId = 0; elementId < t.nrOfTableElements(); elementId++) {
 
                 int col = t.getTableElement(elementId).getCol();
                 int row = t.getTableElement(elementId).getRow();
-                final String elementText = t.getTableElement(elementId).getText();
+                maxCols = Math.max(maxCols, col+1);
 
-                if (col == 0) {
-                  if (currentRow != null){
-                    table.getTable().add(currentRow);
-                    maxCols = Math.max(maxCols, currentRow.size());
-                  }
-                  currentRow = new ArrayList<>();
-                  currentRow.add(elementText);
-                } else {
-                  currentRow.add(elementText);
-                }
+
+              final String elementText = t.getTableElement(elementId).getText();
+                //System.out.println("elementId " + elementId + "col " + col);
+              ensureLength(table, row+1);
+              // assume that colums come in order
+              table.get(row).add(elementText);
             }
-            table.getTable().add(currentRow);
-            table.setNumCols(maxCols);
-            table.setNumRows(table.getTable().size());
-            tables.add(table.build());
+
+          final Table.Builder tableBuilder = Table.newBuilder().setTitle(title);
+          tableBuilder.setTable(table);
+          tableBuilder.setNumCols(maxCols);
+          tableBuilder.setNumRows(table.size());
+          tables.add(tableBuilder.build());
         }
         article.setTables(tables);
     }
@@ -467,14 +470,15 @@ public class ArticleParser {
                 a.setType(ArticleType.DISAMBIGUATION);
                 return;
             }
-            for (final Template t : a.getTemplates()) {
+            if (a.hasTemplates()) {
+              for (final Template t : a.getTemplates()) {
                 if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
-                    a.setType(ArticleType.DISAMBIGUATION);
-                    return;
+                  a.setType(ArticleType.DISAMBIGUATION);
+                  return;
 
                 }
+              }
             }
-
         }
     }
 
