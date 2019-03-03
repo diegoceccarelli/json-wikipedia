@@ -325,17 +325,14 @@ public class ArticleParser {
             List<String> currentRow = null;
             int maxCols = 0;
             for (int elementId = 0; elementId < t.nrOfTableElements(); elementId++) {
-
                 int col = t.getTableElement(elementId).getCol();
-                int row = t.getTableElement(elementId).getRow();
+                int row = t.getTableElement(elementId).getRow()-1; // row starts from 1
                 maxCols = Math.max(maxCols, col+1);
-
-
-              final String elementText = t.getTableElement(elementId).getText();
+                final String elementText = t.getTableElement(elementId).getText();
                 //System.out.println("elementId " + elementId + "col " + col);
-              ensureLength(table, row+1);
-              // assume that colums come in order
-              table.get(row).add(elementText);
+                ensureLength(table, row+1);
+                // assume that columns come in order
+                table.get(row).add(elementText);
             }
 
           final Table.Builder tableBuilder = Table.newBuilder().setTitle(title);

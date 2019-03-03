@@ -17,8 +17,8 @@ package it.cnr.isti.hpc.wikipedia.article.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.ArticleType;
 import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
 
@@ -27,26 +27,24 @@ import it.cnr.isti.hpc.wikipedia.article.Template;
 import it.cnr.isti.hpc.wikipedia.article.TemplateHelper;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * ArticleTest.java
- * 
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
- */
 public class ArticleTest {
-
 
 	private AvroArticle.Builder articleBuilder;
 	private ArticleParser articleParser;
 
-  @Before
+	private AvroArticle parseAvroArticle(String resourcePath) {
+		final String text = IOUtils.getFileAsUTF8String(resourcePath);
+		articleParser.parse(articleBuilder, text);
+		return articleBuilder.build();
+	}
+
+	@Before
   public void runBeforeTestMethod() throws IOException {
     articleBuilder = AvroArticle.newBuilder();
     articleBuilder.setTitle("Test"); // title must always be set before parsing
@@ -56,17 +54,13 @@ public class ArticleTest {
 		articleBuilder.setTimestamp("timestamp");
 		articleBuilder.setEnWikiTitle("Test");
 		articleBuilder.setType(ArticleType.ARTICLE);
-
-
 		articleParser = new ArticleParser(Language.IT);
-
   }
 
 	@Test
-	public void sections() throws IOException {
-    String text = readFileAsString("/it/xml-dump/article.txt");
-    articleParser.parse(articleBuilder, text);
-    AvroArticle article = articleBuilder.build();
+	public void testParseSections() throws IOException {
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/article.txt");
+
     List<String> sections = article.getSections();
     assertThat(sections).contains("Armonium occidentale");
 		assertThat(sections).contains("Armonium indiano");
@@ -75,20 +69,18 @@ public class ArticleTest {
 	}
 
 	@Test
-	public void categories() throws IOException {
-		String text = readFileAsString("/it/xml-dump/article.txt");
-		articleParser.parse(articleBuilder, text);
-		AvroArticle article = articleBuilder.build();
+	public void testParseCategories() throws IOException {
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/article.txt");
+
 		assertEquals(1, article.getCategories().size());
 		assertEquals("Categoria:Aerofoni a mantice", article.getCategories().get(0)
 				.getAnchor());
 	}
 
 	@Test
-	public void links() throws IOException {
-		String text = readFileAsString("/it/xml-dump/article.txt");
-		articleParser.parse(articleBuilder, text);
-		AvroArticle article = articleBuilder.build();
+	public void testParseLinks() throws IOException {
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/article.txt");
+
 		assertEquals("strumento musicale", article.getLinks().get(0).getAnchor());
 		assertEquals("Giovanni Tamburini",
 			article.getLinks().get(article.getLinks().size() - 1).getAnchor());
@@ -97,10 +89,9 @@ public class ArticleTest {
 
 	
 	@Test
-	public void testInfobox() throws IOException {
-		String text = readFileAsString("/it/xml-dump/article-with-infobox.txt");
-		articleParser.parse(articleBuilder, text);
-		AvroArticle article = articleBuilder.build();
+	public void testParseInfobox() throws IOException {
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/article-with-infobox.txt");
+
 		Template infobox = article.getInfobox();
 		assertEquals(12, TemplateHelper.getSchema(infobox).size());
 		assertEquals("Infobox_fiume", infobox.getName());
@@ -109,10 +100,8 @@ public class ArticleTest {
 	}
 
 	@Test
-	public void table() throws IOException {
-		String text = readFileAsString("/it/xml-dump/table.txt");
-		articleParser.parse(articleBuilder, text);
-		AvroArticle article = articleBuilder.build();
+	public void testParseTable() throws IOException {
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/table.txt");
 
 		assertEquals("Nome italiano", article.getTables().get(0).getTable()
 				.get(0).get(1));
@@ -123,59 +112,9 @@ public class ArticleTest {
 
 	@Test
 	public void testThatListsAreParsedProperly() throws IOException {
-		String text = readFileAsString("/it/xml-dump/list.txt");
-		articleParser.parse(articleBuilder, text);
-		AvroArticle article = articleBuilder.build();
+		AvroArticle article = parseAvroArticle("./src/test/resources/it/list.txt");
 
 		List<String> list = article.getLists().get(2);
 		assertEquals("Antropologia culturale e Antropologia dei simboli", list.get(0));
-		
-	}
-
-	//
-	// @Test
-	// public void testLists2() throws IOException {
-	//
-	// String text = readFileAsString("/list2.txt");
-	// Article a = new Article();
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
-
-	// @Test
-	// public void testMercedes() throws IOException {
-	//
-	// String text = readFileAsString("/mercedes.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
-	//
-	// @Test
-	// public void testRedirect() throws IOException {
-	//
-	// String text = readFileAsString("/redirect.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// assertTrue(a.isRedirect());
-	// System.out.println(a.getRedirect());
-	// }
-
-	private String readFileAsString(String filePath)
-			throws java.io.IOException {
-		StringBuffer fileData = new StringBuffer(1000);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				ArticleTest.class.getResourceAsStream(filePath), "UTF-8"));
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-		reader.close();
-		return fileData.toString();
 	}
 }

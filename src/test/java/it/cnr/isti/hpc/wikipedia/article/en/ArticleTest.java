@@ -36,12 +36,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * MediaWikiTextParsingTest.java
- *
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it
- * created on 19/nov/2011
- */
 public class ArticleTest {
 
   private AvroArticle.Builder articleBuilder;
@@ -67,7 +61,7 @@ public class ArticleTest {
   }
 
 	@Test
-	public void testParsing() throws IOException {
+	public void testParseLinks() throws IOException {
     final AvroArticle article = parseAvroArticle("./src/test/resources/en/article.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs()).trim()).startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface.");
@@ -79,7 +73,7 @@ public class ArticleTest {
 
 
 	@Test
-	public void testMercedes() throws IOException {
+	public void testParseMercedes() throws IOException {
     final AvroArticle article = parseAvroArticle("./src/test/resources/en/mercedes.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs())).startsWith("Mercedes-Benz");
@@ -89,7 +83,7 @@ public class ArticleTest {
 
 
 	@Test
-	public void testDisambiguation() throws IOException {
+	public void testParseDisambiguation() throws IOException {
     final AvroArticle article = parseAvroArticle("./src/test/resources/en/hdis.txt");
 
 		assertTrue("Article is not a disambiguation", ArticleHelper.isDisambiguation(article));
@@ -99,7 +93,6 @@ public class ArticleTest {
 	@Test
 	public void testNotRedirect() throws IOException {
     final AvroArticle article = parseAvroArticle("./src/test/resources/en/liberalism.txt");
-
 		assertNotEquals(ArticleType.REDIRECT, article.getType());
 	}
 
