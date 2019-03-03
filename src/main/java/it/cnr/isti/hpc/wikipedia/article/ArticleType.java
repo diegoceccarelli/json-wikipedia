@@ -8,6 +8,6 @@ package it.cnr.isti.hpc.wikipedia.article;
 @org.apache.avro.specific.AvroGenerated
 public enum ArticleType {
   TEMPLATE, ARTICLE, CATEGORY, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"ArticleType\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"symbols\":[\"TEMPLATE\",\"ARTICLE\",\"CATEGORY\",\"REDIRECT\",\"DISAMBIGUATION\",\"UNKNOWN\",\"MAIN\",\"LIST\",\"PROJECT\",\"FILE\"]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"ArticleType\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"symbols\":[\"TEMPLATE\",\"ARTICLE\",\"CATEGORY\",\"REDIRECT\",\"DISAMBIGUATION\",\"UNKNOWN\",\"MAIN\",\"LIST\",\"PROJECT\",\"FILE\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 }

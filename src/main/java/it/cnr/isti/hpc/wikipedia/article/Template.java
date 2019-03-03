@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class Template extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 5555371779137544577L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Template\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"fields\":[{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}");
+  private static final long serialVersionUID = -7829322919174673976L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Template\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.String name;
   @Deprecated public java.util.List<java.lang.String> description;
@@ -89,8 +89,8 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
    * Creates a new Template RecordBuilder.
    * @return A new Template RecordBuilder
    */
-  public static Template.Builder newBuilder() {
-    return new Template.Builder();
+  public static it.cnr.isti.hpc.wikipedia.article.Template.Builder newBuilder() {
+    return new it.cnr.isti.hpc.wikipedia.article.Template.Builder();
   }
 
   /**
@@ -98,8 +98,8 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
    * @param other The existing builder to copy.
    * @return A new Template RecordBuilder
    */
-  public static Template.Builder newBuilder(Template.Builder other) {
-    return new Template.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Template.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Template.Builder other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Template.Builder(other);
   }
 
   /**
@@ -107,8 +107,8 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
    * @param other The existing instance to copy.
    * @return A new Template RecordBuilder
    */
-  public static Template.Builder newBuilder(Template other) {
-    return new Template.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Template.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Template other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Template.Builder(other);
   }
 
   /**
@@ -129,7 +129,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(Template.Builder other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Template.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -145,7 +145,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
      * Creates a Builder by copying an existing Template instance
      * @param other The existing instance to copy.
      */
-    private Builder(Template other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Template other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.name)) {
         this.name = data().deepCopy(fields()[0].schema(), other.name);
@@ -170,7 +170,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'name'.
       * @return This builder.
       */
-    public Template.Builder setName(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Template.Builder setName(java.lang.String value) {
       validate(fields()[0], value);
       this.name = value;
       fieldSetFlags()[0] = true;
@@ -190,7 +190,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
       * Clears the value of the 'name' field.
       * @return This builder.
       */
-    public Template.Builder clearName() {
+    public it.cnr.isti.hpc.wikipedia.article.Template.Builder clearName() {
       name = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -209,7 +209,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
       * @param value The value of 'description'.
       * @return This builder.
       */
-    public Template.Builder setDescription(java.util.List<java.lang.String> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Template.Builder setDescription(java.util.List<java.lang.String> value) {
       validate(fields()[1], value);
       this.description = value;
       fieldSetFlags()[1] = true;
@@ -229,7 +229,7 @@ public class Template extends org.apache.avro.specific.SpecificRecordBase implem
       * Clears the value of the 'description' field.
       * @return This builder.
       */
-    public Template.Builder clearDescription() {
+    public it.cnr.isti.hpc.wikipedia.article.Template.Builder clearDescription() {
       description = null;
       fieldSetFlags()[1] = false;
       return this;

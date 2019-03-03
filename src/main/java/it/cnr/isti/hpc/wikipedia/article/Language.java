@@ -8,6 +8,6 @@ package it.cnr.isti.hpc.wikipedia.article;
 @org.apache.avro.specific.AvroGenerated
 public enum Language {
   EN, IT  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"Language\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"symbols\":[\"EN\",\"IT\"]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"Language\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"symbols\":[\"EN\",\"IT\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 }

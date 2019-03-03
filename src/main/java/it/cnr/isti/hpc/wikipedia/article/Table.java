@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class Table extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4300209265906685522L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Table\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"numCols\",\"type\":\"int\",\"default\":0},{\"name\":\"numRows\",\"type\":\"int\",\"default\":0},{\"name\":\"table\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}}]}");
+  private static final long serialVersionUID = -5550279043146018204L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Table\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"numCols\",\"type\":\"int\",\"default\":0},{\"name\":\"numRows\",\"type\":\"int\",\"default\":0},{\"name\":\"table\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.String title;
   @Deprecated public int numCols;
@@ -131,8 +131,8 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
    * Creates a new Table RecordBuilder.
    * @return A new Table RecordBuilder
    */
-  public static Table.Builder newBuilder() {
-    return new Table.Builder();
+  public static it.cnr.isti.hpc.wikipedia.article.Table.Builder newBuilder() {
+    return new it.cnr.isti.hpc.wikipedia.article.Table.Builder();
   }
 
   /**
@@ -140,8 +140,8 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
    * @param other The existing builder to copy.
    * @return A new Table RecordBuilder
    */
-  public static Table.Builder newBuilder(Table.Builder other) {
-    return new Table.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Table.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Table.Builder other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Table.Builder(other);
   }
 
   /**
@@ -149,8 +149,8 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
    * @param other The existing instance to copy.
    * @return A new Table RecordBuilder
    */
-  public static Table.Builder newBuilder(Table other) {
-    return new Table.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Table.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Table other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Table.Builder(other);
   }
 
   /**
@@ -173,7 +173,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(Table.Builder other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Table.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.title)) {
         this.title = data().deepCopy(fields()[0].schema(), other.title);
@@ -197,7 +197,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
      * Creates a Builder by copying an existing Table instance
      * @param other The existing instance to copy.
      */
-    private Builder(Table other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Table other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.title)) {
         this.title = data().deepCopy(fields()[0].schema(), other.title);
@@ -230,7 +230,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'title'.
       * @return This builder.
       */
-    public Table.Builder setTitle(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder setTitle(java.lang.String value) {
       validate(fields()[0], value);
       this.title = value;
       fieldSetFlags()[0] = true;
@@ -250,7 +250,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'title' field.
       * @return This builder.
       */
-    public Table.Builder clearTitle() {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder clearTitle() {
       title = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -269,7 +269,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'numCols'.
       * @return This builder.
       */
-    public Table.Builder setNumCols(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder setNumCols(int value) {
       validate(fields()[1], value);
       this.numCols = value;
       fieldSetFlags()[1] = true;
@@ -289,7 +289,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'numCols' field.
       * @return This builder.
       */
-    public Table.Builder clearNumCols() {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder clearNumCols() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -307,7 +307,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'numRows'.
       * @return This builder.
       */
-    public Table.Builder setNumRows(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder setNumRows(int value) {
       validate(fields()[2], value);
       this.numRows = value;
       fieldSetFlags()[2] = true;
@@ -327,7 +327,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'numRows' field.
       * @return This builder.
       */
-    public Table.Builder clearNumRows() {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder clearNumRows() {
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -345,7 +345,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * @param value The value of 'table'.
       * @return This builder.
       */
-    public Table.Builder setTable(java.util.List<java.util.List<java.lang.String>> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder setTable(java.util.List<java.util.List<java.lang.String>> value) {
       validate(fields()[3], value);
       this.table = value;
       fieldSetFlags()[3] = true;
@@ -365,7 +365,7 @@ public class Table extends org.apache.avro.specific.SpecificRecordBase implement
       * Clears the value of the 'table' field.
       * @return This builder.
       */
-    public Table.Builder clearTable() {
+    public it.cnr.isti.hpc.wikipedia.article.Table.Builder clearTable() {
       table = null;
       fieldSetFlags()[3] = false;
       return this;

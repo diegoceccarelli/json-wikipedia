@@ -8,6 +8,6 @@ package it.cnr.isti.hpc.wikipedia.article;
 @org.apache.avro.specific.AvroGenerated
 public enum LinkType {
   BODY, TABLE, LIST, IMAGE, UNKNOWN, CATEGORY  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"LinkType\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"LinkType\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 }

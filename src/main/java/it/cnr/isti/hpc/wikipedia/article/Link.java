@@ -10,8 +10,8 @@ import org.apache.avro.specific.SpecificData;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class Link extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8838088169692285409L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Link\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a paragraph, the item in the list\",\"default\":null},{\"name\":\"listId\",\"type\":[\"null\",\"int\"],\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\",\"default\":null},{\"name\":\"listItem\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a  list, the item in the list\",\"default\":null},{\"name\":\"tableId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\",\"default\":null},{\"name\":\"rowId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the row\",\"default\":null},{\"name\":\"columnId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the column\",\"default\":null},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"LinkType\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}");
+  private static final long serialVersionUID = -8322625829952391499L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Link\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a paragraph, the item in the list\",\"default\":null},{\"name\":\"listId\",\"type\":[\"null\",\"int\"],\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\",\"default\":null},{\"name\":\"listItem\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a  list, the item in the list\",\"default\":null},{\"name\":\"tableId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\",\"default\":null},{\"name\":\"rowId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the row\",\"default\":null},{\"name\":\"columnId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the column\",\"default\":null},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"LinkType\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.String id;
   @Deprecated public java.lang.String anchor;
@@ -31,7 +31,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
   @Deprecated public java.lang.Integer rowId;
   /** if it occurs in a table, the ordinal of the column */
   @Deprecated public java.lang.Integer columnId;
-  @Deprecated public LinkType type;
+  @Deprecated public it.cnr.isti.hpc.wikipedia.article.LinkType type;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -54,7 +54,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * @param columnId if it occurs in a table, the ordinal of the column
    * @param type The new value for type
    */
-  public Link(java.lang.String id, java.lang.String anchor, java.lang.Integer start, java.lang.Integer end, java.lang.Integer paragraphId, java.lang.Integer listId, java.lang.Integer listItem, java.lang.Integer tableId, java.lang.Integer rowId, java.lang.Integer columnId, LinkType type) {
+  public Link(java.lang.String id, java.lang.String anchor, java.lang.Integer start, java.lang.Integer end, java.lang.Integer paragraphId, java.lang.Integer listId, java.lang.Integer listItem, java.lang.Integer tableId, java.lang.Integer rowId, java.lang.Integer columnId, it.cnr.isti.hpc.wikipedia.article.LinkType type) {
     this.id = id;
     this.anchor = anchor;
     this.start = start;
@@ -101,7 +101,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
     case 7: tableId = (java.lang.Integer)value$; break;
     case 8: rowId = (java.lang.Integer)value$; break;
     case 9: columnId = (java.lang.Integer)value$; break;
-    case 10: type = (LinkType)value$; break;
+    case 10: type = (it.cnr.isti.hpc.wikipedia.article.LinkType)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -278,7 +278,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * Gets the value of the 'type' field.
    * @return The value of the 'type' field.
    */
-  public LinkType getType() {
+  public it.cnr.isti.hpc.wikipedia.article.LinkType getType() {
     return type;
   }
 
@@ -286,7 +286,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * Sets the value of the 'type' field.
    * @param value the value to set.
    */
-  public void setType(LinkType value) {
+  public void setType(it.cnr.isti.hpc.wikipedia.article.LinkType value) {
     this.type = value;
   }
 
@@ -294,8 +294,8 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * Creates a new Link RecordBuilder.
    * @return A new Link RecordBuilder
    */
-  public static Link.Builder newBuilder() {
-    return new Link.Builder();
+  public static it.cnr.isti.hpc.wikipedia.article.Link.Builder newBuilder() {
+    return new it.cnr.isti.hpc.wikipedia.article.Link.Builder();
   }
 
   /**
@@ -303,8 +303,8 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * @param other The existing builder to copy.
    * @return A new Link RecordBuilder
    */
-  public static Link.Builder newBuilder(Link.Builder other) {
-    return new Link.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Link.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Link.Builder other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Link.Builder(other);
   }
 
   /**
@@ -312,8 +312,8 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
    * @param other The existing instance to copy.
    * @return A new Link RecordBuilder
    */
-  public static Link.Builder newBuilder(Link other) {
-    return new Link.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Link.Builder newBuilder(it.cnr.isti.hpc.wikipedia.article.Link other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Link.Builder(other);
   }
 
   /**
@@ -340,7 +340,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
     private java.lang.Integer rowId;
     /** if it occurs in a table, the ordinal of the column */
     private java.lang.Integer columnId;
-    private LinkType type;
+    private it.cnr.isti.hpc.wikipedia.article.LinkType type;
 
     /** Creates a new Builder */
     private Builder() {
@@ -351,7 +351,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(Link.Builder other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Link.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.id)) {
         this.id = data().deepCopy(fields()[0].schema(), other.id);
@@ -403,7 +403,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
      * Creates a Builder by copying an existing Link instance
      * @param other The existing instance to copy.
      */
-    private Builder(Link other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Link other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.id)) {
         this.id = data().deepCopy(fields()[0].schema(), other.id);
@@ -464,7 +464,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'id'.
       * @return This builder.
       */
-    public Link.Builder setId(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setId(java.lang.String value) {
       validate(fields()[0], value);
       this.id = value;
       fieldSetFlags()[0] = true;
@@ -484,7 +484,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * Clears the value of the 'id' field.
       * @return This builder.
       */
-    public Link.Builder clearId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearId() {
       id = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -503,7 +503,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'anchor'.
       * @return This builder.
       */
-    public Link.Builder setAnchor(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setAnchor(java.lang.String value) {
       validate(fields()[1], value);
       this.anchor = value;
       fieldSetFlags()[1] = true;
@@ -523,7 +523,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * Clears the value of the 'anchor' field.
       * @return This builder.
       */
-    public Link.Builder clearAnchor() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearAnchor() {
       anchor = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -544,7 +544,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'start'.
       * @return This builder.
       */
-    public Link.Builder setStart(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setStart(int value) {
       validate(fields()[2], value);
       this.start = value;
       fieldSetFlags()[2] = true;
@@ -566,7 +566,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * where the anchor starts in the text
       * @return This builder.
       */
-    public Link.Builder clearStart() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearStart() {
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -586,7 +586,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'end'.
       * @return This builder.
       */
-    public Link.Builder setEnd(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setEnd(int value) {
       validate(fields()[3], value);
       this.end = value;
       fieldSetFlags()[3] = true;
@@ -608,7 +608,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * where the anchor ends in the text
       * @return This builder.
       */
-    public Link.Builder clearEnd() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearEnd() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -628,7 +628,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'paragraphId'.
       * @return This builder.
       */
-    public Link.Builder setParagraphId(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setParagraphId(java.lang.Integer value) {
       validate(fields()[4], value);
       this.paragraphId = value;
       fieldSetFlags()[4] = true;
@@ -650,7 +650,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * if it occurs in a paragraph, the item in the list
       * @return This builder.
       */
-    public Link.Builder clearParagraphId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearParagraphId() {
       paragraphId = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -671,7 +671,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'listId'.
       * @return This builder.
       */
-    public Link.Builder setListId(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setListId(java.lang.Integer value) {
       validate(fields()[5], value);
       this.listId = value;
       fieldSetFlags()[5] = true;
@@ -693,7 +693,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       *  if it occurs in a list, the ordinal of the list among all the lists
       * @return This builder.
       */
-    public Link.Builder clearListId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearListId() {
       listId = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -714,7 +714,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'listItem'.
       * @return This builder.
       */
-    public Link.Builder setListItem(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setListItem(java.lang.Integer value) {
       validate(fields()[6], value);
       this.listItem = value;
       fieldSetFlags()[6] = true;
@@ -736,7 +736,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * if it occurs in a  list, the item in the list
       * @return This builder.
       */
-    public Link.Builder clearListItem() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearListItem() {
       listItem = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -757,7 +757,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'tableId'.
       * @return This builder.
       */
-    public Link.Builder setTableId(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setTableId(java.lang.Integer value) {
       validate(fields()[7], value);
       this.tableId = value;
       fieldSetFlags()[7] = true;
@@ -779,7 +779,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * if it occurs in a table, the ordinal of the table among all the tables
       * @return This builder.
       */
-    public Link.Builder clearTableId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearTableId() {
       tableId = null;
       fieldSetFlags()[7] = false;
       return this;
@@ -800,7 +800,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'rowId'.
       * @return This builder.
       */
-    public Link.Builder setRowId(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setRowId(java.lang.Integer value) {
       validate(fields()[8], value);
       this.rowId = value;
       fieldSetFlags()[8] = true;
@@ -822,7 +822,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * if it occurs in a table, the ordinal of the row
       * @return This builder.
       */
-    public Link.Builder clearRowId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearRowId() {
       rowId = null;
       fieldSetFlags()[8] = false;
       return this;
@@ -843,7 +843,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'columnId'.
       * @return This builder.
       */
-    public Link.Builder setColumnId(java.lang.Integer value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setColumnId(java.lang.Integer value) {
       validate(fields()[9], value);
       this.columnId = value;
       fieldSetFlags()[9] = true;
@@ -865,7 +865,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * if it occurs in a table, the ordinal of the column
       * @return This builder.
       */
-    public Link.Builder clearColumnId() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearColumnId() {
       columnId = null;
       fieldSetFlags()[9] = false;
       return this;
@@ -875,7 +875,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * Gets the value of the 'type' field.
       * @return The value.
       */
-    public LinkType getType() {
+    public it.cnr.isti.hpc.wikipedia.article.LinkType getType() {
       return type;
     }
 
@@ -884,7 +884,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * @param value The value of 'type'.
       * @return This builder.
       */
-    public Link.Builder setType(LinkType value) {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder setType(it.cnr.isti.hpc.wikipedia.article.LinkType value) {
       validate(fields()[10], value);
       this.type = value;
       fieldSetFlags()[10] = true;
@@ -904,7 +904,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
       * Clears the value of the 'type' field.
       * @return This builder.
       */
-    public Link.Builder clearType() {
+    public it.cnr.isti.hpc.wikipedia.article.Link.Builder clearType() {
       type = null;
       fieldSetFlags()[10] = false;
       return this;
@@ -924,7 +924,7 @@ public class Link extends org.apache.avro.specific.SpecificRecordBase implements
         record.tableId = fieldSetFlags()[7] ? this.tableId : (java.lang.Integer) defaultValue(fields()[7]);
         record.rowId = fieldSetFlags()[8] ? this.rowId : (java.lang.Integer) defaultValue(fields()[8]);
         record.columnId = fieldSetFlags()[9] ? this.columnId : (java.lang.Integer) defaultValue(fields()[9]);
-        record.type = fieldSetFlags()[10] ? this.type : (LinkType) defaultValue(fields()[10]);
+        record.type = fieldSetFlags()[10] ? this.type : (it.cnr.isti.hpc.wikipedia.article.LinkType) defaultValue(fields()[10]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
