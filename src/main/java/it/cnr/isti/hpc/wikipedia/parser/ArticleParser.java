@@ -326,7 +326,7 @@ public class ArticleParser {
             int maxCols = 0;
             for (int elementId = 0; elementId < t.nrOfTableElements(); elementId++) {
                 int col = t.getTableElement(elementId).getCol();
-                int row = t.getTableElement(elementId).getRow()-1; // row starts from 1
+                int row = t.getTableElement(elementId).getRow(); // row starts from 1
                 maxCols = Math.max(maxCols, col+1);
                 final String elementText = t.getTableElement(elementId).getText();
                 //System.out.println("elementId " + elementId + "col " + col);

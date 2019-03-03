@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package it.cnr.isti.hpc.wikipedia.reader;
 
 import com.google.gson.Gson;
@@ -21,21 +20,29 @@ import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
 import info.bliki.wiki.dump.WikiXMLParser;
-import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.ArticleType;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
+
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.avro.file.CodecFactory;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -63,12 +70,6 @@ public class WikipediaArticleReader {
 
 
 	private ArticleParser parser;
-	// private JsonRecordParser<Article> encoder;
-
-	private static ProgressLogger pl = new ProgressLogger("parsed {} articles",
-			10000);
-	private static Stopwatch sw = new Stopwatch();
-
 	/**
 	 * Generates a converter from the xml to json dump.
 	 *
@@ -85,7 +86,7 @@ public class WikipediaArticleReader {
 	 *
 	 */
 	public WikipediaArticleReader(String inputFile, String outputFile,
-			String lang) throws IOException {
+			String lang) throws IOException, SAXException {
 		this(new File(inputFile), new File(outputFile), lang);
 	}
 
@@ -104,34 +105,38 @@ public class WikipediaArticleReader {
 	 *
 	 *
 	 */
-	public WikipediaArticleReader(File inputFile, File outputFile, String lang) throws IOException {
+	public WikipediaArticleReader(File inputFile, File outputFile, String lang) throws IOException, SAXException {
 		handler = new JsonConverter(outputFile);
 		if (outputFile.getName().contains("json")) {
 			handler = new JsonConverter(outputFile);
 		}
-		if (outputFile.getName().contains("avro")){
+		if (outputFile.getName().contains("avro")) {
 			handler = new AvroConverter(outputFile);
 		}
 		parser = new ArticleParser(lang);
-		try {
-			wxp = new WikiXMLParser(new File(inputFile.getAbsolutePath()), handler);
-		} catch (Exception e) {
-			logger.error("creating the parser", e);
-			System.exit(-1);
-		}
-
-
-
+		ProgressBarBuilder pbb = new ProgressBarBuilder()
+			.setTaskName("Parsing Wikipedia XML")
+			.setUnit("MB", 1048576).setStyle(ProgressBarStyle.ASCII);
+		InputStream stream = ProgressBar.wrap(new FileInputStream(inputFile.getAbsolutePath()), pbb);
+		wxp = new WikiXMLParser(getPlainOrCompressedReader(stream, inputFile.getName()), handler);
 	}
 
-	/**
-	 * Starts the parsing
-	 */
 	public void start() throws IOException, SAXException {
-
 		wxp.parse();
 		handler.close();
-		//logger.info(sw.stat("articles"));
+	}
+
+	private static BufferedReader getPlainOrCompressedReader(InputStream stream, String filename) throws IOException {
+		BufferedReader br = null;
+		if (filename.endsWith(".gz")) {
+			return new BufferedReader(new InputStreamReader(
+				new GZIPInputStream(stream)));
+		}
+		if (filename.endsWith(".bz2")) {
+			return new BufferedReader(new InputStreamReader(
+				new BZip2CompressorInputStream(stream)));
+		}
+		return new BufferedReader(new InputStreamReader(stream));
 	}
 
 	private abstract class Handler implements IArticleFilter, Closeable {
@@ -152,8 +157,6 @@ public class WikipediaArticleReader {
 		}
 
 		public void process(WikiArticle page, Siteinfo si) throws IOException {
-			pl.up();
-			sw.start("articles");
 			String title = page.getTitle();
 			String id = page.getId();
 			String namespace = page.getNamespace();
@@ -166,20 +169,17 @@ public class WikipediaArticleReader {
 			if (page.isTemplate()) {
 				type = ArticleType.TEMPLATE;
 				// FIXME just to go fast;
-				sw.stop("articles");
 				return;
 			}
 
 			if (page.isProject()) {
 				type = ArticleType.PROJECT;
 				// FIXME just to go fast;
-				sw.stop("articles");
 				return;
 			}
 			if (page.isFile()) {
 				type = ArticleType.FILE;
 				// FIXME just to go fast;
-				sw.stop("articles");
 				return;
 			}
 			if (page.isMain())
@@ -200,9 +200,6 @@ public class WikipediaArticleReader {
 				logger.error("writing the output file {}", e.toString());
 				throw e;
 			}
-
-			sw.stop("articles");
-
 			return;
 		}
 

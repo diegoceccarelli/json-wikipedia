@@ -104,7 +104,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 				lang);
 			wap.start();
 		} catch (Exception e) {
-			logger.error("parsing the mediawiki {}", e.toString());
+			logger.error("Parsing the mediawiki", e);
 			System.exit(-1);
 		}
 	}
