@@ -1,15 +1,10 @@
 package it.cnr.isti.hpc.wikipedia.article;
 
 import com.google.gson.Gson;
-import it.cnr.isti.hpc.wikipedia.ArticleType;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ArticleHelper {
   private final static Gson GSON = new Gson();

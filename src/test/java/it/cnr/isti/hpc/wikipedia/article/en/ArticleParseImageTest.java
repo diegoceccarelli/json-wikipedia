@@ -17,10 +17,9 @@ package it.cnr.isti.hpc.wikipedia.article.en;
 
 import static org.junit.Assert.assertEquals;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
-import it.cnr.isti.hpc.wikipedia.LinkType;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
 import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.Link;
+import it.cnr.isti.hpc.wikipedia.article.LinkType;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
@@ -48,6 +47,5 @@ public class ArticleParseImageTest {
     assertEquals(LinkType.BODY, article.getLinks().get(1).getType());
     assertEquals(LinkType.IMAGE, article.getLinks().get(2).getType());
     assertEquals(LinkType.BODY, article.getLinks().get(3).getType());
-
   }
 }

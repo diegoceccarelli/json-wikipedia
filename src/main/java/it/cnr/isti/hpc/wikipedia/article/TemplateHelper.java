@@ -1,10 +1,6 @@
 package it.cnr.isti.hpc.wikipedia.article;
 
-import avro.shaded.com.google.common.collect.Lists;
-import it.cnr.isti.hpc.wikipedia.Template;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 

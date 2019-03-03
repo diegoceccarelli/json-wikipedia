@@ -24,8 +24,9 @@ import info.bliki.wiki.dump.WikiXMLParser;
 import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.log.ProgressLogger;
-import it.cnr.isti.hpc.wikipedia.ArticleType;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.BufferedWriter;
@@ -116,7 +117,7 @@ public class WikipediaArticleReader {
 		try {
 			wxp = new WikiXMLParser(new File(inputFile.getAbsolutePath()), handler);
 		} catch (Exception e) {
-			logger.error("creating the parser {}", e.toString());
+			logger.error("creating the parser", e);
 			System.exit(-1);
 		}
 

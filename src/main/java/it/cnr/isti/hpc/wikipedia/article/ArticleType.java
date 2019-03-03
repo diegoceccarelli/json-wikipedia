@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package it.cnr.isti.hpc.wikipedia;
+package it.cnr.isti.hpc.wikipedia.article;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public enum ArticleType {

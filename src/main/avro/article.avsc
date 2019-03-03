@@ -1,10 +1,10 @@
 [
 {
-    "namespace": "it.cnr.isti.hpc.wikipedia",
+    "namespace": "it.cnr.isti.hpc.wikipedia.article",
     "name": "Language",
     "type":"enum", "symbols" : ["EN", "IT"]
 },
-{"namespace": "it.cnr.isti.hpc.wikipedia",
+{"namespace": "it.cnr.isti.hpc.wikipedia.article",
  "type": "record",
  "name": "Link",
                  "fields": [
@@ -21,7 +21,7 @@
                      {"name": "type", "type": { "name":"LinkType",  "type":"enum", "symbols" : ["BODY", "TABLE", "LIST", "IMAGE", "UNKNOWN", "CATEGORY"]}}
                  ]
 },
-{"namespace": "it.cnr.isti.hpc.wikipedia",
+{"namespace": "it.cnr.isti.hpc.wikipedia.article",
  "type": "record",
  "name": "Template",
                  "fields": [
@@ -29,7 +29,7 @@
                      {"name": "description", "type": { "type" : "array", "items": { "type": "string" }}}
  ]
 },
-{"namespace": "it.cnr.isti.hpc.wikipedia",
+{"namespace": "it.cnr.isti.hpc.wikipedia.article",
  "type": "record",
  "name": "AvroArticle",
  "fields": [
@@ -58,7 +58,7 @@
      {"name": "tables", "type": { "type" : "array", "items":
                     { "type": "record",
                       "name": "Table",
-                      "namespace": "it.cnr.isti.hpc.wikipedia",
+                      "namespace": "it.cnr.isti.hpc.wikipedia.article",
                       "fields": [
                           {"name": "title", "type": "string"},
                           {"name": "numCols", "type": "int", "default":0},

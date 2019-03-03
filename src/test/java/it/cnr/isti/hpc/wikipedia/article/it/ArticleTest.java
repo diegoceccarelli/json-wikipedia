@@ -19,11 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.cnr.isti.hpc.wikipedia.ArticleType;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
 
-import it.cnr.isti.hpc.wikipedia.Language;
-import it.cnr.isti.hpc.wikipedia.Template;
+import it.cnr.isti.hpc.wikipedia.article.Language;
+import it.cnr.isti.hpc.wikipedia.article.Template;
 import it.cnr.isti.hpc.wikipedia.article.TemplateHelper;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 

@@ -18,9 +18,8 @@ package it.cnr.isti.hpc.wikipedia.reader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
 import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
-import it.cnr.isti.hpc.wikipedia.article.Language;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +27,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
+import it.cnr.isti.hpc.wikipedia.article.Language;
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.io.DatumReader;
@@ -46,7 +46,7 @@ public class WikipediaArticleReaderTest {
 	public void testParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
 		final File file = File.createTempFile("jsonwikipedia-mercedes", ".json.gz");
-		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(), file.getAbsolutePath(), Language.EN);
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(), file.getAbsolutePath(), "en");
 		wap.start();
 		String json = IOUtils.getFileAsUTF8String(file.getAbsolutePath());
 		AvroArticle a = ArticleHelper.fromJson(json);
@@ -58,7 +58,7 @@ public class WikipediaArticleReaderTest {
 	public void testAvroParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
 		final File file = File.createTempFile("jsonwikipedia-mercedes", ".avro");
-		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),file.getAbsolutePath(), Language.EN);
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),file.getAbsolutePath(), "en");
 		wap.start();
 
 

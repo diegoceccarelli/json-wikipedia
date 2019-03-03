@@ -19,17 +19,17 @@ import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
 import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
-import it.cnr.isti.hpc.wikipedia.ArticleType;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
-import it.cnr.isti.hpc.wikipedia.Link;
-import it.cnr.isti.hpc.wikipedia.LinkType;
-import it.cnr.isti.hpc.wikipedia.Table;
-import it.cnr.isti.hpc.wikipedia.Template;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.article.LinkType;
+import it.cnr.isti.hpc.wikipedia.article.Table;
+import it.cnr.isti.hpc.wikipedia.article.Template;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.cnr.isti.hpc.wikipedia.Language;
+import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -71,10 +71,9 @@ public class ArticleParser {
 
 	public ArticleParser(String lang) {
 		this.lang = Language.valueOf(lang.toUpperCase());
-		parser = parserFactory.getParser(lang);
+		parser = parserFactory.getParser(lang.toLowerCase());
 		locale = new Locale(lang);
 		redirects = locale.getRedirectIdentifiers();
-
 	}
 
   public ArticleParser(Language lang) {
@@ -179,7 +178,7 @@ public class ArticleParser {
 
       return linkBuilder;
     }
-    logger.warn("No link for [{}] built: link type {} ", link.getText(), link.getType());
+    logger.debug("No link for [{}] built: link type {} ", link.getText(), link.getType());
 		return null;
 
 
@@ -367,9 +366,6 @@ public class ArticleParser {
         }
     }
 
-    /**
-     * @param page
-     */
     private void setSections(AvroArticle.Builder article, ParsedPage page) {
         final List<String> sections = new ArrayList<String>(10);
         for (final Section s : page.getSections()) {

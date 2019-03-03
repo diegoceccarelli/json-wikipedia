@@ -7,7 +7,7 @@ package it.cnr.isti.hpc.wikipedia.article;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public enum Type {
-  BODY, TABLE, LIST, IMAGE, UNKNOWN, CATEGORY  ;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"Type\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}");
+  TEMPLATE, ARTICLE, CATEGORY, REDIRECT, DISAMBIGUATION, UNKNOWN, MAIN, LIST, PROJECT, FILE  ;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"enum\",\"name\":\"Type\",\"namespace\":\"it.cnr.isti.hpc.wikipedia\",\"symbols\":[\"TEMPLATE\",\"ARTICLE\",\"CATEGORY\",\"REDIRECT\",\"DISAMBIGUATION\",\"UNKNOWN\",\"MAIN\",\"LIST\",\"PROJECT\",\"FILE\"]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 }

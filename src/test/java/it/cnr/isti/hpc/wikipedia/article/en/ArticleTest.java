@@ -22,11 +22,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.ArticleType;
-import it.cnr.isti.hpc.wikipedia.AvroArticle;
-import it.cnr.isti.hpc.wikipedia.Link;
-import it.cnr.isti.hpc.wikipedia.LinkType;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
+import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.article.LinkType;
 import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
+import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
@@ -62,31 +63,24 @@ public class ArticleTest {
     articleBuilder.setTimestamp("timestamp");
     articleBuilder.setEnWikiTitle("Test");
     articleBuilder.setType(ArticleType.ARTICLE);
-    articleParser = new ArticleParser(it.cnr.isti.hpc.wikipedia.Language.EN);
+    articleParser = new ArticleParser(Language.EN);
   }
 
 	@Test
 	public void testParsing() throws IOException {
-    final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/article.txt");
-    articleParser.parse(articleBuilder, text);
-    final AvroArticle article = articleBuilder.build();
-
+    final AvroArticle article = parseAvroArticle("./src/test/resources/en/article.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs()).trim()).startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface.");
 		assertEquals(5, article.getCategories().size());
 		assertEquals(7,article.getSections().size());
 		assertEquals(77,article.getLinks().size());
-
 	}
 
 
 
 	@Test
 	public void testMercedes() throws IOException {
-
-    final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/mercedes.txt");
-    articleParser.parse(articleBuilder, text);
-    final AvroArticle article = articleBuilder.build();
+    final AvroArticle article = parseAvroArticle("./src/test/resources/en/mercedes.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs())).startsWith("Mercedes-Benz");
 		assertEquals(15, article.getCategories().size());
@@ -96,31 +90,22 @@ public class ArticleTest {
 
 	@Test
 	public void testDisambiguation() throws IOException {
-		final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/hdis.txt");
-    articleParser.parse(articleBuilder, text);
-    final AvroArticle article = articleBuilder.build();
+    final AvroArticle article = parseAvroArticle("./src/test/resources/en/hdis.txt");
 
 		assertTrue("Article is not a disambiguation", ArticleHelper.isDisambiguation(article));
-
 	}
 
 
 	@Test
 	public void testNotRedirect() throws IOException {
-		final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/liberalism.txt");
-    articleParser.parse(articleBuilder, text);
-    final AvroArticle article = articleBuilder.build();
+    final AvroArticle article = parseAvroArticle("./src/test/resources/en/liberalism.txt");
 
 		assertNotEquals(ArticleType.REDIRECT, article.getType());
-
-
 	}
 
     @Test
     public void testNoEmptyAnchors() throws IOException {
-      final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
-      articleParser.parse(articleBuilder, text);
-      final AvroArticle article = articleBuilder.build();
+      final AvroArticle article = parseAvroArticle("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
 
         // No anchor should be empty
         for (final Link link : article.getLinks()){
@@ -138,13 +123,11 @@ public class ArticleTest {
 
     @Test
     public void testNoEmptyWikiIds() throws IOException {
-        final String text = IOUtils.getFileAsUTF8String("./src/test/resources/en/Cenozoic");
-        articleParser.parse(articleBuilder, text);
-        final AvroArticle article = articleBuilder.build();
+      final AvroArticle article = parseAvroArticle("./src/test/resources/en/Cenozoic");
 
-        for(final Link l: article.getLinks()){
-        	assertThat(l.getId()).isNotEmpty();
-        }
+      for(final Link l: article.getLinks()){
+        assertThat(l.getId()).isNotEmpty();
+      }
     }
 
     @Test
@@ -258,17 +241,4 @@ public class ArticleTest {
             }
         }
     }
-//
-//  @Test
-//  public void testTableTypes() throws IOException {
-//    final Article a = new Article();
-//    final String mediawiki = IOUtils.getFileAsUTF8String("./src/test/resources/en/LinkInCaption");
-//    parser.parse(a, mediawiki);
-//    Gson gson = new Gson();
-//    System.out.println(gson.toJson(a));
-//  }
-
-
-
-
 }
