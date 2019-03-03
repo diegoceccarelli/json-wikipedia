@@ -25,8 +25,7 @@ import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.log.ProgressLogger;
 import it.cnr.isti.hpc.wikipedia.article.ArticleType;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
-import it.cnr.isti.hpc.wikipedia.article.Language;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.BufferedWriter;
@@ -46,7 +45,7 @@ import org.xml.sax.SAXException;
  * contain all the article in the XML dump, one article per line. Each line will
  * be compose by the json serialization of the object Article.
  * 
- * @see AvroArticle
+ * @see Article
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 18/nov/2011
  */
@@ -136,7 +135,7 @@ public class WikipediaArticleReader {
 	}
 
 	private abstract class Handler implements IArticleFilter, Closeable {
-		public abstract void write(final AvroArticle a) throws IOException;
+		public abstract void write(final Article a) throws IOException;
 	}
 
 	public class JsonConverter extends Handler {
@@ -186,7 +185,7 @@ public class WikipediaArticleReader {
 			if (page.isMain())
 				type = ArticleType.ARTICLE;
 
-			AvroArticle.Builder articleBuilder = AvroArticle.newBuilder();
+			Article.Builder articleBuilder = Article.newBuilder();
 			articleBuilder.setTitle(title);
 			articleBuilder.setWid(Integer.parseInt(id));
 			articleBuilder.setNamespace(namespace);
@@ -207,7 +206,7 @@ public class WikipediaArticleReader {
 			return;
 		}
 
-		public void write(AvroArticle a) throws IOException {
+		public void write(Article a) throws IOException {
 			out.write(GSON.toJson(a));
 			out.write('\n');
 		}
@@ -220,15 +219,15 @@ public class WikipediaArticleReader {
 
 	public class AvroConverter extends JsonConverter {
 
-		private final DataFileWriter<AvroArticle> dataFileWriter;
+		private final DataFileWriter<Article> dataFileWriter;
 
 		public AvroConverter(File output) throws IOException {
-			DatumWriter<AvroArticle> userDatumWriter = new SpecificDatumWriter<AvroArticle>(AvroArticle.class);
-			dataFileWriter = new DataFileWriter<AvroArticle>(userDatumWriter).setCodec(CodecFactory.snappyCodec());
-			dataFileWriter.create(new AvroArticle().getSchema(), output);
+			DatumWriter<Article> userDatumWriter = new SpecificDatumWriter<Article>(Article.class);
+			dataFileWriter = new DataFileWriter<Article>(userDatumWriter).setCodec(CodecFactory.snappyCodec());
+			dataFileWriter.create(new Article().getSchema(), output);
 		}
 
-		public void write(AvroArticle a) throws IOException {
+		public void write(Article a) throws IOException {
 			dataFileWriter.append(a);
 		}
 

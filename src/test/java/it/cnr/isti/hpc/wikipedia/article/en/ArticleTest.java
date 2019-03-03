@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.ArticleType;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.LinkType;
 import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
@@ -38,10 +38,10 @@ import org.junit.Test;
 
 public class ArticleTest {
 
-  private AvroArticle.Builder articleBuilder;
+  private Article.Builder articleBuilder;
   private ArticleParser articleParser;
 
-  private AvroArticle parseAvroArticle(String resourcePath) {
+  private Article parseAvroArticle(String resourcePath) {
     final String text = IOUtils.getFileAsUTF8String(resourcePath);
     articleParser.parse(articleBuilder, text);
     return articleBuilder.build();
@@ -49,7 +49,7 @@ public class ArticleTest {
 
   @Before
   public void runBeforeTestMethod() throws IOException {
-    articleBuilder = AvroArticle.newBuilder();
+    articleBuilder = Article.newBuilder();
     articleBuilder.setTitle("Test"); // title must always be set before parsing
     articleBuilder.setWid(42); // wikiId must always be set before parsing
     articleBuilder.setIntegerNamespace(42); // same for the namespace
@@ -62,7 +62,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseLinks() throws IOException {
-    final AvroArticle article = parseAvroArticle("./src/test/resources/en/article.txt");
+    final Article article = parseAvroArticle("./src/test/resources/en/article.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs()).trim()).startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface.");
 		assertEquals(5, article.getCategories().size());
@@ -74,7 +74,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseMercedes() throws IOException {
-    final AvroArticle article = parseAvroArticle("./src/test/resources/en/mercedes.txt");
+    final Article article = parseAvroArticle("./src/test/resources/en/mercedes.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs())).startsWith("Mercedes-Benz");
 		assertEquals(15, article.getCategories().size());
@@ -84,7 +84,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseDisambiguation() throws IOException {
-    final AvroArticle article = parseAvroArticle("./src/test/resources/en/hdis.txt");
+    final Article article = parseAvroArticle("./src/test/resources/en/hdis.txt");
 
 		assertTrue("Article is not a disambiguation", ArticleHelper.isDisambiguation(article));
 	}
@@ -92,13 +92,13 @@ public class ArticleTest {
 
 	@Test
 	public void testNotRedirect() throws IOException {
-    final AvroArticle article = parseAvroArticle("./src/test/resources/en/liberalism.txt");
+    final Article article = parseAvroArticle("./src/test/resources/en/liberalism.txt");
 		assertNotEquals(ArticleType.REDIRECT, article.getType());
 	}
 
     @Test
     public void testNoEmptyAnchors() throws IOException {
-      final AvroArticle article = parseAvroArticle("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+      final Article article = parseAvroArticle("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
 
         // No anchor should be empty
         for (final Link link : article.getLinks()){
@@ -116,7 +116,7 @@ public class ArticleTest {
 
     @Test
     public void testNoEmptyWikiIds() throws IOException {
-      final AvroArticle article = parseAvroArticle("./src/test/resources/en/Cenozoic");
+      final Article article = parseAvroArticle("./src/test/resources/en/Cenozoic");
 
       for(final Link l: article.getLinks()){
         assertThat(l.getId()).isNotEmpty();
@@ -127,7 +127,7 @@ public class ArticleTest {
     public void testEmptyLinksShouldBeFiltered() throws IOException {
         // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
         // Those should be filtered
-        final AvroArticle a = parseAvroArticle("./src/test/resources/en/Phantom_kangaroo");
+        final Article a = parseAvroArticle("./src/test/resources/en/Phantom_kangaroo");
         for(final Link l: a.getLinks()){
             assertFalse(l.getId().isEmpty());
             assertFalse(l.getAnchor().isEmpty());
@@ -138,7 +138,7 @@ public class ArticleTest {
 
     @Test
     public void testParagraphLinks() throws IOException {
-        final AvroArticle a = parseAvroArticle("./src/test/resources/en/ParagraphLinksTest.txt");
+        final Article a = parseAvroArticle("./src/test/resources/en/ParagraphLinksTest.txt");
 
 
      // testing specific links
@@ -160,7 +160,7 @@ public class ArticleTest {
         testAnchorsInParagraphs(a);
     }
 
-    private void testAnchorsInParagraphs(AvroArticle article) {
+    private void testAnchorsInParagraphs(Article article) {
     	final List<String> paragraphs = article.getParagraphs();
     	for(final Link link: article.getLinks()){
 
@@ -174,7 +174,7 @@ public class ArticleTest {
 
     @Test
     public void testListLinks() throws IOException {
-        final AvroArticle article = parseAvroArticle("./src/test/resources/en/ListLinksTest.txt");
+        final Article article = parseAvroArticle("./src/test/resources/en/ListLinksTest.txt");
      // testing specific links
         for (final Link link : article.getLinks()){
             if (link.getId().equals("Lists")){
@@ -196,7 +196,7 @@ public class ArticleTest {
         testAnchorsInLists(article);
     }
 
-    private void testAnchorsInLists(AvroArticle article) {
+    private void testAnchorsInLists(Article article) {
     	final List<List<String>> lists = article.getLists();
     	for(final Link link: article.getLinks()){
     		if(link.getType() == LinkType.LIST) {
@@ -210,7 +210,7 @@ public class ArticleTest {
 
     @Test
     public void testTableLinks() throws IOException {
-        AvroArticle article = parseAvroArticle("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
+        Article article = parseAvroArticle("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
 
      // testing specific links
         for (final Link link: article.getLinks()){

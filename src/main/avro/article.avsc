@@ -177,7 +177,7 @@
     {
         "namespace": "it.cnr.isti.hpc.wikipedia.article",
         "type": "record",
-        "name": "AvroArticle",
+        "name": "Article",
         "fields": [
             {
                 "name": "title",

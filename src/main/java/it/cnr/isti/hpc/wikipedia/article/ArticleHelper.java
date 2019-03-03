@@ -9,8 +9,8 @@ import java.util.List;
 public class ArticleHelper {
   private final static Gson GSON = new Gson();
 
-	public static AvroArticle fromJson(String json){
-    return GSON.fromJson(json, AvroArticle.class);
+	public static Article fromJson(String json){
+    return GSON.fromJson(json, Article.class);
   }
 
   public static String cleanText(List<String> paragraphs){
@@ -80,7 +80,7 @@ public class ArticleHelper {
 		return title;
 	}
 
-  public static boolean isDisambiguation(AvroArticle a) {
+  public static boolean isDisambiguation(Article a) {
     return a.getType() == ArticleType.DISAMBIGUATION;
   }
 }

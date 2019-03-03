@@ -18,7 +18,7 @@ package it.cnr.isti.hpc.wikipedia.reader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
 
 import java.io.File;
@@ -48,7 +48,7 @@ public class WikipediaArticleReaderTest {
 		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(), file.getAbsolutePath(), "en");
 		wap.start();
 		String json = IOUtils.getFileAsUTF8String(file.getAbsolutePath());
-		AvroArticle a = ArticleHelper.fromJson(json);
+		Article a = ArticleHelper.fromJson(json);
 		assertTrue(ArticleHelper.cleanText(a.getParagraphs()).startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
 	}
@@ -61,8 +61,8 @@ public class WikipediaArticleReaderTest {
 		wap.start();
 
 
-		DatumReader<AvroArticle> datumReader = new GenericDatumReader<>();
-		DataFileReader<AvroArticle> dataFileReader = new DataFileReader<AvroArticle>(file, datumReader);
+		DatumReader<Article> datumReader = new GenericDatumReader<>();
+		DataFileReader<Article> dataFileReader = new DataFileReader<Article>(file, datumReader);
 		while (dataFileReader.hasNext()){
 			System.out.println(dataFileReader.next());
 		}

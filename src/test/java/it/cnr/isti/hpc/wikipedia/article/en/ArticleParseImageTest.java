@@ -17,7 +17,7 @@ package it.cnr.isti.hpc.wikipedia.article.en;
 
 import static org.junit.Assert.assertEquals;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.LinkType;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
@@ -37,7 +37,7 @@ public class ArticleParseImageTest {
 
   @Test
   public void testParseImage() throws IOException {
-    final AvroArticle.Builder article = AvroArticle.newBuilder();
+    final Article.Builder article = Article.newBuilder();
     article.setTitle("Test");
     final String mediawiki = IOUtils
         .getFileAsUTF8String("./src/test/resources/en/article-with-image.txt");

@@ -20,7 +20,7 @@ import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
 import it.cnr.isti.hpc.wikipedia.article.ArticleType;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.LinkType;
 import it.cnr.isti.hpc.wikipedia.article.Table;
@@ -84,13 +84,13 @@ public class ArticleParser {
     this(Language.EN);
 	}
 
-	public void parse(AvroArticle.Builder article, String mediawiki) {
+	public void parse(Article.Builder article, String mediawiki) {
 		final ParsedPage page = parser.parse(mediawiki);
 		setRedirect(article, mediawiki);
 		parse(article, page);
 	}
 
-	private void parse(AvroArticle.Builder article, ParsedPage page) {
+	private void parse(Article.Builder article, ParsedPage page) {
 		article.setLang(lang);
 		setWikiTitle(article);
 		if (page == null) {
@@ -112,7 +112,7 @@ public class ArticleParser {
 		setIsList(article);
 	}
 
-	private void setLists(AvroArticle.Builder article, ParsedPage page) {
+	private void setLists(Article.Builder article, ParsedPage page) {
 		List<List<String>> lists = new ArrayList<List<String>>();
 		for (DefinitionList dl : page.getDefinitionLists()) {
 			List<String> l = new ArrayList<String>();
@@ -131,7 +131,7 @@ public class ArticleParser {
 		article.setLists(lists);
 	}
 
-	private void setWikiTitle(AvroArticle.Builder article) {
+	private void setWikiTitle(Article.Builder article) {
 		article.setWikiTitle(ArticleHelper.getTitleInWikistyle(article.getTitle()));
 	}
 
@@ -241,7 +241,7 @@ public class ArticleParser {
 
 
 
-	private void setLinks(AvroArticle.Builder article, ParsedPage page){
+	private void setLinks(Article.Builder article, ParsedPage page){
 	  final List<Link> links = new ArrayList<Link>(page.getLinks().size());
 	  final List<Link> elinks = new ArrayList<Link>(page.getLinks().size());
 		setLinksInParagraphs(links, elinks, page);
@@ -251,7 +251,7 @@ public class ArticleParser {
 		article.setExternalLinks(elinks);
 	}
 
-	private void setIsList(AvroArticle.Builder article) {
+	private void setIsList(Article.Builder article) {
 		for (final String list : locale.getListIdentifiers()) {
 			if (StringUtils.startsWithIgnoreCase(article.getTitle(), list)) {
 				article.setType(ArticleType.LIST);
@@ -259,7 +259,7 @@ public class ArticleParser {
 		}
 	}
 
-    private void setRedirect(AvroArticle.Builder article) {
+    private void setRedirect(Article.Builder article) {
         if ( !article.hasRedirect() || !article.getRedirect().isEmpty()) {
             return;
         }
@@ -285,7 +285,7 @@ public class ArticleParser {
         }
     }
 
-    private void setRedirect(AvroArticle.Builder article, String mediawiki) {
+    private void setRedirect(Article.Builder article, String mediawiki) {
         for (final String redirect : redirects) {
             if (StringUtils.startsWithIgnoreCase(mediawiki, redirect)) {
                 final int start = mediawiki.indexOf("[[") + 2;
@@ -309,7 +309,7 @@ public class ArticleParser {
       }
     }
 
-    private void setTables(AvroArticle.Builder article, ParsedPage page) {
+    private void setTables(Article.Builder article, ParsedPage page) {
         final List<Table> tables = new ArrayList<>();
 
       for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
@@ -344,7 +344,7 @@ public class ArticleParser {
         article.setTables(tables);
     }
 
-    protected void setEnWikiTitle(AvroArticle.Builder article, ParsedPage page) {
+    protected void setEnWikiTitle(Article.Builder article, ParsedPage page) {
         if (article.getLang().equals(Language.EN)) {
             return;
         }
@@ -366,7 +366,7 @@ public class ArticleParser {
         }
     }
 
-    private void setSections(AvroArticle.Builder article, ParsedPage page) {
+    private void setSections(Article.Builder article, ParsedPage page) {
         final List<String> sections = new ArrayList<String>(10);
         for (final Section s : page.getSections()) {
 
@@ -379,7 +379,7 @@ public class ArticleParser {
 
     }
 
-    private void setTemplates(AvroArticle.Builder article, ParsedPage page) {
+    private void setTemplates(Article.Builder article, ParsedPage page) {
         final List<Template> templates = new ArrayList<Template>(10);
 
         for (final de.tudarmstadt.ukp.wikipedia.parser.Template t : page
@@ -400,7 +400,7 @@ public class ArticleParser {
      *
      * @param templateParameters
      */
-    private void parseTemplatesSchema(AvroArticle.Builder article,
+    private void parseTemplatesSchema(Article.Builder article,
                                       List<String> templateParameters) {
         final List<String> schema = new ArrayList<String>(10);
 
@@ -417,7 +417,7 @@ public class ArticleParser {
         article.setTemplatesSchema(schema);
     }
 
-    private void setCategories(AvroArticle.Builder article, ParsedPage page) {
+    private void setCategories(Article.Builder article, ParsedPage page) {
         final List<Link> categories = new ArrayList<>(10);
         for (final de.tudarmstadt.ukp.wikipedia.parser.Link link : page.getCategories()) {
             Link.Builder linkBuilder = Link.newBuilder();
@@ -431,7 +431,7 @@ public class ArticleParser {
         article.setCategories(categories);
     }
 
-    private void setHighlights(AvroArticle.Builder article, ParsedPage page) {
+    private void setHighlights(Article.Builder article, ParsedPage page) {
         final List<String> highlights = new ArrayList<String>(20);
 
         for (final Paragraph p : page.getParagraphs()) {
@@ -447,7 +447,7 @@ public class ArticleParser {
 
     }
 
-    private void setParagraphs(AvroArticle.Builder article, ParsedPage page) {
+    private void setParagraphs(Article.Builder article, ParsedPage page) {
         final List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
         for (final Paragraph p : page.getParagraphs()) {
             String text = p.getText();
@@ -460,7 +460,7 @@ public class ArticleParser {
         article.setParagraphs(paragraphs);
     }
 
-    private void setDisambiguation(AvroArticle.Builder a) {
+    private void setDisambiguation(Article.Builder a) {
 
         for (final String disambiguation : locale.getDisambigutionIdentifiers()) {
             if (StringUtils.containsIgnoreCase(a.getTitle(), disambiguation)) {
