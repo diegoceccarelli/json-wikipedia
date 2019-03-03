@@ -16,6 +16,7 @@
 
 package it.cnr.isti.hpc.wikipedia.reader;
 
+import com.google.gson.Gson;
 import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
 import info.bliki.wiki.dump.WikiArticle;
@@ -23,20 +24,14 @@ import info.bliki.wiki.dump.WikiXMLParser;
 import it.cnr.isti.hpc.benchmark.Stopwatch;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.log.ProgressLogger;
-import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.Article.Type;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
-import it.cnr.isti.hpc.wikipedia.article.AvroLink;
-import it.cnr.isti.hpc.wikipedia.article.Link;
+import it.cnr.isti.hpc.wikipedia.ArticleType;
+import it.cnr.isti.hpc.wikipedia.AvroArticle;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.avro.file.CodecFactory;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
@@ -50,7 +45,7 @@ import org.xml.sax.SAXException;
  * contain all the article in the XML dump, one article per line. Each line will
  * be compose by the json serialization of the object Article.
  * 
- * @see Article
+ * @see AvroArticle
  * 
  * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 18/nov/2011
  */
@@ -60,6 +55,8 @@ public class WikipediaArticleReader {
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(WikipediaArticleReader.class);
+
+	private static final Gson GSON = new Gson();
 
 	private WikiXMLParser wxp;
 	private Handler handler;
@@ -138,7 +135,7 @@ public class WikipediaArticleReader {
 	}
 
 	private abstract class Handler implements IArticleFilter, Closeable {
-		public abstract void write(final Article a) throws IOException;
+		public abstract void write(final AvroArticle a) throws IOException;
 	}
 
 	public class JsonConverter extends Handler {
@@ -154,7 +151,7 @@ public class WikipediaArticleReader {
 				.getAbsolutePath());
 		}
 
-		public void process(WikiArticle page, Siteinfo si) {
+		public void process(WikiArticle page, Siteinfo si) throws IOException {
 			pl.up();
 			sw.start("articles");
 			String title = page.getTitle();
@@ -163,45 +160,45 @@ public class WikipediaArticleReader {
 			Integer integerNamespace = page.getIntegerNamespace();
 			String timestamp = page.getTimeStamp();
 
-			Type type = Type.UNKNOWN;
+			ArticleType type = ArticleType.UNKNOWN;
 			if (page.isCategory())
-				type = Type.CATEGORY;
+				type = ArticleType.CATEGORY;
 			if (page.isTemplate()) {
-				type = Type.TEMPLATE;
+				type = ArticleType.TEMPLATE;
 				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
 
 			if (page.isProject()) {
-				type = Type.PROJECT;
+				type = ArticleType.PROJECT;
 				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
 			if (page.isFile()) {
-				type = Type.FILE;
+				type = ArticleType.FILE;
 				// FIXME just to go fast;
 				sw.stop("articles");
 				return;
 			}
 			if (page.isMain())
-				type = Type.ARTICLE;
+				type = ArticleType.ARTICLE;
 
-			Article article = new Article();
-			article.setTitle(title);
-			article.setWikiId(Integer.parseInt(id));
-			article.setNamespace(namespace);
-			article.setIntegerNamespace(integerNamespace);
-			article.setTimestamp(timestamp);
-			article.setType(type);
-			parser.parse(article, page.getText());
+			AvroArticle.Builder articleBuilder = AvroArticle.newBuilder();
+			articleBuilder.setTitle(title);
+			articleBuilder.setWid(Integer.parseInt(id));
+			articleBuilder.setNamespace(namespace);
+			articleBuilder.setIntegerNamespace(integerNamespace);
+			articleBuilder.setTimestamp(timestamp);
+			articleBuilder.setType(type);
+			parser.parse(articleBuilder, page.getText());
 
 			try {
-				write(article);
+				write(articleBuilder.build());
 			} catch (IOException e) {
 				logger.error("writing the output file {}", e.toString());
-				System.exit(-1);
+				throw e;
 			}
 
 			sw.stop("articles");
@@ -209,8 +206,8 @@ public class WikipediaArticleReader {
 			return;
 		}
 
-		public void write(Article a) throws IOException {
-			out.write(a.toJson());
+		public void write(AvroArticle a) throws IOException {
+			out.write(GSON.toJson(a));
 			out.write('\n');
 		}
 
@@ -230,38 +227,8 @@ public class WikipediaArticleReader {
 			dataFileWriter.create(new AvroArticle().getSchema(), output);
 		}
 
-		public void write(Article a) throws IOException {
-			List<AvroLink> links = new ArrayList<>(a.getLinks().size());
-			for (Link l : a.getLinks()){
-				AvroLink.Builder builder = AvroLink.newBuilder().setId(l.getId())
-					.setAnchor(l.getAnchor())
-					.setColumnId(l.getColumnId())
-					.setStart(l.getStart())
-					.setEnd(l.getEnd())
-					.setParagraphId(l.getParagraphId())
-					.setListId(l.getListId())
-					.setListItem(l.getListItem())
-					.setTableId(l.getTableId())
-					.setRowId(l.getRowId())
-					.setColumnId(l.getColumnId())
-					.setType(it.cnr.isti.hpc.wikipedia.article.Type.values()[l.getType().ordinal()]);
-				links.add(builder.build());
-			}
-			AvroArticle avroArticle = AvroArticle.newBuilder()
-				.setTitle(a.getTitle())
-				.setWikiTitle(a.getWikiTitle())
-				.setWid(a.getWid())
-				.setIntegerNamespace(a.getIntegerNamespace())
-				.setLang(a.getLang())
-				.setNamespace(a.getNamespace())
-				.setTimestamp(a.getTimestamp())
-				.setRedirect(a.getRedirect())
-				.setEnWikiTitle(a.getEnWikiTitle())
-				.setParagraphs(a.getParagraphs())
-				.setLinks(links)
-				.build();
-
-			dataFileWriter.append(avroArticle);
+		public void write(AvroArticle a) throws IOException {
+			dataFileWriter.append(a);
 		}
 
 		@Override

@@ -18,15 +18,13 @@ package it.cnr.isti.hpc.wikipedia.reader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.AvroArticle;
+import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
 import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
@@ -51,8 +49,8 @@ public class WikipediaArticleReaderTest {
 		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(), file.getAbsolutePath(), Language.EN);
 		wap.start();
 		String json = IOUtils.getFileAsUTF8String(file.getAbsolutePath());
-		Article a = Article.fromJson(json);
-		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
+		AvroArticle a = ArticleHelper.fromJson(json);
+		assertTrue(ArticleHelper.cleanText(a.getParagraphs()).startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
 		
 		

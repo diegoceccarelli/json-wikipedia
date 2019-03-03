@@ -16,7 +16,6 @@
 package it.cnr.isti.hpc.wikipedia.cli;
 
 import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
-import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 
 import org.slf4j.Logger;
