@@ -128,6 +128,13 @@
 			<artifactId>commons-compress</artifactId>
 			<version>1.10</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>27.0.1-jre</version>
+		</dependency>
+
+
 	</dependencies>
 	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 

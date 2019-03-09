@@ -15,6 +15,8 @@
  */
 package it.cnr.isti.hpc.wikipedia.reader;
 
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import info.bliki.wiki.dump.IArticleFilter;
 import info.bliki.wiki.dump.Siteinfo;
@@ -33,6 +35,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import me.tongfei.progressbar.ProgressBar;
@@ -65,8 +71,18 @@ public class WikipediaArticleReader {
 
 	private static final Gson GSON = new Gson();
 
+
+	private int processedArticles;
 	private WikiXMLParser wxp;
 	private Handler handler;
+	private ExecutorService executorService;
+
+	// Article type that we don't want to process
+	// in order to speed up the parsing of a file
+	private static Set<ArticleType> DEFAULT_SKIP_ARTICLE_TYPES =
+		ImmutableSet.of(ArticleType.PROJECT, ArticleType.FILE, ArticleType.TEMPLATE);
+	private final Set<ArticleType> skipArticleTypes;
+
 
 
 	private ArticleParser parser;
@@ -86,8 +102,8 @@ public class WikipediaArticleReader {
 	 *
 	 */
 	public WikipediaArticleReader(String inputFile, String outputFile,
-			String lang) throws IOException, SAXException {
-		this(new File(inputFile), new File(outputFile), lang);
+			String lang, int threads) throws IOException, SAXException {
+		this(new File(inputFile), new File(outputFile), lang, threads);
 	}
 
 	/**
@@ -105,8 +121,11 @@ public class WikipediaArticleReader {
 	 *
 	 *
 	 */
-	public WikipediaArticleReader(File inputFile, File outputFile, String lang) throws IOException, SAXException {
+	public WikipediaArticleReader(File inputFile, File outputFile, String lang, int threads) throws IOException, SAXException {
 		handler = new JsonConverter(outputFile);
+		executorService = Executors.newFixedThreadPool(threads);
+		processedArticles = 0;
+		skipArticleTypes = DEFAULT_SKIP_ARTICLE_TYPES;
 		if (outputFile.getName().contains("json")) {
 			handler = new JsonConverter(outputFile);
 		}
@@ -122,8 +141,13 @@ public class WikipediaArticleReader {
 	}
 
 	public void start() throws IOException, SAXException {
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		wxp.parse();
+		executorService.shutdown();
 		handler.close();
+		stopwatch.stop();
+		long millis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+		logger.info("Parsed {} articles. Avg time per article {} millis", processedArticles, String.format("%.2f",millis/(float)processedArticles));
 	}
 
 	private static BufferedReader getPlainOrCompressedReader(InputStream stream, String filename) throws IOException {
@@ -150,10 +174,27 @@ public class WikipediaArticleReader {
 			out = null;
 		}
 
-
 		public JsonConverter(final File outputFile) throws IOException {
 			out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile
 				.getAbsolutePath());
+		}
+
+		private ArticleType getArticleType(WikiArticle page){
+			if (page.isCategory())
+				return ArticleType.CATEGORY;
+			if (page.isTemplate()) {
+				return ArticleType.TEMPLATE;
+			}
+			if (page.isProject()) {
+				return ArticleType.PROJECT;
+			}
+			if (page.isFile()) {
+				return ArticleType.FILE;
+			}
+			if (page.isMain()) {
+				return ArticleType.ARTICLE;
+			}
+			return ArticleType.UNKNOWN;
 		}
 
 		public void process(WikiArticle page, Siteinfo si) throws IOException {
@@ -162,48 +203,33 @@ public class WikipediaArticleReader {
 			String namespace = page.getNamespace();
 			Integer integerNamespace = page.getIntegerNamespace();
 			String timestamp = page.getTimeStamp();
-
-			ArticleType type = ArticleType.UNKNOWN;
-			if (page.isCategory())
-				type = ArticleType.CATEGORY;
-			if (page.isTemplate()) {
-				type = ArticleType.TEMPLATE;
-				// FIXME just to go fast;
+			final ArticleType articleType = getArticleType(page);
+			if (skipArticleTypes.contains(articleType)){
 				return;
 			}
+			processedArticles++;
+			Runnable runnable = () -> {
 
-			if (page.isProject()) {
-				type = ArticleType.PROJECT;
-				// FIXME just to go fast;
-				return;
-			}
-			if (page.isFile()) {
-				type = ArticleType.FILE;
-				// FIXME just to go fast;
-				return;
-			}
-			if (page.isMain())
-				type = ArticleType.ARTICLE;
+				Article.Builder articleBuilder = Article.newBuilder();
+				articleBuilder.setTitle(title);
+				articleBuilder.setWid(Integer.parseInt(id));
+				articleBuilder.setNamespace(namespace);
+				articleBuilder.setIntegerNamespace(integerNamespace);
+				articleBuilder.setTimestamp(timestamp);
+				articleBuilder.setType(articleType);
+				parser.parse(articleBuilder, page.getText());
+				try {
+					write(articleBuilder.build());
+				} catch (IOException e) {
+					logger.error("writing the output file", e);
+				}
 
-			Article.Builder articleBuilder = Article.newBuilder();
-			articleBuilder.setTitle(title);
-			articleBuilder.setWid(Integer.parseInt(id));
-			articleBuilder.setNamespace(namespace);
-			articleBuilder.setIntegerNamespace(integerNamespace);
-			articleBuilder.setTimestamp(timestamp);
-			articleBuilder.setType(type);
-			parser.parse(articleBuilder, page.getText());
-
-			try {
-				write(articleBuilder.build());
-			} catch (IOException e) {
-				logger.error("writing the output file {}", e.toString());
-				throw e;
-			}
+			};
+			executorService.submit(runnable);
 			return;
 		}
 
-		public void write(Article a) throws IOException {
+		public synchronized void write(Article a) throws IOException {
 			out.write(GSON.toJson(a));
 			out.write('\n');
 		}
@@ -221,7 +247,7 @@ public class WikipediaArticleReader {
 		public AvroConverter(File output) throws IOException {
 			DatumWriter<Article> userDatumWriter = new SpecificDatumWriter<Article>(Article.class);
 			dataFileWriter = new DataFileWriter<Article>(userDatumWriter).setCodec(CodecFactory.snappyCodec());
-			dataFileWriter.create(new Article().getSchema(), output);
+			dataFileWriter.create(Article.getClassSchema(), output);
 		}
 
 		public void write(Article a) throws IOException {

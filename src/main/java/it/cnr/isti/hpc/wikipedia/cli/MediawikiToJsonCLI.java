@@ -84,7 +84,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 	private static final Logger logger = LoggerFactory
 			.getLogger(MediawikiToJsonCLI.class);
 
-	private static String[] params = new String[] { INPUT, OUTPUT, "lang" };
+	private static String[] params = new String[] { INPUT, OUTPUT, "lang" , "threads"};
 
 	private static final String USAGE = "java -cp $jar "
 			+ MediawikiToJsonCLI.class
@@ -99,9 +99,14 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 		String input = cli.getInput();
 		String output = cli.getOutput();
 		String lang = cli.getParam("lang");
+		String threads = cli.getParam("threads");
+		int nthreads = 1;
+		if (threads != null){
+			nthreads = Integer.parseInt(threads);
+		}
 		try {
 			WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
-				lang);
+				lang, nthreads);
 			wap.start();
 		} catch (Exception e) {
 			logger.error("Parsing the mediawiki", e);
