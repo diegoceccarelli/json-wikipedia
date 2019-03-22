@@ -38,7 +38,7 @@ public class ArticleTest {
 	private Article.Builder articleBuilder;
 	private ArticleParser articleParser;
 
-	private Article parseAvroArticle(String resourcePath) {
+	private Article parseArticle(String resourcePath) {
 		final String text = IOUtils.getFileAsUTF8String(resourcePath);
 		articleParser.parse(articleBuilder, text);
 		return articleBuilder.build();
@@ -59,7 +59,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseSections() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
+		Article article = parseArticle("./src/test/resources/it/article.txt");
 
     List<String> sections = article.getSections();
     assertThat(sections).contains("Armonium occidentale");
@@ -70,7 +70,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseCategories() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
+		Article article = parseArticle("./src/test/resources/it/article.txt");
 
 		assertEquals(1, article.getCategories().size());
 		assertEquals("Categoria:Aerofoni a mantice", article.getCategories().get(0)
@@ -79,7 +79,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseLinks() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
+		Article article = parseArticle("./src/test/resources/it/article.txt");
 
 		assertEquals("strumento musicale", article.getLinks().get(0).getAnchor());
 		assertEquals("Giovanni Tamburini",
@@ -90,7 +90,7 @@ public class ArticleTest {
 	
 	@Test
 	public void testParseInfobox() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/article-with-infobox.txt");
+		Article article = parseArticle("./src/test/resources/it/article-with-infobox.txt");
 
 		Template infobox = article.getInfobox();
 		assertEquals(12, TemplateHelper.getSchema(infobox).size());
@@ -101,7 +101,7 @@ public class ArticleTest {
 
 	@Test
 	public void testParseTable() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/table.txt");
+		Article article = parseArticle("./src/test/resources/it/table.txt");
 
 		assertEquals("Nome italiano", article.getTables().get(0).getTable()
 				.get(0).get(1));
@@ -112,7 +112,7 @@ public class ArticleTest {
 
 	@Test
 	public void testThatListsAreParsedProperly() throws IOException {
-		Article article = parseAvroArticle("./src/test/resources/it/list.txt");
+		Article article = parseArticle("./src/test/resources/it/list.txt");
 
 		List<String> list = article.getLists().get(2);
 		assertEquals("Antropologia culturale e Antropologia dei simboli", list.get(0));

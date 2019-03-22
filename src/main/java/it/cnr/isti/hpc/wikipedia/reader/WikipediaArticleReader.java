@@ -36,8 +36,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
@@ -75,7 +73,6 @@ public class WikipediaArticleReader {
 	private int processedArticles;
 	private WikiXMLParser wxp;
 	private Handler handler;
-	private ExecutorService executorService;
 
 	// Article type that we don't want to process
 	// in order to speed up the parsing of a file
@@ -86,28 +83,9 @@ public class WikipediaArticleReader {
 
 
 	private ArticleParser parser;
-	/**
-	 * Generates a converter from the xml to json dump.
-	 *
-	 * @param inputFile
-	 *            - the xml file (compressed)
-	 * @param outputFile
-	 *            - the json output file, containing one article per line (if
-	 *            the filename ends with <tt>.gz </tt> the output will be
-	 *            compressed).
-	 *
-	 * @param lang
-	 *            - the language of the dump
-	 *
-	 *
-	 */
-	public WikipediaArticleReader(String inputFile, String outputFile,
-			String lang, int threads) throws IOException, SAXException {
-		this(new File(inputFile), new File(outputFile), lang, threads);
-	}
 
 	/**
-	 * Generates a converter from the xml to json dump.
+	 * Generates a converter from the xml to json/avro dump.
 	 *
 	 * @param inputFile
 	 *            - the xml file (compressed)
@@ -121,9 +99,8 @@ public class WikipediaArticleReader {
 	 *
 	 *
 	 */
-	public WikipediaArticleReader(File inputFile, File outputFile, String lang, int threads) throws IOException, SAXException {
+	public WikipediaArticleReader(File inputFile, File outputFile, String lang) throws IOException, SAXException {
 		handler = new JsonConverter(outputFile);
-		executorService = Executors.newFixedThreadPool(threads);
 		processedArticles = 0;
 		skipArticleTypes = DEFAULT_SKIP_ARTICLE_TYPES;
 		if (outputFile.getName().contains("json")) {
@@ -143,7 +120,6 @@ public class WikipediaArticleReader {
 	public void start() throws IOException, SAXException {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		wxp.parse();
-		executorService.shutdown();
 		handler.close();
 		stopwatch.stop();
 		long millis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
@@ -151,7 +127,6 @@ public class WikipediaArticleReader {
 	}
 
 	private static BufferedReader getPlainOrCompressedReader(InputStream stream, String filename) throws IOException {
-		BufferedReader br = null;
 		if (filename.endsWith(".gz")) {
 			return new BufferedReader(new InputStreamReader(
 				new GZIPInputStream(stream)));
@@ -164,20 +139,6 @@ public class WikipediaArticleReader {
 	}
 
 	private abstract class Handler implements IArticleFilter, Closeable {
-		public abstract void write(final Article a) throws IOException;
-	}
-
-	public class JsonConverter extends Handler {
-		private final BufferedWriter out;
-
-		private JsonConverter(){
-			out = null;
-		}
-
-		public JsonConverter(final File outputFile) throws IOException {
-			out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile
-				.getAbsolutePath());
-		}
 
 		private ArticleType getArticleType(WikiArticle page){
 			if (page.isCategory())
@@ -208,28 +169,39 @@ public class WikipediaArticleReader {
 				return;
 			}
 			processedArticles++;
-			Runnable runnable = () -> {
 
-				Article.Builder articleBuilder = Article.newBuilder();
-				articleBuilder.setTitle(title);
-				articleBuilder.setWid(Integer.parseInt(id));
-				articleBuilder.setNamespace(namespace);
-				articleBuilder.setIntegerNamespace(integerNamespace);
-				articleBuilder.setTimestamp(timestamp);
-				articleBuilder.setType(articleType);
-				parser.parse(articleBuilder, page.getText());
-				try {
-					write(articleBuilder.build());
-				} catch (IOException e) {
-					logger.error("writing the output file", e);
-				}
-
-			};
-			executorService.submit(runnable);
+			Article.Builder articleBuilder = Article.newBuilder();
+			articleBuilder.setTitle(title);
+			articleBuilder.setWid(Integer.parseInt(id));
+			articleBuilder.setNamespace(namespace);
+			articleBuilder.setIntegerNamespace(integerNamespace);
+			articleBuilder.setTimestamp(timestamp);
+			articleBuilder.setType(articleType);
+			parser.parse(articleBuilder, page.getText());
+			try {
+				write(articleBuilder.build());
+			} catch (IOException e) {
+				logger.error("writing the output file", e);
+			}
 			return;
 		}
 
-		public synchronized void write(Article a) throws IOException {
+		public abstract void write(final Article a) throws IOException;
+	}
+
+	public class JsonConverter extends Handler {
+		private final BufferedWriter out;
+
+		private JsonConverter(){
+			out = null;
+		}
+
+		public JsonConverter(final File outputFile) throws IOException {
+			out = IOUtils.getPlainOrCompressedUTF8Writer(outputFile
+				.getAbsolutePath());
+		}
+
+		public void write(Article a) throws IOException {
 			out.write(GSON.toJson(a));
 			out.write('\n');
 		}

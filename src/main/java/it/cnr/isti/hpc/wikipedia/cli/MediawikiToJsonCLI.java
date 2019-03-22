@@ -21,6 +21,8 @@ import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 /**
  * MediawikiToJsonCLI converts a Wikipedia Dump in Json.
  * <br/>
@@ -60,7 +62,7 @@ import org.slf4j.LoggerFactory;
  * {@code
  * RecordReader<Article> reader = new RecordReader<Article>(
  * 			"wikipedia.json",new JsonRecordParser<Article>(Article.class)
- * ).filter(TypeFilter.STD_FILTER);
+ * )
  * 
  * for (Article a : reader) {
  * 	 // do what you want with your articles	
@@ -70,13 +72,8 @@ import org.slf4j.LoggerFactory;
  * </pre>
  * <br/>
  * <br/>
- * 
- * You can also add some filters in order to iterate on only certain articles (in the example 
- * we used only the standard type filter, which excludes meta pages e.g., Portal: or User: pages. 
- * 
- * @see Article
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 21/nov/2011
- */
+ *
+ * */
 public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 	/**
 	 * Logger for this class
@@ -96,17 +93,12 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 
 	public static void main(String[] args) {
 		MediawikiToJsonCLI cli = new MediawikiToJsonCLI(args);
-		String input = cli.getInput();
-		String output = cli.getOutput();
+		File input = new File(cli.getInput());
+		File output = new File(cli.getOutput());
 		String lang = cli.getParam("lang");
 		String threads = cli.getParam("threads");
-		int nthreads = 1;
-		if (threads != null){
-			nthreads = Integer.parseInt(threads);
-		}
 		try {
-			WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
-				lang, nthreads);
+			WikipediaArticleReader wap = new WikipediaArticleReader(input, output, lang);
 			wap.start();
 		} catch (Exception e) {
 			logger.error("Parsing the mediawiki", e);
