@@ -80,14 +80,11 @@ public class ArticleParser {
     this(lang.toString().toUpperCase());
   }
 
-  public ArticleParser() {
-    this(Language.EN);
-	}
-
 	public void parse(Article.Builder article, String mediawiki) {
-		final ParsedPage page = parser.parse(mediawiki);
-		setRedirect(article, mediawiki);
-		parse(article, page);
+	  final ParsedPage page = parser.parse(mediawiki);
+	  setRedirect(article, mediawiki);
+	  parse(article, page);
+
 	}
 
 	private void parse(Article.Builder article, ParsedPage page) {
@@ -239,8 +236,6 @@ public class ArticleParser {
 		}
 	}
 
-
-
 	private void setLinks(Article.Builder article, ParsedPage page){
 	  final List<Link> links = new ArrayList<Link>(page.getLinks().size());
 	  final List<Link> elinks = new ArrayList<Link>(page.getLinks().size());
@@ -309,40 +304,44 @@ public class ArticleParser {
       }
     }
 
-    private void setTables(Article.Builder article, ParsedPage page) {
-        final List<Table> tables = new ArrayList<>();
+  private void setTables(Article.Builder article, ParsedPage page) {
+    final List<Table> tables = new ArrayList<>();
 
-      for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
-        List<List<String>> table = new ArrayList<>();
+    for (final de.tudarmstadt.ukp.wikipedia.parser.Table t : page.getTables()) {
+      List<List<String>> table = new ArrayList<>();
 
-        String title = "";
-            if (t.getTitleElement() != null) {
-                title = t.getTitleElement().getText();
-                if (title == null) {
-                    title = "";
-                }
-            }
-            List<String> currentRow = null;
-            int maxCols = 0;
-            for (int elementId = 0; elementId < t.nrOfTableElements(); elementId++) {
-                int col = t.getTableElement(elementId).getCol();
-                int row = t.getTableElement(elementId).getRow()-1; // row starts from 1
-                maxCols = Math.max(maxCols, col+1);
-                final String elementText = t.getTableElement(elementId).getText();
-                //System.out.println("elementId " + elementId + "col " + col);
-                ensureLength(table, row+1);
-                // assume that columns come in order
-                table.get(row).add(elementText);
-            }
+      final String title;
+      if (t.getTitleElement() != null) {
+        title = t.getTitleElement().getText() != null ? t.getTitleElement().getText() : "";
+      } else {
+        title = "";
+      }
+      List<String> currentRow = null;
+      int maxCols = 0;
+      for (int elementId = 0; elementId < t.nrOfTableElements(); elementId++) {
+        int col = t.getTableElement(elementId).getCol();
+        int row = t.getTableElement(elementId).getRow(); // row starts from 1
+        maxCols = Math.max(maxCols, col);
+        final String elementText = t.getTableElement(elementId).getText();
+        logger.debug(String.format("row:%s col:%s content:%s", row, col, elementText));
+        ensureLength(table, row+1);
+        // assume that columns come in order
+        table.get(row).add(elementText);
+      }
+      if ( table.size() > 0 && table.get(0).isEmpty()) {
+        //first raw is empty:
+        table.remove(0);
+      }
+      logger.debug("ParsedTable: \n {}",table);
 
-          final Table.Builder tableBuilder = Table.newBuilder().setTitle(title);
-          tableBuilder.setTable(table);
-          tableBuilder.setNumCols(maxCols);
-          tableBuilder.setNumRows(table.size());
-          tables.add(tableBuilder.build());
-        }
-        article.setTables(tables);
+      final Table.Builder tableBuilder = Table.newBuilder().setTitle(title);
+      tableBuilder.setTable(table);
+      tableBuilder.setNumCols(maxCols);
+      tableBuilder.setNumRows(table.size());
+      tables.add(tableBuilder.build());
     }
+    article.setTables(tables);
+  }
 
     protected void setEnWikiTitle(Article.Builder article, ParsedPage page) {
         if (article.getLang().equals(Language.EN)) {
@@ -451,8 +450,6 @@ public class ArticleParser {
         final List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
         for (final Paragraph p : page.getParagraphs()) {
             String text = p.getText();
-            // text = removeTemplates(text);
-            //text = text.replace("\n", " ").trim();
             if (!text.isEmpty()){
                 paragraphs.add(text);
             }

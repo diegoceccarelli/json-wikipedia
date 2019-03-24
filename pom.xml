@@ -118,6 +118,23 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>me.tongfei</groupId>
+			<artifactId>progressbar</artifactId>
+			<version>0.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>27.0.1-jre</version>
+		</dependency>
+
+
 	</dependencies>
 	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
@@ -181,6 +198,13 @@
                             <target>1.8</target>
                         </configuration>
                     </plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<argLine>-Dfile.encoding=UTF-8</argLine>
+						</configuration>
+					</plugin>
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
