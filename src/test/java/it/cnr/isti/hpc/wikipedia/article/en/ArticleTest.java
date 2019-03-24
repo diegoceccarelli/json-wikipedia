@@ -1,17 +1,15 @@
 /**
- *  Copyright 2011 Diego Ceccarelli
+ * Copyright 2011 Diego Ceccarelli
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package it.cnr.isti.hpc.wikipedia.article.en;
 
@@ -22,17 +20,15 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import it.cnr.isti.hpc.io.IOUtils;
-import it.cnr.isti.hpc.wikipedia.article.ArticleType;
 import it.cnr.isti.hpc.wikipedia.article.Article;
+import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
+import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.LinkType;
-import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
-import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
-
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,178 +56,175 @@ public class ArticleTest {
     articleParser = new ArticleParser(Language.EN);
   }
 
-	@Test
-	public void testParseLinks() throws IOException {
+  @Test
+  public void testParseLinks() throws IOException {
     final Article article = parseAvroArticle("./src/test/resources/en/article.txt");
 
-    assertThat(ArticleHelper.cleanText(article.getParagraphs()).trim()).startsWith("Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface.");
-		assertEquals(5, article.getCategories().size());
-		assertEquals(7,article.getSections().size());
-		assertEquals(77,article.getLinks().size());
-	}
+    assertThat(ArticleHelper.cleanText(article.getParagraphs()).trim())
+        .startsWith(
+            "Albedo (), or reflection coefficient, is the diffuse reflectivity or reflecting power of a surface.");
+    assertEquals(5, article.getCategories().size());
+    assertEquals(7, article.getSections().size());
+    assertEquals(77, article.getLinks().size());
+  }
 
-
-
-	@Test
-	public void testParseMercedes() throws IOException {
+  @Test
+  public void testParseMercedes() throws IOException {
     final Article article = parseAvroArticle("./src/test/resources/en/mercedes.txt");
 
     assertThat(ArticleHelper.cleanText(article.getParagraphs())).startsWith("Mercedes-Benz");
-		assertEquals(15, article.getCategories().size());
+    assertEquals(15, article.getCategories().size());
+  }
 
-	}
-
-
-	@Test
-	public void testParseDisambiguation() throws IOException {
+  @Test
+  public void testParseDisambiguation() throws IOException {
     final Article article = parseAvroArticle("./src/test/resources/en/hdis.txt");
 
-		assertTrue("Article is not a disambiguation", ArticleHelper.isDisambiguation(article));
-	}
+    assertTrue("Article is not a disambiguation", ArticleHelper.isDisambiguation(article));
+  }
 
-
-	@Test
-	public void testNotRedirect() throws IOException {
+  @Test
+  public void testNotRedirect() throws IOException {
     final Article article = parseAvroArticle("./src/test/resources/en/liberalism.txt");
-		assertNotEquals(ArticleType.REDIRECT, article.getType());
-	}
+    assertNotEquals(ArticleType.REDIRECT, article.getType());
+  }
 
-    @Test
-    public void testNoEmptyAnchors() throws IOException {
-      final Article article = parseAvroArticle("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
+  @Test
+  public void testNoEmptyAnchors() throws IOException {
+    final Article article = parseAvroArticle("./src/test/resources/en/Royal_Thai_Armed_Forces.txt");
 
-        // No anchor should be empty
-        for (final Link link : article.getLinks()){
-          assertThat(link.getAnchor()).isNotEmpty();
-        }
-
-        // testing an specific anchor
-        for (final Link link : article.getLinks()){
-            if (link.getId().equals("HTMS_Chakri_Naruebet")) {
-              assertEquals("HTMS Chakri Naruebet", link.getAnchor());
-            }
-        }
-
+    // No anchor should be empty
+    for (final Link link : article.getLinks()) {
+      assertThat(link.getAnchor()).isNotEmpty();
     }
 
-    @Test
-    public void testNoEmptyWikiIds() throws IOException {
-      final Article article = parseAvroArticle("./src/test/resources/en/Cenozoic");
-
-      for(final Link l: article.getLinks()){
-        assertThat(l.getId()).isNotEmpty();
+    // testing an specific anchor
+    for (final Link link : article.getLinks()) {
+      if (link.getId().equals("HTMS_Chakri_Naruebet")) {
+        assertEquals("HTMS Chakri Naruebet", link.getAnchor());
       }
     }
+  }
 
-    @Test
-    public void testEmptyLinksShouldBeFiltered() throws IOException {
-        // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
-        // Those should be filtered
-        final Article a = parseAvroArticle("./src/test/resources/en/Phantom_kangaroo");
-        for(final Link l: a.getLinks()){
-            assertFalse(l.getId().isEmpty());
-            assertFalse(l.getAnchor().isEmpty());
-        }
-        testAnchorsInParagraphs(a);
-        testAnchorsInLists(a);
+  @Test
+  public void testNoEmptyWikiIds() throws IOException {
+    final Article article = parseAvroArticle("./src/test/resources/en/Cenozoic");
+
+    for (final Link l : article.getLinks()) {
+      assertThat(l.getId()).isNotEmpty();
     }
+  }
 
-    @Test
-    public void testParagraphLinks() throws IOException {
-        final Article a = parseAvroArticle("./src/test/resources/en/ParagraphLinksTest.txt");
-
-
-     // testing specific links
-        for (final Link link:a.getLinks()){
-        	// testing a paragraph link
-            if (link.getId().equals("document")){
-                assertEquals(LinkType.BODY, link.getType());
-                assertEquals(0, link.getParagraphId().intValue());
-            }
-
-            // testing links at the same start and end position but different paragraphs
-            if(link.getParagraphId() == 1) {
-            	assertEquals("link", link.getId());
-            }
-            if(link.getParagraphId() == 2) {
-            	assertEquals("link", link.getId());
-            }
-        }
-        testAnchorsInParagraphs(a);
+  @Test
+  public void testEmptyLinksShouldBeFiltered() throws IOException {
+    // Some annotations are incomplete on wikipedia i.e: [[]] [[ ]]
+    // Those should be filtered
+    final Article a = parseAvroArticle("./src/test/resources/en/Phantom_kangaroo");
+    for (final Link l : a.getLinks()) {
+      assertFalse(l.getId().isEmpty());
+      assertFalse(l.getAnchor().isEmpty());
     }
+    testAnchorsInParagraphs(a);
+    testAnchorsInLists(a);
+  }
 
-    private void testAnchorsInParagraphs(Article article) {
-    	final List<String> paragraphs = article.getParagraphs();
-    	for(final Link link: article.getLinks()){
+  @Test
+  public void testParagraphLinks() throws IOException {
+    final Article a = parseAvroArticle("./src/test/resources/en/ParagraphLinksTest.txt");
 
-        if(link.getType() == LinkType.BODY) {
-    			final String paragraph = paragraphs.get(link.getParagraphId());
-    			final String anchor = paragraph.substring(link.getStart(), link.getEnd());
-    			assertEquals(anchor, link.getAnchor());
-    		}
-    	}
+    // testing specific links
+    for (final Link link : a.getLinks()) {
+      // testing a paragraph link
+      if (link.getId().equals("document")) {
+        assertEquals(LinkType.BODY, link.getType());
+        assertEquals(0, link.getParagraphId().intValue());
+      }
+
+      // testing links at the same start and end position but different paragraphs
+      if (link.getParagraphId() == 1) {
+        assertEquals("link", link.getId());
+      }
+      if (link.getParagraphId() == 2) {
+        assertEquals("link", link.getId());
+      }
     }
+    testAnchorsInParagraphs(a);
+  }
 
-    @Test
-    public void testListLinks() throws IOException {
-        final Article article = parseAvroArticle("./src/test/resources/en/ListLinksTest.txt");
-     // testing specific links
-        for (final Link link : article.getLinks()){
-            if (link.getId().equals("Lists")){
-                assertEquals(LinkType.LIST, link.getType());
-                assertEquals(0, link.getListId().intValue());
-                assertEquals(0, link.getListItem().intValue());
-            }
-            if (link.getId().equals("every")){
-                assertEquals(LinkType.LIST, link.getType());
-                assertEquals(0, link.getListId().intValue());
-                assertEquals(1, link.getListItem().intValue());
-            }
-            if (link.getId().equals("newline")){
-                assertEquals(LinkType.LIST, link.getType());
-                assertEquals(1, link.getListId().intValue());
-                assertEquals(0, link.getListItem().intValue());
-            }
-        }
-        testAnchorsInLists(article);
+  private void testAnchorsInParagraphs(Article article) {
+    final List<String> paragraphs = article.getParagraphs();
+    for (final Link link : article.getLinks()) {
+
+      if (link.getType() == LinkType.BODY) {
+        final String paragraph = paragraphs.get(link.getParagraphId());
+        final String anchor = paragraph.substring(link.getStart(), link.getEnd());
+        assertEquals(anchor, link.getAnchor());
+      }
     }
+  }
 
-    private void testAnchorsInLists(Article article) {
-    	final List<List<String>> lists = article.getLists();
-    	for(final Link link: article.getLinks()){
-    		if(link.getType() == LinkType.LIST) {
-    			final List<String> list = lists.get(link.getListId());
-    			final String item = list.get(link.getListItem());
-    			final String anchor = item.substring(link.getStart(), link.getEnd());
-    			assertEquals(anchor, link.getAnchor());
-    		}
-    	}
+  @Test
+  public void testListLinks() throws IOException {
+    final Article article = parseAvroArticle("./src/test/resources/en/ListLinksTest.txt");
+    // testing specific links
+    for (final Link link : article.getLinks()) {
+      if (link.getId().equals("Lists")) {
+        assertEquals(LinkType.LIST, link.getType());
+        assertEquals(0, link.getListId().intValue());
+        assertEquals(0, link.getListItem().intValue());
+      }
+      if (link.getId().equals("every")) {
+        assertEquals(LinkType.LIST, link.getType());
+        assertEquals(0, link.getListId().intValue());
+        assertEquals(1, link.getListItem().intValue());
+      }
+      if (link.getId().equals("newline")) {
+        assertEquals(LinkType.LIST, link.getType());
+        assertEquals(1, link.getListId().intValue());
+        assertEquals(0, link.getListItem().intValue());
+      }
     }
+    testAnchorsInLists(article);
+  }
 
-    @Test
-    public void testTableLinks() throws IOException {
-        Article article = parseAvroArticle("./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
-
-     // testing specific links
-        for (final Link link: article.getLinks()){
-            if (link.getId().equals("William_Webb")){
-                assertEquals(LinkType.TABLE, link.getType());
-                assertEquals(0, link.getTableId().intValue());
-                assertEquals(2, link.getRowId().intValue());
-                assertEquals(1, link.getColumnId().intValue());
-            }
-            if (link.getId().equals("Canada")){
-                assertEquals(LinkType.TABLE, link.getType());
-                assertEquals(0, link.getTableId().intValue());
-                assertEquals(3, link.getRowId().intValue());
-                assertEquals(0, link.getColumnId().intValue());
-            }
-            if (link.getId().equals("Alan_Mansfield")){
-                assertEquals(LinkType.TABLE, link.getType());
-                assertEquals(1, link.getTableId().intValue());
-                assertEquals(3, link.getRowId().intValue());
-                assertEquals(1, link.getColumnId().intValue());
-            }
-        }
+  private void testAnchorsInLists(Article article) {
+    final List<List<String>> lists = article.getLists();
+    for (final Link link : article.getLinks()) {
+      if (link.getType() == LinkType.LIST) {
+        final List<String> list = lists.get(link.getListId());
+        final String item = list.get(link.getListItem());
+        final String anchor = item.substring(link.getStart(), link.getEnd());
+        assertEquals(anchor, link.getAnchor());
+      }
     }
+  }
+
+  @Test
+  public void testTableLinks() throws IOException {
+    Article article =
+        parseAvroArticle(
+            "./src/test/resources/en/International_Military_Tribunal_for_the_Far_East");
+
+    // testing specific links
+    for (final Link link : article.getLinks()) {
+      if (link.getId().equals("William_Webb")) {
+        assertEquals(LinkType.TABLE, link.getType());
+        assertEquals(0, link.getTableId().intValue());
+        assertEquals(2, link.getRowId().intValue());
+        assertEquals(1, link.getColumnId().intValue());
+      }
+      if (link.getId().equals("Canada")) {
+        assertEquals(LinkType.TABLE, link.getType());
+        assertEquals(0, link.getTableId().intValue());
+        assertEquals(3, link.getRowId().intValue());
+        assertEquals(0, link.getColumnId().intValue());
+      }
+      if (link.getId().equals("Alan_Mansfield")) {
+        assertEquals(LinkType.TABLE, link.getType());
+        assertEquals(1, link.getTableId().intValue());
+        assertEquals(3, link.getRowId().intValue());
+        assertEquals(1, link.getColumnId().intValue());
+      }
+    }
+  }
 }

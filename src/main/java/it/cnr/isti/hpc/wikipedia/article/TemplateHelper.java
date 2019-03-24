@@ -5,15 +5,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TemplateHelper {
-  private final static char KEY_VALUE_SEPARATOR = '=';
+  private static final char KEY_VALUE_SEPARATOR = '=';
 
-  public static LinkedHashMap<String, String> getTemplateAsMap(Template template){
+  public static LinkedHashMap<String, String> getTemplateAsMap(Template template) {
     LinkedHashMap<String, String> map = new LinkedHashMap<>();
-    for (String desc : template.getDescription()){
+    for (String desc : template.getDescription()) {
       int pos = desc.indexOf(KEY_VALUE_SEPARATOR);
-      if (pos >= 0){
-        String key = desc.substring(0,pos).trim();
-        String value = desc.substring(pos+1).trim();
+      if (pos >= 0) {
+        String key = desc.substring(0, pos).trim();
+        String value = desc.substring(pos + 1).trim();
         map.put(key, value);
       }
     }
@@ -31,7 +31,4 @@ public class TemplateHelper {
     }
     return schema;
   }
-
-
-
 }
