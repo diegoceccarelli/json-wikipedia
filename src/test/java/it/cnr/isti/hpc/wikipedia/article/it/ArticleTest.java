@@ -15,149 +15,106 @@
  */
 package it.cnr.isti.hpc.wikipedia.article.it;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import it.cnr.isti.hpc.io.IOUtils;
+import it.cnr.isti.hpc.wikipedia.article.ArticleType;
 import it.cnr.isti.hpc.wikipedia.article.Article;
+
 import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.Template;
+import it.cnr.isti.hpc.wikipedia.article.TemplateHelper;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
-/**
- * ArticleTest.java
- * 
- * @author Diego Ceccarelli, diego.ceccarelli@isti.cnr.it created on 19/nov/2011
- */
 public class ArticleTest {
-	private static Article a = new Article();
-	private static ArticleParser articleParser = new ArticleParser(Language.IT);
 
-	@BeforeClass
-	public static void loadArticle() throws IOException {
-		String text = readFileAsString("/it/xml-dump/article.txt");
+	private Article.Builder articleBuilder;
+	private ArticleParser articleParser;
 
-		articleParser.parse(a, text);
+	private Article parseAvroArticle(String resourcePath) {
+		final String text = IOUtils.getFileAsUTF8String(resourcePath);
+		articleParser.parse(articleBuilder, text);
+		return articleBuilder.build();
+	}
+
+	@Before
+  public void runBeforeTestMethod() throws IOException {
+    articleBuilder = Article.newBuilder();
+    articleBuilder.setTitle("Test"); // title must always be set before parsing
+		articleBuilder.setWid(42); // wikiId must always be set before parsing
+		articleBuilder.setIntegerNamespace(42); // same for the namespace
+		articleBuilder.setNamespace("namespace"); // same for the timestamp
+		articleBuilder.setTimestamp("timestamp");
+		articleBuilder.setEnWikiTitle("Test");
+		articleBuilder.setType(ArticleType.ARTICLE);
+		articleParser = new ArticleParser(Language.IT);
+  }
+
+	@Test
+	public void testParseSections() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
+
+    List<String> sections = article.getSections();
+    assertThat(sections).contains("Armonium occidentale");
+		assertThat(sections).contains("Armonium indiano");
+		assertThat(sections).contains("Bibliografia");
+		assertThat(sections).contains("Collegamenti esterni");
 	}
 
 	@Test
-	public void sections() throws IOException {
+	public void testParseCategories() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
 
-		assertTrue(a.getSections().contains("Armonium occidentale"));
-		assertTrue(a.getSections().contains("Armonium indiano"));
-		assertTrue(a.getSections().contains("Bibliografia"));
-		assertTrue(a.getSections().contains("Collegamenti esterni"));
-
-	}
-
-	@Test
-	public void categories() throws IOException {
-
-		assertEquals(1, a.getCategories().size());
-		assertEquals("Categoria:Aerofoni a mantice", a.getCategories().get(0)
+		assertEquals(1, article.getCategories().size());
+		assertEquals("Categoria:Aerofoni a mantice", article.getCategories().get(0)
 				.getAnchor());
 	}
 
 	@Test
-	public void links() throws IOException {
+	public void testParseLinks() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/article.txt");
 
-		assertEquals("strumento musicale", a.getLinks().get(0).getAnchor());
+		assertEquals("strumento musicale", article.getLinks().get(0).getAnchor());
 		assertEquals("Giovanni Tamburini",
-				a.getLinks().get(a.getLinks().size() - 1).getAnchor());
+			article.getLinks().get(article.getLinks().size() - 1).getAnchor());
 
 	}
 
 	
 	@Test
-	public void testInfobox() throws IOException {
-		Article articleWithInfobox = new Article();
+	public void testParseInfobox() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/article-with-infobox.txt");
 
-		String text = readFileAsString("/it/xml-dump/article-with-infobox.txt");
-		articleParser.parse(articleWithInfobox, text);
-		
-		assertTrue(articleWithInfobox.hasInfobox());
-		Template infobox = articleWithInfobox.getInfobox();
-		assertEquals(12,infobox.getSchema().size());
+		Template infobox = article.getInfobox();
+		assertEquals(12, TemplateHelper.getSchema(infobox).size());
 		assertEquals("Infobox_fiume", infobox.getName());
-		assertEquals("Adige", infobox.get("nome"));
-		assertEquals("12200", infobox.get("bacino"));
-		
+		assertEquals("Adige", TemplateHelper.getTemplateAsMap(infobox).get("nome"));
+		assertEquals("12200", TemplateHelper.getTemplateAsMap(infobox).get("bacino"));
+	}
+
+	@Test
+	public void testParseTable() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/table.txt");
+
+		assertEquals("Nome italiano", article.getTables().get(0).getTable()
+				.get(0).get(1));
+		assertEquals("15 agosto", article.getTables().get(0).getTable()
+				.get(10).get(0));
 
 	}
 
 	@Test
-	public void table() throws IOException {
-		Article articleWithTable = new Article();
-		String text = readFileAsString("/it/xml-dump/table.txt");
-		articleParser.parse(articleWithTable, text);
-		assertEquals("Nome italiano", articleWithTable.getTables().get(0)
-				.getColumn(1).get(0));
-		assertEquals("15 agosto", articleWithTable.getTables().get(0)
-				.getColumn(0).get(10));
+	public void testThatListsAreParsedProperly() throws IOException {
+		Article article = parseAvroArticle("./src/test/resources/it/list.txt");
 
-	}
-
-	@Test
-	public void list() throws IOException {
-
-		String text = readFileAsString("/it/xml-dump/list.txt");
-		Article articleWithList = new Article();
-		articleParser.parse(articleWithList, text);
-		List<String> list = articleWithList.getLists().get(2);
+		List<String> list = article.getLists().get(2);
 		assertEquals("Antropologia culturale e Antropologia dei simboli", list.get(0));
-		
-	}
-
-	//
-	// @Test
-	// public void testLists2() throws IOException {
-	//
-	// String text = readFileAsString("/list2.txt");
-	// Article a = new Article();
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
-
-	// @Test
-	// public void testMercedes() throws IOException {
-	//
-	// String text = readFileAsString("/mercedes.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// System.out.println(a);
-	// }
-	//
-	// @Test
-	// public void testRedirect() throws IOException {
-	//
-	// String text = readFileAsString("/redirect.txt");
-	// Article a = new Article();
-	// articleParser = new ArticleParser(Language.EN);
-	// articleParser.parse(a, text);
-	// assertTrue(a.isRedirect());
-	// System.out.println(a.getRedirect());
-	// }
-
-	private static String readFileAsString(String filePath)
-			throws java.io.IOException {
-		StringBuffer fileData = new StringBuffer(1000);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				ArticleTest.class.getResourceAsStream(filePath), "UTF-8"));
-		char[] buf = new char[1024];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-		reader.close();
-		return fileData.toString();
 	}
 }

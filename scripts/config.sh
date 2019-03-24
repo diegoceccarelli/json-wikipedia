@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-VERSION="1.0.0"
+VERSION="2.0.0-SNAPSHOT"
 XMX="-Xmx8000m"
 LOG=INFO
 ##LOG=DEBUG
 LOGAT=1000
-JAVA="java $XMX -Dlogat=$LOGAT -Dlog=$LOG -cp ./target/json-wikipedia-$VERSION-jar-with-dependencies.jar "
+JAVA="java $XMX -Dlogat=$LOGAT -Dlog=$LOG -Dlogback.configurationFile=./logback.xml -cp ./target/json-wikipedia-$VERSION-jar-with-dependencies.jar "
 
 
 

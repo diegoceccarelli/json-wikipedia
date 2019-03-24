@@ -19,14 +19,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
-import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
+import it.cnr.isti.hpc.wikipedia.article.ArticleHelper;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
+import org.apache.avro.file.DataFileReader;
+import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.io.DatumReader;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -41,14 +44,27 @@ public class WikipediaArticleReaderTest {
 	@Test
 	public void testParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
 		URL u = this.getClass().getResource("/en/mercedes.xml");
-		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),"/tmp/mercedes.json.gz", Language.EN);
+		final File file = File.createTempFile("jsonwikipedia-mercedes", ".json.gz");
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(), file.getAbsolutePath(), "en");
 		wap.start();
-		String json = IOUtils.getFileAsUTF8String("/tmp/mercedes.json.gz");
-		Article a = Article.fromJson(json);
-		assertTrue(a.getCleanText().startsWith("Mercedes-Benz"));
+		String json = IOUtils.getFileAsUTF8String(file.getAbsolutePath());
+		Article a = ArticleHelper.fromJson(json);
+		assertTrue(ArticleHelper.cleanText(a.getParagraphs()).startsWith("Mercedes-Benz"));
 		assertEquals(15, a.getCategories().size());
-		
-		
 	}
 
+	@Test
+	public void testAvroParsing() throws UnsupportedEncodingException, FileNotFoundException, IOException, SAXException {
+		URL u = this.getClass().getResource("/en/mercedes.xml");
+		final File file = File.createTempFile("jsonwikipedia-mercedes", ".avro");
+		WikipediaArticleReader wap = new WikipediaArticleReader(u.getFile(),file.getAbsolutePath(), "en");
+		wap.start();
+
+
+		DatumReader<Article> datumReader = new GenericDatumReader<>();
+		DataFileReader<Article> dataFileReader = new DataFileReader<Article>(file, datumReader);
+		while (dataFileReader.hasNext()){
+			System.out.println(dataFileReader.next());
+		}
+	}
 }
