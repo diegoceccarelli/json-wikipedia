@@ -19,4 +19,7 @@
 		<appender-ref ref="A1" />
 	</root>
 
+	<logger name="it.cnr.isti.hpc.wikipedia.parser" level="ERROR" />
+
+
 </configuration>
