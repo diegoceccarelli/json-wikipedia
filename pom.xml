@@ -13,6 +13,7 @@
 		</license>
 	</licenses>
 	<properties>
+
 		<project.source.charset>UTF-8</project.source.charset>
 		<project.source.encoding>UTF-8</project.source.encoding>
 		<java.version.source>11</java.version.source>
@@ -243,18 +244,25 @@
                             <destDir>javadoc</destDir>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                            <check />
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </project>
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>0.8.3</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>prepare-agent</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>report</id>
+                                    <phase>test</phase>
+                                    <goals>
+                                        <goal>report</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
