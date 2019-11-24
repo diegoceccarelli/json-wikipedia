@@ -65,7 +65,7 @@ public class ArticleParser {
   public ArticleParser(String lang) {
     this.lang = Language.valueOf(lang.toUpperCase());
     parser = parserFactory.getParser(lang.toLowerCase());
-    locale = new Locale(lang);
+    locale = new Locale(lang.toLowerCase());
     redirects = locale.getRedirectIdentifiers();
   }
 
