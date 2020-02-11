@@ -132,11 +132,11 @@
 
 
 	</dependencies>
-	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
+	<!-- repositories> <repository> <id>lilyproject</id> <url>https://www.lilyproject.org/maven/maven2/deploy/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
-		</snapshots> </repository> <repository> <id>info-bliki-repository</id> <url>http://gwtwiki.googlecode.com/svn/maven-repository/</url> 
+		</snapshots> </repository> <repository> <id>info-bliki-repository</id> <url>https://gwtwiki.googlecode.com/svn/maven-repository/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
-		</snapshots> </repository> <repository> <id>ontotext</id> <url>http://maven.ontotext.com/content/repositories/public/</url> 
+		</snapshots> </repository> <repository> <id>ontotext</id> <url>https://maven.ontotext.com/content/repositories/public/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
 		</snapshots> </repository> </repositories -->
 	<repositories>
@@ -146,7 +146,7 @@
 		</repository>
 		<repository>
 			<id>de.tudarmstadt.ukp.wikipedia</id>
-			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots/</url>
+			<url>https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
