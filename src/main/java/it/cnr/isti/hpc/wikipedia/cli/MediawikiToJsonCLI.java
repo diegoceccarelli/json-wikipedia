@@ -71,7 +71,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
   /** Logger for this class */
   private static final Logger logger = LoggerFactory.getLogger(MediawikiToJsonCLI.class);
 
-  private static String[] params = new String[] {INPUT, OUTPUT, "lang", "threads"};
+  private static String[] params = new String[] {INPUT, OUTPUT, "lang"};
 
   private static final String USAGE =
       "java -cp $jar "
