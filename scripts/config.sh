@@ -5,7 +5,7 @@ XMX="-Xmx8000m"
 LOG=INFO
 ##LOG=DEBUG
 LOGAT=1000
-JAVA="java $XMX -Dlogat=$LOGAT  -Dfile.encoding=UTF-8 -Dlog=$LOG -Dlogback.configurationFile=./logback.xml -cp ./target/json-wikipedia-$VERSION-jar-with-dependencies.jar "
+JAVA="java $XMX -Dlogat=$LOGAT  -Dfile.encoding=UTF-8 -Dlog=$LOG -Dlogback.configurationFile=./logback.xml -jar ./target/json-wikipedia-$VERSION.jar "
 
 
 
