@@ -17,6 +17,6 @@ WIKI_XML_DUMP=$2
 WIKI_JSON_DUMP=$3
 
 
-echo "converting mediawiki xml dump to json dump ($WIKI_JSON_DUMP)"
+echo "Converting mediawiki xml dump to json dump ($WIKI_JSON_DUMP)"
 
-$JAVA  it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input $WIKI_XML_DUMP -output $WIKI_JSON_DUMP -lang $LANG
+$JAVA  -input $WIKI_XML_DUMP -output $WIKI_JSON_DUMP -lang $LANG

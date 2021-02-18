@@ -9,7 +9,7 @@ json-wikipedia ![travis-ci-badge](https://travis-ci.org/diegoceccarelli/json-wik
 
 compile the project running
 
-    mvn assembly:assembly
+    mvn package
 
 the command will produce a JAR file containing all the dependencies the target folder.
 
@@ -18,7 +18,7 @@ the command will produce a JAR file containing all the dependencies the target f
 
 You can convert the Wikipedia dump to *JSON* format by running the commands:
 
-    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it]
+    java -jar target/json-wikipedia-*.jar -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it]
 
 or
 
@@ -27,7 +27,7 @@ or
 Or to [Apache Avro](https://avro.apache.org):
 
 
-    java -cp target/json-wikipedia-1.0.0-jar-with-dependencies.jar it.cnr.isti.hpc.wikipedia.cli.MediawikiToJsonCLI -input wikipedia-dump.xml.bz -output wikipedia-dump.avro -lang [en|it]
+    java -jar target/json-wikipedia-*.jar -input wikipedia-dump.xml.bz -output wikipedia-dump.avro -lang [en|it]
 
 or
 
