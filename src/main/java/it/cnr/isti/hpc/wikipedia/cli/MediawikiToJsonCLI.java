@@ -13,87 +13,56 @@
  */
 package it.cnr.isti.hpc.wikipedia.cli;
 
-import it.cnr.isti.hpc.cli.AbstractCommandLineInterface;
 import it.cnr.isti.hpc.wikipedia.reader.WikipediaArticleReader;
 import java.io.File;
+import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
-/**
- * MediawikiToJsonCLI converts a Wikipedia Dump in Json. <br>
- * <br>
- * <code>MediawikiToJsonCLI  wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it]
- * </code> <br>
- * <br>
- * produces in wikipedia-dump.json the JSON version of the dump. Each line of the file contains an
- * article of dump encoded in JSON. Each JSON line can be deserialized in an Article object, which
- * represents an <b> enriched </b> version of the wikitext page. The Article object contains:
- *
- * <ul>
- *   <li>the title (e.g., Leonardo Da Vinci);
- *   <li>the wikititle (used in Wikipedia as key, e.g., Leonardo_Da_Vinci);
- *   <li>the namespace and the integer namespace in the dump;
- *   <li>the timestamp of the article;
- *   <li>the type, if it is a standard article, a redirection, a category and so on;
- *   <li>if it is not in English the title of the corrispondent English Article;
- *   <li>a list of tables that appear in the article ;
- *   <li>a list of lists that that appear in the article ;
- *   <li>a list of internal links that appear in the article;
- *   <li>if the article is a redirect, the pointed article;
- *   <li>a list of section titles in the article;
- *   <li>the text of the article, divided in paragraphs;
- *   <li>the categories and the templates of the articles;
- *   <li>the list of attributes found in the templates;
- *   <li>a list of terms highlighted in the article;
- *   <li>if present the infobox.
- * </ul>
- *
- * Once you have created (or downloaded) the JSON dump (say <code>wikipedia.json</code>), you can
- * iterate over the articles of the collection easily using this snippet: <br>
- * <br>
- * <br>
- *
- * <pre>{@code
- * RecordReader<Article> reader = new RecordReader<Article>(
- * 			"wikipedia.json",new JsonRecordParser<Article>(Article.class)
- * )
- *
- * for (Article a : reader) {
- * 	 // do what you want with your articles
- * }
- *
- * }</pre>
- *
- * <br>
- * <br>
- */
-public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
+/** MediawikiToJsonCLI converts a Wikipedia Dump to Json or Avro. */
+@Command(
+    name = "mediawiki-to-json",
+    mixinStandardHelpOptions = true,
+    description = "MediawikiToJsonCLI converts a Wikipedia Dump to Json or Avro.")
+public class MediawikiToJsonCLI implements Callable<Integer> {
   /** Logger for this class */
   private static final Logger logger = LoggerFactory.getLogger(MediawikiToJsonCLI.class);
 
-  private static String[] params = new String[] {INPUT, OUTPUT, "lang"};
+  @Parameters(
+      index = "0",
+      description = "The dump to index on wikipedia, usually ending with pages-articles.xml.bz2")
+  private File input;
 
-  private static final String USAGE =
-      "java -cp $jar "
-          + MediawikiToJsonCLI.class
-          + " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
+  @Parameters(
+      index = "1",
+      description =
+          "Where to store the dump, use json.gz extension for compressed json, avro extension for avro")
+  private File output;
 
-  public MediawikiToJsonCLI(String[] args) {
-    super(args, params, USAGE);
-  }
+  @Option(
+      names = "-l",
+      description =
+          "the language of the dump (default is English), it uses the same two letters encoding of wikipedia (e.g., en for English, it for Italian)")
+  private String lang = "en";
 
-  public static void main(String[] args) {
-    MediawikiToJsonCLI cli = new MediawikiToJsonCLI(args);
-    File input = new File(cli.getInput());
-    File output = new File(cli.getOutput());
-    String lang = cli.getParam("lang");
-    String threads = cli.getParam("threads");
+  @Override
+  public Integer call() {
     try {
       WikipediaArticleReader wap = new WikipediaArticleReader(input, output, lang);
       wap.start();
+      return 0;
     } catch (Exception e) {
       logger.error("Parsing the mediawiki", e);
-      System.exit(-1);
+      return 1;
     }
+  }
+
+  public static void main(String[] args) {
+    int exitCode = new CommandLine(new MediawikiToJsonCLI()).execute(args);
+    System.exit(exitCode);
   }
 }
