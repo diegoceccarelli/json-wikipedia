@@ -137,8 +137,11 @@
 			<artifactId>guava</artifactId>
 			<version>27.0.1-jre</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>4.6.1</version>
+		</dependency>
 	</dependencies>
 	<!-- repositories> <repository> <id>lilyproject</id> <url>http://www.lilyproject.org/maven/maven2/deploy/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
