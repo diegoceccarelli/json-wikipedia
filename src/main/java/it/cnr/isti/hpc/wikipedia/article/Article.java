@@ -11,11 +11,11 @@ import org.apache.avro.specific.SpecificData;
 @org.apache.avro.specific.AvroGenerated
 public class Article extends org.apache.avro.specific.SpecificRecordBase
     implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -2117345136602437619L;
+  private static final long serialVersionUID = -400058033846671449L;
   public static final org.apache.avro.Schema SCHEMA$ =
       new org.apache.avro.Schema.Parser()
           .parse(
-              "{\"type\":\"record\",\"name\":\"AvroArticle\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"wikiTitle\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"wid\",\"type\":\"int\"},{\"name\":\"integerNamespace\",\"type\":\"int\"},{\"name\":\"lang\",\"type\":{\"type\":\"enum\",\"name\":\"Language\",\"symbols\":[\"EN\",\"IT\"]}},{\"name\":\"namespace\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"enWikiTitle\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"redirect\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"paragraphs\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"sections\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"highlights\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"templatesSchema\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"links\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Link\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a paragraph, the item in the list\",\"default\":null},{\"name\":\"listId\",\"type\":[\"null\",\"int\"],\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\",\"default\":null},{\"name\":\"listItem\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a  list, the item in the list\",\"default\":null},{\"name\":\"tableId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\",\"default\":null},{\"name\":\"rowId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the row\",\"default\":null},{\"name\":\"columnId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the column\",\"default\":null},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"LinkType\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}},\"default\":[]},{\"name\":\"externalLinks\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"categories\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"images\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"ArticleType\",\"symbols\":[\"TEMPLATE\",\"ARTICLE\",\"CATEGORY\",\"REDIRECT\",\"DISAMBIGUATION\",\"UNKNOWN\",\"MAIN\",\"LIST\",\"PROJECT\",\"FILE\"]}},{\"name\":\"tables\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Table\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"numCols\",\"type\":\"int\",\"default\":0},{\"name\":\"numRows\",\"type\":\"int\",\"default\":0},{\"name\":\"table\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}}]}},\"default\":[]},{\"name\":\"lists\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},\"default\":[]},{\"name\":\"infobox\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"Template\",\"fields\":[{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}],\"default\":null},{\"name\":\"templates\",\"type\":{\"type\":\"array\",\"items\":\"Template\"},\"default\":[]}]}");
+              "{\"type\":\"record\",\"name\":\"Article\",\"namespace\":\"it.cnr.isti.hpc.wikipedia.article\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"wikiTitle\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"wid\",\"type\":\"int\"},{\"name\":\"integerNamespace\",\"type\":\"int\"},{\"name\":\"lang\",\"type\":{\"type\":\"enum\",\"name\":\"Language\",\"symbols\":[\"CA\",\"DA\",\"DE\",\"EN\",\"ES\",\"FA\",\"IT\",\"PT\"]}},{\"name\":\"namespace\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"enWikiTitle\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"redirect\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"paragraphs\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"sections\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"highlights\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"templatesSchema\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},\"default\":[]},{\"name\":\"links\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Link\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"anchor\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"start\",\"type\":\"int\",\"doc\":\"where the anchor starts in the text\"},{\"name\":\"end\",\"type\":\"int\",\"doc\":\"where the anchor ends in the text\"},{\"name\":\"paragraphId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a paragraph, the item in the list\",\"default\":null},{\"name\":\"listId\",\"type\":[\"null\",\"int\"],\"doc\":\" if it occurs in a list, the ordinal of the list among all the lists\",\"default\":null},{\"name\":\"listItem\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a  list, the item in the list\",\"default\":null},{\"name\":\"tableId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the table among all the tables\",\"default\":null},{\"name\":\"rowId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the row\",\"default\":null},{\"name\":\"columnId\",\"type\":[\"null\",\"int\"],\"doc\":\"if it occurs in a table, the ordinal of the column\",\"default\":null},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"LinkType\",\"symbols\":[\"BODY\",\"TABLE\",\"LIST\",\"IMAGE\",\"UNKNOWN\",\"CATEGORY\"]}}]}},\"default\":[]},{\"name\":\"externalLinks\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"categories\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"images\",\"type\":{\"type\":\"array\",\"items\":\"Link\"},\"default\":[]},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"ArticleType\",\"symbols\":[\"TEMPLATE\",\"ARTICLE\",\"CATEGORY\",\"REDIRECT\",\"DISAMBIGUATION\",\"UNKNOWN\",\"MAIN\",\"LIST\",\"PROJECT\",\"FILE\"]}},{\"name\":\"tables\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"Table\",\"fields\":[{\"name\":\"title\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"numCols\",\"type\":\"int\",\"default\":0},{\"name\":\"numRows\",\"type\":\"int\",\"default\":0},{\"name\":\"table\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}}]}},\"default\":[]},{\"name\":\"lists\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}},\"default\":[]},{\"name\":\"infobox\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"Template\",\"fields\":[{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}}]}],\"default\":null},{\"name\":\"templates\",\"type\":{\"type\":\"array\",\"items\":\"Template\"},\"default\":[]}]}");
 
   public static org.apache.avro.Schema getClassSchema() {
     return SCHEMA$;
@@ -650,35 +650,37 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
   }
 
   /**
-   * Creates a new AvroArticle RecordBuilder.
+   * Creates a new Article RecordBuilder.
    *
-   * @return A new AvroArticle RecordBuilder
+   * @return A new Article RecordBuilder
    */
-  public static Article.Builder newBuilder() {
-    return new Article.Builder();
+  public static it.cnr.isti.hpc.wikipedia.article.Article.Builder newBuilder() {
+    return new it.cnr.isti.hpc.wikipedia.article.Article.Builder();
   }
 
   /**
-   * Creates a new AvroArticle RecordBuilder by copying an existing Builder.
+   * Creates a new Article RecordBuilder by copying an existing Builder.
    *
    * @param other The existing builder to copy.
-   * @return A new AvroArticle RecordBuilder
+   * @return A new Article RecordBuilder
    */
-  public static Article.Builder newBuilder(Article.Builder other) {
-    return new Article.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Article.Builder newBuilder(
+      it.cnr.isti.hpc.wikipedia.article.Article.Builder other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Article.Builder(other);
   }
 
   /**
-   * Creates a new AvroArticle RecordBuilder by copying an existing AvroArticle instance.
+   * Creates a new Article RecordBuilder by copying an existing Article instance.
    *
    * @param other The existing instance to copy.
-   * @return A new AvroArticle RecordBuilder
+   * @return A new Article RecordBuilder
    */
-  public static Article.Builder newBuilder(Article other) {
-    return new Article.Builder(other);
+  public static it.cnr.isti.hpc.wikipedia.article.Article.Builder newBuilder(
+      it.cnr.isti.hpc.wikipedia.article.Article other) {
+    return new it.cnr.isti.hpc.wikipedia.article.Article.Builder(other);
   }
 
-  /** RecordBuilder for AvroArticle instances. */
+  /** RecordBuilder for Article instances. */
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Article>
       implements org.apache.avro.data.RecordBuilder<Article> {
 
@@ -716,7 +718,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @param other The existing Builder to copy.
      */
-    private Builder(Article.Builder other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Article.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.title)) {
         this.title = data().deepCopy(fields()[0].schema(), other.title);
@@ -813,11 +815,11 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
     }
 
     /**
-     * Creates a Builder by copying an existing AvroArticle instance
+     * Creates a Builder by copying an existing Article instance
      *
      * @param other The existing instance to copy.
      */
-    private Builder(Article other) {
+    private Builder(it.cnr.isti.hpc.wikipedia.article.Article other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.title)) {
         this.title = data().deepCopy(fields()[0].schema(), other.title);
@@ -925,7 +927,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'title'.
      * @return This builder.
      */
-    public Article.Builder setTitle(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setTitle(java.lang.String value) {
       validate(fields()[0], value);
       this.title = value;
       fieldSetFlags()[0] = true;
@@ -946,7 +948,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearTitle() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearTitle() {
       title = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -967,7 +969,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'wikiTitle'.
      * @return This builder.
      */
-    public Article.Builder setWikiTitle(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setWikiTitle(java.lang.String value) {
       validate(fields()[1], value);
       this.wikiTitle = value;
       fieldSetFlags()[1] = true;
@@ -988,7 +990,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearWikiTitle() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearWikiTitle() {
       wikiTitle = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -1009,7 +1011,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'wid'.
      * @return This builder.
      */
-    public Article.Builder setWid(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setWid(int value) {
       validate(fields()[2], value);
       this.wid = value;
       fieldSetFlags()[2] = true;
@@ -1030,7 +1032,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearWid() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearWid() {
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -1050,7 +1052,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'integerNamespace'.
      * @return This builder.
      */
-    public Article.Builder setIntegerNamespace(int value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setIntegerNamespace(int value) {
       validate(fields()[3], value);
       this.integerNamespace = value;
       fieldSetFlags()[3] = true;
@@ -1071,7 +1073,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearIntegerNamespace() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearIntegerNamespace() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -1091,7 +1093,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'lang'.
      * @return This builder.
      */
-    public Article.Builder setLang(it.cnr.isti.hpc.wikipedia.article.Language value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setLang(
+        it.cnr.isti.hpc.wikipedia.article.Language value) {
       validate(fields()[4], value);
       this.lang = value;
       fieldSetFlags()[4] = true;
@@ -1112,7 +1115,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearLang() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearLang() {
       lang = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -1133,7 +1136,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'namespace'.
      * @return This builder.
      */
-    public Article.Builder setNamespace(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setNamespace(java.lang.String value) {
       validate(fields()[5], value);
       this.namespace = value;
       fieldSetFlags()[5] = true;
@@ -1154,7 +1157,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearNamespace() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearNamespace() {
       namespace = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -1175,7 +1178,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'timestamp'.
      * @return This builder.
      */
-    public Article.Builder setTimestamp(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setTimestamp(java.lang.String value) {
       validate(fields()[6], value);
       this.timestamp = value;
       fieldSetFlags()[6] = true;
@@ -1196,7 +1199,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearTimestamp() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearTimestamp() {
       timestamp = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -1217,7 +1220,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'enWikiTitle'.
      * @return This builder.
      */
-    public Article.Builder setEnWikiTitle(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setEnWikiTitle(
+        java.lang.String value) {
       validate(fields()[7], value);
       this.enWikiTitle = value;
       fieldSetFlags()[7] = true;
@@ -1238,7 +1242,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearEnWikiTitle() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearEnWikiTitle() {
       enWikiTitle = null;
       fieldSetFlags()[7] = false;
       return this;
@@ -1259,7 +1263,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'redirect'.
      * @return This builder.
      */
-    public Article.Builder setRedirect(java.lang.String value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setRedirect(java.lang.String value) {
       validate(fields()[8], value);
       this.redirect = value;
       fieldSetFlags()[8] = true;
@@ -1280,7 +1284,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearRedirect() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearRedirect() {
       redirect = null;
       fieldSetFlags()[8] = false;
       return this;
@@ -1301,7 +1305,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'paragraphs'.
      * @return This builder.
      */
-    public Article.Builder setParagraphs(java.util.List<java.lang.String> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setParagraphs(
+        java.util.List<java.lang.String> value) {
       validate(fields()[9], value);
       this.paragraphs = value;
       fieldSetFlags()[9] = true;
@@ -1322,7 +1327,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearParagraphs() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearParagraphs() {
       paragraphs = null;
       fieldSetFlags()[9] = false;
       return this;
@@ -1343,7 +1348,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'sections'.
      * @return This builder.
      */
-    public Article.Builder setSections(java.util.List<java.lang.String> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setSections(
+        java.util.List<java.lang.String> value) {
       validate(fields()[10], value);
       this.sections = value;
       fieldSetFlags()[10] = true;
@@ -1364,7 +1370,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearSections() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearSections() {
       sections = null;
       fieldSetFlags()[10] = false;
       return this;
@@ -1385,7 +1391,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'highlights'.
      * @return This builder.
      */
-    public Article.Builder setHighlights(java.util.List<java.lang.String> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setHighlights(
+        java.util.List<java.lang.String> value) {
       validate(fields()[11], value);
       this.highlights = value;
       fieldSetFlags()[11] = true;
@@ -1406,7 +1413,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearHighlights() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearHighlights() {
       highlights = null;
       fieldSetFlags()[11] = false;
       return this;
@@ -1427,7 +1434,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'templatesSchema'.
      * @return This builder.
      */
-    public Article.Builder setTemplatesSchema(java.util.List<java.lang.String> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setTemplatesSchema(
+        java.util.List<java.lang.String> value) {
       validate(fields()[12], value);
       this.templatesSchema = value;
       fieldSetFlags()[12] = true;
@@ -1448,7 +1456,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearTemplatesSchema() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearTemplatesSchema() {
       templatesSchema = null;
       fieldSetFlags()[12] = false;
       return this;
@@ -1469,7 +1477,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'links'.
      * @return This builder.
      */
-    public Article.Builder setLinks(java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setLinks(
+        java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
       validate(fields()[13], value);
       this.links = value;
       fieldSetFlags()[13] = true;
@@ -1490,7 +1499,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearLinks() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearLinks() {
       links = null;
       fieldSetFlags()[13] = false;
       return this;
@@ -1511,7 +1520,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'externalLinks'.
      * @return This builder.
      */
-    public Article.Builder setExternalLinks(
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setExternalLinks(
         java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
       validate(fields()[14], value);
       this.externalLinks = value;
@@ -1533,7 +1542,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearExternalLinks() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearExternalLinks() {
       externalLinks = null;
       fieldSetFlags()[14] = false;
       return this;
@@ -1554,7 +1563,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'categories'.
      * @return This builder.
      */
-    public Article.Builder setCategories(
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setCategories(
         java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
       validate(fields()[15], value);
       this.categories = value;
@@ -1576,7 +1585,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearCategories() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearCategories() {
       categories = null;
       fieldSetFlags()[15] = false;
       return this;
@@ -1597,7 +1606,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'images'.
      * @return This builder.
      */
-    public Article.Builder setImages(java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setImages(
+        java.util.List<it.cnr.isti.hpc.wikipedia.article.Link> value) {
       validate(fields()[16], value);
       this.images = value;
       fieldSetFlags()[16] = true;
@@ -1618,7 +1628,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearImages() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearImages() {
       images = null;
       fieldSetFlags()[16] = false;
       return this;
@@ -1639,7 +1649,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'type'.
      * @return This builder.
      */
-    public Article.Builder setType(it.cnr.isti.hpc.wikipedia.article.ArticleType value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setType(
+        it.cnr.isti.hpc.wikipedia.article.ArticleType value) {
       validate(fields()[17], value);
       this.type = value;
       fieldSetFlags()[17] = true;
@@ -1660,7 +1671,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearType() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearType() {
       type = null;
       fieldSetFlags()[17] = false;
       return this;
@@ -1681,7 +1692,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'tables'.
      * @return This builder.
      */
-    public Article.Builder setTables(
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setTables(
         java.util.List<it.cnr.isti.hpc.wikipedia.article.Table> value) {
       validate(fields()[18], value);
       this.tables = value;
@@ -1703,7 +1714,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearTables() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearTables() {
       tables = null;
       fieldSetFlags()[18] = false;
       return this;
@@ -1724,7 +1735,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'lists'.
      * @return This builder.
      */
-    public Article.Builder setLists(java.util.List<java.util.List<java.lang.String>> value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setLists(
+        java.util.List<java.util.List<java.lang.String>> value) {
       validate(fields()[19], value);
       this.lists = value;
       fieldSetFlags()[19] = true;
@@ -1745,7 +1757,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearLists() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearLists() {
       lists = null;
       fieldSetFlags()[19] = false;
       return this;
@@ -1766,7 +1778,8 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'infobox'.
      * @return This builder.
      */
-    public Article.Builder setInfobox(it.cnr.isti.hpc.wikipedia.article.Template value) {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setInfobox(
+        it.cnr.isti.hpc.wikipedia.article.Template value) {
       validate(fields()[20], value);
       this.infoboxBuilder = null;
       this.infobox = value;
@@ -1805,7 +1818,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public Article.Builder setInfoboxBuilder(
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setInfoboxBuilder(
         it.cnr.isti.hpc.wikipedia.article.Template.Builder value) {
       clearInfobox();
       infoboxBuilder = value;
@@ -1826,7 +1839,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearInfobox() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearInfobox() {
       infobox = null;
       infoboxBuilder = null;
       fieldSetFlags()[20] = false;
@@ -1848,7 +1861,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      * @param value The value of 'templates'.
      * @return This builder.
      */
-    public Article.Builder setTemplates(
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder setTemplates(
         java.util.List<it.cnr.isti.hpc.wikipedia.article.Template> value) {
       validate(fields()[21], value);
       this.templates = value;
@@ -1870,7 +1883,7 @@ public class Article extends org.apache.avro.specific.SpecificRecordBase
      *
      * @return This builder.
      */
-    public Article.Builder clearTemplates() {
+    public it.cnr.isti.hpc.wikipedia.article.Article.Builder clearTemplates() {
       templates = null;
       fieldSetFlags()[21] = false;
       return this;
