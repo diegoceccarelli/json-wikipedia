@@ -4,8 +4,14 @@
         "name": "Language",
         "type": "enum",
         "symbols": [
-            "EN",
-            "IT"
+        "CA",
+        "DA",
+        "DE",
+        "EN",
+        "ES",
+        "FA",
+        "IT",
+        "PT"
         ]
     },
     {
