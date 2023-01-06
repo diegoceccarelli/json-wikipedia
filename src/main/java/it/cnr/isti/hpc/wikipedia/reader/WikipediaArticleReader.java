@@ -94,6 +94,7 @@ public class WikipediaArticleReader {
     }
     parser = new ArticleParser(lang);
     final InputStream stream;
+    logger.info("input filename={}", inputFile.getName());
     if (inputFile.getName().equals("-")) {
       stream = System.in;
     } else {
