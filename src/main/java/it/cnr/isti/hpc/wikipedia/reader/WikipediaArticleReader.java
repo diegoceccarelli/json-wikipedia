@@ -93,12 +93,17 @@ public class WikipediaArticleReader {
       handler = new AvroConverter(outputFile);
     }
     parser = new ArticleParser(lang);
-    ProgressBarBuilder pbb =
-        new ProgressBarBuilder()
-            .setTaskName("Parsing Wikipedia XML")
-            .setUnit("MB", 1048576)
-            .setStyle(ProgressBarStyle.ASCII);
-    InputStream stream = ProgressBar.wrap(new FileInputStream(inputFile.getAbsolutePath()), pbb);
+    final InputStream stream;
+    if (inputFile.equals("-")) {
+      stream = System.in;
+    } else {
+      ProgressBarBuilder pbb =
+          new ProgressBarBuilder()
+              .setTaskName("Parsing Wikipedia XML")
+              .setUnit("MB", 1048576)
+              .setStyle(ProgressBarStyle.ASCII);
+      stream = ProgressBar.wrap(new FileInputStream(inputFile.getAbsolutePath()), pbb);
+    }
     wxp = new WikiXMLParser(getPlainOrCompressedReader(stream, inputFile.getName()), handler);
   }
 

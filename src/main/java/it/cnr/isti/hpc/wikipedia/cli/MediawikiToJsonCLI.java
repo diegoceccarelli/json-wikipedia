@@ -40,7 +40,7 @@ public class MediawikiToJsonCLI implements Callable<Integer> {
   @Parameters(
       index = "1",
       description =
-          "Where to store the dump, use json.gz extension for compressed json, avro extension for avro")
+          "Where to store the dump, use json.gz extension for compressed json, avro extension for avro. Use '-' to read plain from standard input")
   private File output;
 
   @Option(

@@ -33,6 +33,18 @@ or
 
 	./scripts/convert-xml-dump-to-json.sh [en|it] wikipedia-dump.xml.bz wikipedia-dump.avro
 
+### Note: convert multistream dump
+
+Converting the wikipedia multistream dump will fail. Apparently this is due to issue reading from the bzip. You can work around by uncompressing the dump before and passing it on the standard input, using the special '-' to tell json-wikipedia to read from the stdin: 
+
+    bzcat wikipedia-multistream-dump.xml.gz | java -jar target/json-wikipedia-*.jar - wikipedia-dump.avro [en|it]
+
+or
+
+	.bzcat wikipedia-multistream-dump.xml.gz | /scripts/convert-xml-dump-to-json.sh [en|it] - wikipedia-dump.avro
+
+
+
 ### Content of the output
 
 Both the commands will produce a file contain a file containing a record for each article. In the JSON format each line of the file contains an article
