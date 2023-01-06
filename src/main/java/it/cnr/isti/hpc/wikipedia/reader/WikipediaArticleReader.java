@@ -94,7 +94,7 @@ public class WikipediaArticleReader {
     }
     parser = new ArticleParser(lang);
     final InputStream stream;
-    if (inputFile.equals("-")) {
+    if (inputFile.getName().equals("-")) {
       stream = System.in;
     } else {
       ProgressBarBuilder pbb =

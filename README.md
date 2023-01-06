@@ -18,7 +18,7 @@ the command will produce a JAR file containing all the dependencies the target f
 
 You can convert the Wikipedia dump to *JSON* format by running the commands:
 
-    java -jar target/json-wikipedia-*.jar -input wikipedia-dump.xml.bz -output wikipedia-dump.json[.gz] -lang [en|it]
+    java -jar target/json-wikipedia-*.jar wikipedia-dump.xml.bz wikipedia-dump.json[.gz] -l [en|it]
 
 or
 
@@ -27,7 +27,7 @@ or
 Or to [Apache Avro](https://avro.apache.org):
 
 
-    java -jar target/json-wikipedia-*.jar -input wikipedia-dump.xml.bz -output wikipedia-dump.avro -lang [en|it]
+    java -jar target/json-wikipedia-*.jar  wikipedia-dump.xml.bz  wikipedia-dump.avro -l [en|it]
 
 or
 
@@ -37,7 +37,7 @@ or
 
 Converting the wikipedia multistream dump will fail. Apparently this is due to issue reading from the bzip. You can work around by uncompressing the dump before and passing it on the standard input, using the special '-' to tell json-wikipedia to read from the stdin: 
 
-    bzcat wikipedia-multistream-dump.xml.gz | java -jar target/json-wikipedia-*.jar - wikipedia-dump.avro [en|it]
+    bzcat wikipedia-multistream-dump.xml.gz | java -jar target/json-wikipedia-*.jar - wikipedia-dump.avro -l [en|it]
 
 or
 
